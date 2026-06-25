@@ -15,7 +15,7 @@ from typing import Any, Protocol
 
 from pydantic import BaseModel, ValidationError
 
-DEFAULT_MODEL = "openai/gpt-4o"
+DEFAULT_MODEL = "openai/gpt-5.4"
 
 
 class LLMConnector(Protocol):
