@@ -32,31 +32,53 @@ DEFAULT_PRODUCT = (
 )
 
 
+def _col(fields, *candidates):
+    lower = {c.lower(): c for c in fields}
+    for cand in candidates:
+        if cand in lower:
+            return lower[cand]
+    return None
+
+
 def main(csv_path: Path, product: str) -> int:
     rows = list(csv.DictReader(csv_path.open(newline="")))
-    items = [FeedbackItem(text=r["comment_text"], source="pasted") for r in rows]
-    req = AnalyzeRequest(product=product, feedback=items)
+    fields = list(rows[0].keys())
+    text_col = _col(fields, "comment_text", "comment", "text", "body")
+    about_col = next((c for c in fields if "about" in c.lower()), None)
+    id_col = _col(fields, "comment_id", "id") or fields[0]
+    tricky_col = next((c for c in fields if "tricky" in c.lower()), None)
+    if not text_col or not about_col:
+        print(f"could not find text/about columns in {fields}")
+        return 2
 
+    items = [FeedbackItem(text=r[text_col], source="pasted") for r in rows]
+    req = AnalyzeRequest(product=product, feedback=items)
     conn = default_connector()
     verdict: _OffTopic = conn.complete_structured(
         system=RELEVANCE_SYSTEM, user=_relevance_user(req), schema=_OffTopic
     )
     dropped = {i for i in verdict.offtopic_indices if 1 <= i <= len(rows)}
 
+    # off-topic = about_app == "no"; everything else (yes / mixed / ambiguous) should be kept.
     tp = fp = fn = tn = 0
+    mixed_dropped = mixed_total = 0
     misses: list[tuple[str, str, str, str]] = []
     for i, r in enumerate(rows, 1):
-        truth_off = r["about_app"].strip().lower() == "no"
+        label = r[about_col].strip().lower()
+        truth_off = label == "no"
         pred_off = i in dropped
-        tricky = r.get("tricky_for_categorization", "").strip()
+        if label in ("mixed", "ambiguous"):
+            mixed_total += 1
+            mixed_dropped += int(pred_off)
+        note = (r.get(tricky_col, "").strip() if tricky_col else "") or label
         if truth_off and pred_off:
             tp += 1
         elif truth_off and not pred_off:
             fn += 1
-            misses.append((r["comment_id"], "LEAK — off-topic kept", tricky, r["comment_text"]))
+            misses.append((r[id_col], "LEAK — off-topic kept", note, r[text_col]))
         elif not truth_off and pred_off:
             fp += 1
-            misses.append((r["comment_id"], "FALSE DROP — real feedback removed", tricky, r["comment_text"]))
+            misses.append((r[id_col], "FALSE DROP — on-topic removed", note, r[text_col]))
         else:
             tn += 1
 
@@ -64,17 +86,18 @@ def main(csv_path: Path, product: str) -> int:
     prec = tp / (tp + fp) if (tp + fp) else 1.0
     rec = tp / (tp + fn) if (tp + fn) else 1.0
     acc = (tp + tn) / n
-    print(f"model={conn.model} temp={conn.temperature}")
-    print(f"items={n}  ground-truth off-topic={tp + fn}  gate dropped={len(dropped)}")
+    print(f"model={conn.model} temp={conn.temperature}  ({csv_path.name})")
+    print(f"items={n}  off-topic(no)={tp + fn}  gate dropped={len(dropped)}")
     print(f"off-topic detection: precision={prec:.2f}  recall={rec:.2f}  | overall accuracy={acc:.2f}")
-    print(f"confusion: TP(correct drop)={tp}  FN(leak)={fn}  FP(false drop)={fp}  TN(correct keep)={tn}")
-    print(f"tricky cases: {sum(1 for r in rows if r.get('tricky_for_categorization','').strip().lower()=='yes')}")
+    print(f"confusion: TP={tp}  FN(leak)={fn}  FP(false drop)={fp}  TN={tn}")
+    if mixed_total:
+        print(f"mixed/ambiguous: {mixed_dropped}/{mixed_total} dropped (these are judgment calls)")
     if misses:
         print("\nmisclassifications:")
-        for cid, kind, tricky, text in misses:
-            print(f"  {cid}  [{kind}]  tricky={tricky or 'no'}\n      {text[:100]}")
+        for cid, kind, note, text in misses:
+            print(f"  {cid}  [{kind}]  ({note})\n      {text[:100]}")
     else:
-        print("\nno misclassifications — perfect relevance separation.")
+        print("\nno misclassifications.")
     return 0
 
 
