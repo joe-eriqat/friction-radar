@@ -46,6 +46,12 @@ The caller never knows which path ran.
 | `FRICTION_RADAR_MODEL` | LiteLLM model string | `openai/gpt-4o-mini` (default) |
 | `OPENAI_API_KEY` | direct-OpenAI auth | `sk-...` |
 | `FRICTION_RADAR_LLM_BASE_URL` | optional OpenAI-compatible endpoint | `http://localhost:19000/v1` |
+| `FRICTION_RADAR_TEMPERATURE` | sampling temperature (default `0`) | `0`, or `none` to omit |
+
+Temperature defaults to `0` (near-greedy) so the analytical tasks here — classification and
+extraction — are stable run-to-run. (At the provider default ~1.0 the relevance gate flagged a
+*different* item each call.) Set `none`/`default` to omit the parameter for models that reject
+it (e.g. reasoning models).
 
 ## Acceptance criteria
 
@@ -57,6 +63,7 @@ The caller never knows which path ran.
 4. Neither `api_key` nor `base_url` set → `RuntimeError` (config) **before** any network call.
 5. Network/SDK exception → wrapped in `RuntimeError` with the cause.
 6. No provider SDK symbol leaks above this module (callers import only the `Protocol`).
+7. `temperature` (when set) is forwarded to the provider; default config sets it to `0`.
 
 ## Testing
 
@@ -67,5 +74,6 @@ Monkeypatch the internal `_completion` seam (no litellm needed for unit tests):
 - garbage twice (JSON-mode) → `RuntimeError`.
 - no api_key + no base_url → `RuntimeError`, `_completion` never called.
 - `_completion` raises → wrapped `RuntimeError`.
+- `temperature` forwarded to `_completion` when set, omitted when `None`.
 
 Integration (key-gated): real call returns a validated instance.

@@ -80,10 +80,12 @@ class AnalyzeRequest(BaseModel):
     def _coerce_strings(cls, v: object) -> object:
         """Accept a bare list[str] and promote each string to a FeedbackItem.
 
-        Keeps demo/upload/paste callers (and the current SPA) trivial.
+        Keeps paste callers (and the current SPA) trivial. Bare strings are tagged
+        `source="pasted"` so the evidence still carries a provenance label (adapters that
+        supply their own FeedbackItem objects keep their own source: demo/upload/scrape).
         """
         if isinstance(v, list):
-            return [{"text": x} if isinstance(x, str) else x for x in v]
+            return [{"text": x, "source": "pasted"} if isinstance(x, str) else x for x in v]
         return v
 
 

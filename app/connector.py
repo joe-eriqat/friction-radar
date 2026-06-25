@@ -69,11 +69,13 @@ class LiteLLMConnector:
         api_key: str | None = None,
         base_url: str | None = None,
         strict: bool | None = None,
+        temperature: float | None = None,
     ) -> None:
         self.model = model
         self.api_key = api_key
         self.base_url = base_url
         self._strict = strict
+        self.temperature = temperature
 
     def complete_structured(
         self,
@@ -111,6 +113,8 @@ class LiteLLMConnector:
             kwargs["api_key"] = self.api_key
         if self.base_url:
             kwargs["base_url"] = self.base_url
+        if self.temperature is not None:
+            kwargs["temperature"] = self.temperature
         try:
             return _completion(**kwargs)
         except Exception as exc:  # AC5: wrap provider/network errors.
@@ -170,10 +174,26 @@ class LiteLLMConnector:
         ) from last_error
 
 
+def _env_temperature() -> float | None:
+    """Sampling temperature from env (default 0 — near-greedy, for stable categorization).
+
+    Set FRICTION_RADAR_TEMPERATURE to a float, or to "none"/"default" to omit the parameter
+    entirely (some models — e.g. reasoning models — reject an explicit temperature).
+    """
+    raw = os.environ.get("FRICTION_RADAR_TEMPERATURE", "0").strip().lower()
+    if raw in ("", "none", "default"):
+        return None
+    try:
+        return float(raw)
+    except ValueError:
+        return 0.0
+
+
 def default_connector() -> LiteLLMConnector:
     """Construct the connector from environment config."""
     return LiteLLMConnector(
         model=os.environ.get("FRICTION_RADAR_MODEL", DEFAULT_MODEL),
         api_key=os.environ.get("OPENAI_API_KEY"),
         base_url=os.environ.get("FRICTION_RADAR_LLM_BASE_URL"),
+        temperature=_env_temperature(),
     )

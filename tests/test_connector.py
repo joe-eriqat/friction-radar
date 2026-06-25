@@ -93,3 +93,24 @@ def test_call_failure_is_wrapped(monkeypatch):
 
     with pytest.raises(RuntimeError):
         c.complete_structured(system="s", user="u", schema=Demo)
+
+
+def test_temperature_forwarded_only_when_set(monkeypatch):
+    seen: list[dict] = []
+
+    def fake(**kwargs):
+        seen.append(kwargs)
+        return _resp('{"name": "x", "count": 1}')
+
+    monkeypatch.setattr(conn, "_completion", fake)
+
+    conn.LiteLLMConnector(
+        model="openai/gpt-4o-mini", api_key="k", strict=True, temperature=0
+    ).complete_structured(system="s", user="u", schema=Demo)
+    assert seen[0]["temperature"] == 0  # forwarded when set
+
+    seen.clear()
+    conn.LiteLLMConnector(
+        model="openai/gpt-4o-mini", api_key="k", strict=True
+    ).complete_structured(system="s", user="u", schema=Demo)
+    assert "temperature" not in seen[0]  # omitted when not set
