@@ -86,7 +86,10 @@ Two LLM layers, then deterministic assemble:
 
 ## Resolved decisions
 
-- Default model `openai/gpt-4o-mini` at `temperature=0` (Connector's concern; see spec 02).
+- Default model `openai/gpt-4o` at `temperature=0` (Connector's concern; see spec 02). The
+  relevance judgment is model-sensitive — `gpt-4o` scores P=0.91/R=1.00 on the labelled eval vs
+  `gpt-4o-mini`'s P=0.77/R=0.48; `gpt-4o-mini` remains a cheaper option. Eval harness:
+  `scripts/eval_relevance.py`.
 - Two LLM layers (relevance gate + index classifier); the model never regenerates item text.
 - `frequency` = real count of assigned members; `evidence` = a ≤`SAMPLE_QUOTES` sample. Count and
   shown quotes are decoupled.

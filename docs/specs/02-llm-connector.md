@@ -43,7 +43,7 @@ The caller never knows which path ran.
 
 | Env var | Meaning | Example |
 |---|---|---|
-| `FRICTION_RADAR_MODEL` | LiteLLM model string | `openai/gpt-4o-mini` (default) |
+| `FRICTION_RADAR_MODEL` | LiteLLM model string | `openai/gpt-4o` (default; `gpt-4o-mini` = cheaper/weaker) |
 | `OPENAI_API_KEY` | direct-OpenAI auth | `sk-...` |
 | `FRICTION_RADAR_LLM_BASE_URL` | optional OpenAI-compatible endpoint | `http://localhost:19000/v1` |
 | `FRICTION_RADAR_TEMPERATURE` | sampling temperature (default `0`) | `0`, or `none` to omit |

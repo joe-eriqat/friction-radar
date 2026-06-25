@@ -29,12 +29,19 @@ SAMPLE_QUOTES = 3  # representative quotes shown per theme (frequency stays the 
 # ---- Layer 1: relevance gate ----------------------------------------------------------
 
 RELEVANCE_SYSTEM = (
-    "You are a relevance filter for product feedback. You are given a PRODUCT and a numbered "
-    "list of feedback items. Flag an item as OFF-TOPIC only when it is clearly not about this "
-    "product or its category — for example it talks about an unrelated business, place, or "
-    "subject, or explicitly states it is unrelated. Do NOT flag an item merely for being "
-    "negative, vague, brief, praise, or a feature request — those are on-topic. Return the "
-    "1-based indices of the clearly off-topic items (empty list if none)."
+    "You are a relevance filter. You are given a PRODUCT description and a numbered list of "
+    "feedback items. Decide, for each item, whether it is about THIS product.\n\n"
+    "ON-TOPIC: the author's own experience with this product — its features, setup, pricing, "
+    "support, results, or a direct comparison with alternatives they are choosing between.\n"
+    "OFF-TOPIC: general commentary about the subject area that does not concern this product; "
+    "opinions, advice, or musings aimed at other people or at the topic at large; or anything "
+    "about a different product, business, place, or subject. An item is off-topic even when it "
+    "shares the same domain, jargon, or vocabulary as the product — sharing a topic is not the "
+    "same as being about this product.\n\n"
+    "Do NOT flag an item just for being negative, vague, brief, or a feature request — those are "
+    "on-topic when they are about this product. Return the 1-based indices of the off-topic items "
+    "(empty list if none). This must work for any kind of product — software, hardware, services, "
+    "or consumer goods — so judge purely by whether the feedback is about the given product."
 )
 
 
