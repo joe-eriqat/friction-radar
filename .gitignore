@@ -10,3 +10,6 @@ __pycache__/
 # Local data
 friction_radar.db
 *.db-journal
+
+# Local review artifacts (generated on demand, not part of the demo)
+docs/sample-report.md

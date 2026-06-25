@@ -40,11 +40,12 @@
   }
   textarea { resize: vertical; min-height: 180px; }
   .row { display: flex; gap: 12px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
-  button {
+  button, .btn-link {
     background: var(--accent); color: #fff; border: 0; border-radius: 8px;
     padding: 10px 16px; font: inherit; font-weight: 600; cursor: pointer;
+    text-decoration: none; display: inline-block;
   }
-  button.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  button.ghost, .btn-link.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
   button:disabled { opacity: .55; cursor: default; }
   .hint { color: var(--muted); font-size: 13px; }
   .grid { display: grid; gap: 14px; margin-top: 18px; }
@@ -65,13 +66,18 @@
   .badge.sev-high { color: var(--high); border-color: var(--high); }
   .badge.sev-medium { color: var(--medium); border-color: var(--medium); }
   .badge.sev-low { color: var(--low); border-color: var(--low); }
-  .evidence { margin: 8px 0; padding-left: 14px; border-left: 2px solid var(--line); }
-  .evidence li { color: var(--muted); font-style: italic; margin: 4px 0; }
+  .evidence { margin: 8px 0; padding-left: 14px; border-left: 2px solid var(--line); list-style: none; }
+  .evidence li { color: var(--muted); margin: 6px 0; }
+  .evidence .quote { font-style: italic; }
+  .evidence .cite { font-style: normal; font-size: 12px; color: var(--muted); opacity: .8; }
+  .evidence .cite a { color: var(--accent); }
   .rec { margin-top: 10px; }
   .rec b { color: var(--accent); }
   table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 13.5px; }
   th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { color: var(--muted); font-weight: 600; }
+  tr.histrow { cursor: pointer; }
+  tr.histrow:hover td { background: var(--panel-2); }
   .error { color: var(--failure); }
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--line);
     border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
@@ -99,6 +105,7 @@
   </div>
 
   <div id="report"></div>
+  <div id="history"></div>
 </main>
 
 <script>
@@ -106,17 +113,23 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, c => (
   {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-async function loadSample() {
-  setStatus("Loading sample…");
-  const r = await fetch("/api/sample");
-  const data = await r.json();
-  $("product").value = data.product;
-  $("feedback").value = data.feedback.join("\n");
-  setStatus("");
-}
-
 function setStatus(msg, busy = false) {
   $("status").innerHTML = busy ? `<span class="spinner"></span> ${esc(msg)}` : esc(msg);
+}
+
+async function loadSample() {
+  setStatus("Loading sample…", true);
+  try {
+    const r = await fetch("/api/sample");
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    $("product").value = data.product;
+    // feedback items are objects now ({text, source, ...}) — show the text
+    $("feedback").value = (data.feedback || []).map(f => f.text).join("\n");
+    setStatus("");
+  } catch (e) {
+    setStatus("Couldn't load sample: " + e.message);
+  }
 }
 
 async function analyze() {
@@ -126,21 +139,21 @@ async function analyze() {
   if (!feedback.length) { setStatus("Add at least one feedback item."); return; }
 
   $("analyze").disabled = true;
-  setStatus("Analyzing with Claude… this can take a few seconds.", true);
+  setStatus("Analyzing… this can take a few seconds.", true);
   $("report").innerHTML = "";
   try {
     const r = await fetch("/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ product, feedback })
+      body: JSON.stringify({ product, feedback })  // API coerces bare strings to FeedbackItem
     });
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
       throw new Error(err.detail || `HTTP ${r.status}`);
     }
     const stored = await r.json();
-    render(stored.report);
-    setStatus(`Done — report #${stored.id}`);
+    await showReport(stored.id);        // re-fetch the prioritized view
+    await loadHistory();
   } catch (e) {
     $("report").innerHTML = `<p class="error">${esc(e.message)}</p>`;
     setStatus("");
@@ -149,19 +162,50 @@ async function analyze() {
   }
 }
 
+async function showReport(id) {
+  setStatus("Loading report…", true);
+  try {
+    const r = await fetch(`/api/reports/${id}/view`);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    render(await r.json(), id);
+    setStatus(`Report #${id}`);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (e) {
+    $("report").innerHTML = `<p class="error">${esc(e.message)}</p>`;
+    setStatus("");
+  }
+}
+
 function badge(cls, text) { return `<span class="badge ${cls}">${esc(text)}</span>`; }
 
-function render(report) {
-  const themes = report.themes || [];
+function evidenceHtml(ev) {
+  return (ev || []).map(e => {
+    const bits = [];
+    if (e.source) bits.push(esc(e.source));
+    if (e.url) bits.push(`<a href="${esc(e.url)}" target="_blank" rel="noopener">link</a>`);
+    const cite = bits.length ? ` <span class="cite">— ${bits.join(" · ")}</span>` : "";
+    return `<li><span class="quote">“${esc(e.quote)}”</span>${cite}</li>`;
+  }).join("");
+}
+
+function render(view, id) {
+  const themes = view.themes || [];
   let html = `<div class="grid">
     <div class="card summary">
       <div class="sectiontitle" style="margin-top:0">Executive summary</div>
-      <div><b>${esc(report.product)}</b></div>
-      <p>${esc(report.summary)}</p>
+      <div><b>${esc(view.product)}</b> · ${themes.length} theme(s)</div>
+      <p>${esc(view.summary)}</p>
+      <div class="row">
+        <a class="btn-link ghost" href="/api/reports/${id}/export?format=md" download="friction-report-${id}.md">⬇ Markdown</a>
+        <a class="btn-link ghost" href="/api/reports/${id}/export?format=json" download="friction-report-${id}.json">⬇ JSON</a>
+      </div>
     </div>`;
 
+  if (!themes.length) {
+    html += `<div class="card"><p class="hint">No themes found in this feedback.</p></div>`;
+  }
+
   for (const t of themes) {
-    const ev = (t.evidence || []).map(q => `<li>“${esc(q)}”</li>`).join("");
     html += `<div class="card theme ${esc(t.type)}">
       <h3>${esc(t.title)}</h3>
       <div class="badges">
@@ -170,34 +214,59 @@ function render(report) {
         ${badge("", esc(t.onboarding_stage))}
         ${badge("", (t.frequency ?? 0) + " mentions")}
       </div>
-      <ul class="evidence">${ev}</ul>
+      <ul class="evidence">${evidenceHtml(t.evidence)}</ul>
       <div class="rec"><b>Recommendation:</b> ${esc(t.recommendation)}</div>
     </div>`;
   }
 
-  // Prioritized table — handy for screenshots / stakeholder sharing.
-  html += `<div class="card">
-    <div class="sectiontitle" style="margin-top:0">Prioritized findings</div>
-    <table>
-      <thead><tr><th>Theme</th><th>Type</th><th>Severity</th><th>Stage</th><th>Mentions</th><th>Recommendation</th></tr></thead>
-      <tbody>
-        ${themes.map(t => `<tr>
-          <td>${esc(t.title)}</td>
-          <td>${esc(t.type)}</td>
-          <td>${esc(t.severity)}</td>
-          <td>${esc(t.onboarding_stage)}</td>
-          <td>${t.frequency ?? 0}</td>
-          <td>${esc(t.recommendation)}</td>
-        </tr>`).join("")}
-      </tbody>
-    </table>
-  </div></div>`;
+  if (themes.length) {
+    html += `<div class="card">
+      <div class="sectiontitle" style="margin-top:0">Prioritized findings</div>
+      <table>
+        <thead><tr><th>Theme</th><th>Type</th><th>Severity</th><th>Stage</th><th>Mentions</th><th>Recommendation</th></tr></thead>
+        <tbody>
+          ${themes.map(t => `<tr>
+            <td>${esc(t.title)}</td>
+            <td>${esc(t.type)}</td>
+            <td>${esc(t.severity)}</td>
+            <td>${esc(t.onboarding_stage)}</td>
+            <td>${t.frequency ?? 0}</td>
+            <td>${esc(t.recommendation)}</td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
+  }
 
+  html += `</div>`;
   $("report").innerHTML = html;
+}
+
+async function loadHistory() {
+  try {
+    const r = await fetch("/api/reports");
+    if (!r.ok) return;
+    const list = await r.json();
+    const el = $("history");
+    if (!list.length) { el.innerHTML = ""; return; }
+    el.innerHTML = `<div class="sectiontitle">Past reports</div>
+      <div class="card"><table>
+        <thead><tr><th>#</th><th>Product</th><th>Themes</th><th>Created (UTC)</th></tr></thead>
+        <tbody>${list.map(s => `<tr class="histrow" data-id="${s.id}">
+          <td>${s.id}</td>
+          <td>${esc(s.product)}</td>
+          <td>${(s.report.themes || []).length}</td>
+          <td>${esc(s.created_at)}</td>
+        </tr>`).join("")}</tbody>
+      </table></div>`;
+    el.querySelectorAll(".histrow").forEach(row =>
+      row.addEventListener("click", () => showReport(row.dataset.id)));
+  } catch (e) { /* history is non-critical */ }
 }
 
 $("loadSample").addEventListener("click", loadSample);
 $("analyze").addEventListener("click", analyze);
+loadHistory();
 </script>
 </body>
 </html>
