@@ -9,10 +9,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import ingestion, store
+from . import ingestion, output, store
 from .processing import analyze
 from .schemas import AnalyzeRequest, OnboardingReport, StoredReport
 
@@ -62,6 +62,28 @@ def get_one_report(report_id: int) -> StoredReport:
     if stored is None:
         raise HTTPException(status_code=404, detail="Report not found.")
     return stored
+
+
+@app.get("/api/reports/{report_id}/view", response_model=output.ReportView)
+def get_report_view(report_id: int) -> output.ReportView:
+    """Prioritized, presentation-ready view of a stored report (for the SPA)."""
+    stored = store.get_report(report_id)
+    if stored is None:
+        raise HTTPException(status_code=404, detail="Report not found.")
+    return output.view_model(stored.report)
+
+
+@app.get("/api/reports/{report_id}/export")
+def export_report(report_id: int, format: str = "md") -> PlainTextResponse:
+    """Export a stored report as share-ready Markdown or canonical JSON."""
+    stored = store.get_report(report_id)
+    if stored is None:
+        raise HTTPException(status_code=404, detail="Report not found.")
+    if format == "md":
+        return PlainTextResponse(output.to_markdown(stored.report), media_type="text/markdown")
+    if format == "json":
+        return PlainTextResponse(output.to_json(stored.report), media_type="application/json")
+    raise HTTPException(status_code=400, detail="format must be 'md' or 'json'.")
 
 
 @app.get("/")
