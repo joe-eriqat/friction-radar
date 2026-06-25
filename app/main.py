@@ -5,7 +5,6 @@ Run with:  uvicorn app.main:app --reload   (or ./run.sh)
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -13,15 +12,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import store
-from .analyzer import analyze
+from . import ingestion, store
+from .processing import analyze
 from .schemas import AnalyzeRequest, OnboardingReport, StoredReport
 
-load_dotenv()  # pick up .env if present; the global env still wins for ANTHROPIC_API_KEY
+load_dotenv()  # pick up .env if present (OPENAI_API_KEY, FRICTION_RADAR_MODEL, ...)
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _STATIC_DIR = _REPO_ROOT / "static"
-_SAMPLE_FILE = _REPO_ROOT / "data" / "sample_feedback.json"
 
 app = FastAPI(title="Friction Radar", version="0.1.0")
 
@@ -34,20 +32,21 @@ def _startup() -> None:
 @app.get("/api/sample")
 def get_sample() -> AnalyzeRequest:
     """Load the bundled demo dataset (no live scraping required)."""
-    data = json.loads(_SAMPLE_FILE.read_text())
-    return AnalyzeRequest(**data)
+    return ingestion.demo_request()
 
 
 @app.post("/api/analyze", response_model=StoredReport)
 def post_analyze(req: AnalyzeRequest) -> StoredReport:
-    """Analyze feedback with Claude, persist, and return the stored report."""
+    """Run feedback through analysis, persist, and return the stored report."""
     if not req.product.strip():
         raise HTTPException(status_code=400, detail="A product/category name is required.")
     if not req.feedback:
         raise HTTPException(status_code=400, detail="At least one feedback item is required.")
     try:
         report: OnboardingReport = analyze(req)
-    except Exception as exc:  # surface a clean error to the UI
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # connector / provider failure
         raise HTTPException(status_code=502, detail=f"Analysis failed: {exc}") from exc
     return store.save_report(report)
 

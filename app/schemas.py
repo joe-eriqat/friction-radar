@@ -1,17 +1,16 @@
-"""Pydantic models shared by the API, the analyzer, and the structured-output contract.
+"""Pydantic models shared across the app.
 
-The `OnboardingReport` model is passed directly to `client.messages.parse(...)` as the
-output format, so its shape *is* the JSON schema Claude is constrained to. Keep the
-fields simple (str / enum / int / list) — structured outputs do not support numeric or
-string-length constraints.
+`OnboardingReport` is the public, stored output contract. AI Processing builds it from an
+internal model-facing schema (see `app/processing.py`) and attaches evidence provenance
+during grounding — the LLM itself only ever produces quote strings, never source/url.
 """
 
 from __future__ import annotations
 
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ThemeType(str, Enum):
@@ -28,40 +27,45 @@ class Severity(str, Enum):
     low = "low"
 
 
-class Theme(BaseModel):
-    """One clustered onboarding theme, backed by representative user quotes."""
+class FeedbackItem(BaseModel):
+    """One piece of public feedback.
 
-    title: str = Field(description="Short, specific name for the theme.")
+    Only `text` is required, so demo/upload stay trivial; metadata is preserved when a
+    source (e.g. scraping) provides it.
+    """
+
+    text: str
+    source: Optional[str] = None   # "demo" | "upload" | "reddit" | "app_store" | ...
+    url: Optional[str] = None
+    date: Optional[str] = None     # ISO-8601 if known
+
+
+class Evidence(BaseModel):
+    """A representative quote, traced back to the input item it came from."""
+
+    quote: str
+    source: Optional[str] = None
+    url: Optional[str] = None
+
+
+class Theme(BaseModel):
+    """One clustered onboarding theme, backed by grounded evidence."""
+
+    title: str
     type: ThemeType
-    severity: Severity = Field(
-        description="Impact on activation: high = blocks/strongly drives activation."
-    )
-    onboarding_stage: str = Field(
-        description="Where in onboarding this surfaces, e.g. signup, setup, "
-        "first-use, integrations, pricing-discovery, activation."
-    )
-    frequency: int = Field(
-        description="How many of the supplied comments express this theme."
-    )
-    evidence: List[str] = Field(
-        description="Verbatim or lightly-trimmed representative quotes from the input."
-    )
-    recommendation: str = Field(
-        description="Concrete, actionable onboarding change addressing this theme."
-    )
+    severity: Severity
+    onboarding_stage: str
+    frequency: int
+    evidence: List[Evidence]
+    recommendation: str
 
 
 class OnboardingReport(BaseModel):
     """The full prioritized onboarding-intelligence report for one product."""
 
-    product: str = Field(description="The product / category the report is about.")
-    summary: str = Field(
-        description="2-4 sentence executive summary of activation strengths and risks."
-    )
-    themes: List[Theme] = Field(
-        description="Clustered themes, ordered most to least important "
-        "(severity, then frequency)."
-    )
+    product: str
+    summary: str
+    themes: List[Theme]
 
 
 # ---- API request / response wrappers -------------------------------------------------
@@ -69,10 +73,18 @@ class OnboardingReport(BaseModel):
 
 class AnalyzeRequest(BaseModel):
     product: str = Field(description="Product, competitor, or category name.")
-    feedback: List[str] = Field(
-        default_factory=list,
-        description="Individual pieces of public feedback (reviews, comments, posts).",
-    )
+    feedback: List[FeedbackItem] = Field(default_factory=list)
+
+    @field_validator("feedback", mode="before")
+    @classmethod
+    def _coerce_strings(cls, v: object) -> object:
+        """Accept a bare list[str] and promote each string to a FeedbackItem.
+
+        Keeps demo/upload/paste callers (and the current SPA) trivial.
+        """
+        if isinstance(v, list):
+            return [{"text": x} if isinstance(x, str) else x for x in v]
+        return v
 
 
 class StoredReport(BaseModel):
