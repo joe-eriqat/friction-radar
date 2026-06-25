@@ -1,0 +1,22 @@
+{
+  "product": "AI meeting-notes app (category: AI note-takers)",
+  "feedback": [
+    "Honestly the transcription is magic. Joined my first call and had a clean summary in my inbox before I even left the meeting.",
+    "Setup was way more painful than I expected. It asked for calendar permissions, then Zoom permissions, then a separate bot install. Gave up halfway and came back the next day.",
+    "I love that the first summary showed up automatically. Didn't have to configure anything to see value.",
+    "Couldn't figure out how to get the bot to actually join my meeting. The docs assume you already know what an 'integration' is.",
+    "Pricing is sneaky. Got 200 minutes free, hit the wall mid-month with zero warning, then found out the real plan is $30/mo. Felt baited.",
+    "Switched back to Otter. The onboarding there just worked and I didn't have to grant five different permissions.",
+    "The auto summaries are genuinely good, better than the competitor I tried last year.",
+    "Spent 20 minutes trying to share a meeting workspace with my teammate and never figured it out. No clear 'invite' button anywhere.",
+    "First-run experience is confusing — I landed on an empty dashboard with no sample meeting or 'do this first' guide.",
+    "Calendar permission screen scared me off. It asked for full read/write access and didn't explain why. I almost didn't continue.",
+    "Once it was set up it was great, but getting there took three tries across two days.",
+    "I gave up. Too much setup for something that's supposed to save me time.",
+    "The demo on their site sold me, but the actual product made me do all the setup myself before I could see anything like the demo.",
+    "Connecting Slack was smooth and the first shared note landed in our channel automatically — nice touch.",
+    "Not worth it. Free tier limits hit immediately and the upgrade prompt appeared right as I was getting value, killed the trust.",
+    "Wish there had been a guided checklist. I had to guess the order: connect calendar, install bot, set recording defaults, invite team.",
+    "Loved the instant value but hated that pricing limits weren't shown until after I'd already invested time setting everything up."
+  ]
+}

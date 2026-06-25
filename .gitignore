@@ -1,0 +1,12 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local config & secrets
+.env
+
+# Local data
+friction_radar.db
+*.db-journal
