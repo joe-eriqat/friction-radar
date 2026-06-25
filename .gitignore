@@ -13,3 +13,6 @@ friction_radar.db
 
 # Local review artifacts (generated on demand, not part of the demo)
 docs/sample-report.md
+
+# Local eval keys / labeled datasets (Joe's, not part of the demo)
+docs/*classifier_key*

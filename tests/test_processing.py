@@ -1,22 +1,28 @@
 """Unit tests for AI Processing (spec 01) — fake connector, zero network.
 
-`analyze` now makes two connector calls: the relevance gate (schema `_OffTopic`) then the
-theming call (schema `_LLMReport`). The fake dispatches on the requested schema.
+`analyze` makes two connector calls: the relevance gate (schema `_OffTopic`) then the
+index-based classifier (schema `_Classification`). The fake dispatches on the schema.
 """
 
 from __future__ import annotations
 
 import pytest
 
-from app.processing import _LLMReport, _LLMTheme, _OffTopic, analyze
+from app.processing import (
+    SAMPLE_QUOTES,
+    _Category,
+    _Classification,
+    _OffTopic,
+    analyze,
+)
 from app.schemas import AnalyzeRequest, FeedbackItem, OnboardingReport
 
 
 class FakeConnector:
-    """Returns a canned _OffTopic for the gate and a canned _LLMReport for theming."""
+    """Returns a canned _OffTopic for the gate and a canned _Classification for the classifier."""
 
-    def __init__(self, report: _LLMReport, offtopic_indices=()) -> None:
-        self.report = report
+    def __init__(self, classification: _Classification, offtopic_indices=()) -> None:
+        self.classification = classification
         self.offtopic = list(offtopic_indices)
         self.calls: list[dict] = []
 
@@ -24,117 +30,106 @@ class FakeConnector:
         self.calls.append({"system": system, "user": user, "schema": schema})
         if schema is _OffTopic:
             return _OffTopic(offtopic_indices=self.offtopic)
-        return self.report
+        return self.classification
 
-    def theming_user(self) -> str:
-        return [c for c in self.calls if c["schema"] is _LLMReport][0]["user"]
-
-
-def _req() -> AnalyzeRequest:
-    return AnalyzeRequest(
-        product="My Product",
-        feedback=[
-            FeedbackItem(text="Setup was painful and confusing", source="reddit", url="http://r/1"),
-            FeedbackItem(text="The summary showed up automatically and I loved it"),
-        ],
-    )
+    def classify_user(self) -> str:
+        return [c for c in self.calls if c["schema"] is _Classification][0]["user"]
 
 
-def _theme(title: str, quotes: list[str]) -> _LLMTheme:
-    return _LLMTheme(
+def _items(*texts: str) -> list[FeedbackItem]:
+    return [FeedbackItem(text=t, source="pasted") for t in texts]
+
+
+def _cat(title: str, indices: list[int], type_: str = "failure") -> _Category:
+    return _Category(
         title=title,
-        type="failure",
+        type=type_,
         severity="high",
         onboarding_stage="setup",
-        evidence=quotes,
         recommendation="do x",
+        member_indices=indices,
     )
 
 
 def test_empty_feedback_raises_without_connector_call():
-    fake = FakeConnector(_LLMReport(product="x", summary="s", themes=[]))
+    fake = FakeConnector(_Classification(summary="s", categories=[]))
     with pytest.raises(ValueError):
         analyze(AnalyzeRequest(product="x", feedback=[]), connector=fake)
-    assert fake.calls == []  # neither gate nor theming ran
+    assert fake.calls == []
 
 
-def test_product_override_and_theming_prompt_contains_items():
+def test_product_override_and_counts():
+    req = AnalyzeRequest(product="My Product", feedback=_items("a", "b", "c"))
     fake = FakeConnector(
-        _LLMReport(product="MODEL REPHRASED", summary="s", themes=[_theme("Setup", ["Setup was painful"])])
+        _Classification(summary="s", categories=[_cat("T", [1, 2, 3])])
     )
-    out = analyze(_req(), connector=fake)
+    out = analyze(req, connector=fake)
     assert isinstance(out, OnboardingReport)
-    assert out.product == "My Product"  # caller's label wins
-    user = fake.theming_user()
-    assert "Setup was painful and confusing" in user
-    assert "The summary showed up automatically and I loved it" in user
+    assert out.product == "My Product"
+    assert out.total_feedback == 3 and out.relevant_count == 3
+    assert out.themes[0].frequency == 3
 
 
-def test_grounding_drops_fabricated_and_attaches_provenance():
+def test_frequency_is_real_count_evidence_is_sampled():
+    req = AnalyzeRequest(product="P", feedback=_items("a1", "a2", "a3", "a4", "a5", "b1", "b2"))
     fake = FakeConnector(
-        _LLMReport(product="p", summary="s",
-                   themes=[_theme("Setup", ["Setup was painful", "We adored the onboarding wizard"])])
+        _Classification(summary="s", categories=[_cat("A", [1, 2, 3, 4, 5]), _cat("B", [6, 7])])
     )
-    out = analyze(_req(), connector=fake)
-    assert [e.quote for e in out.themes[0].evidence] == ["Setup was painful"]  # fabricated dropped
-    ev = out.themes[0].evidence[0]
-    assert ev.source == "reddit" and ev.url == "http://r/1"  # provenance attached
+    out = analyze(req, connector=fake)
+    a, b = out.themes
+    assert a.frequency == 5 and len(a.evidence) == SAMPLE_QUOTES  # count != shown sample
+    assert [e.quote for e in a.evidence] == ["a1", "a2", "a3"]    # first members sampled
+    assert b.frequency == 2 and len(b.evidence) == 2
 
 
-def test_theme_dropped_when_all_evidence_ungrounded():
+def test_index_used_in_only_one_theme():
+    req = AnalyzeRequest(product="P", feedback=_items("x", "y", "z"))
     fake = FakeConnector(
-        _LLMReport(product="p", summary="s",
-                   themes=[_theme("Real", ["Setup was painful"]),
-                           _theme("Hallucinated", ["a totally invented quote"])])
+        _Classification(summary="s", categories=[_cat("First", [1, 2]), _cat("Second", [2, 3])])
     )
-    out = analyze(_req(), connector=fake)
-    assert [t.title for t in out.themes] == ["Real"]
+    out = analyze(req, connector=fake)
+    assert out.themes[0].frequency == 2  # claims 1, 2
+    assert out.themes[1].frequency == 1  # only 3 left (2 already used)
+    assert [e.quote for e in out.themes[1].evidence] == ["z"]
 
 
-def test_frequency_equals_grounded_evidence_count():
+def test_out_of_range_indices_dropped_and_empty_theme_removed():
+    req = AnalyzeRequest(product="P", feedback=_items("x", "y"))
     fake = FakeConnector(
-        _LLMReport(product="p", summary="s", themes=[_theme("Both", [
-            "Setup was painful",
-            "The summary showed up automatically and I loved it",
-            "an invented quote that matches nothing",
-        ])])
+        _Classification(summary="s", categories=[_cat("Keep", [1, 99]), _cat("Gone", [42])])
     )
-    out = analyze(_req(), connector=fake)
-    t = out.themes[0]
-    assert t.frequency == len(t.evidence) == 2
+    out = analyze(req, connector=fake)
+    assert [t.title for t in out.themes] == ["Keep"]  # bogus indices dropped, empty theme removed
+    assert out.themes[0].frequency == 1               # only index 1 was valid
+    assert [e.quote for e in out.themes[0].evidence] == ["x"]
 
 
-def test_quote_used_in_only_one_theme():
-    fake = FakeConnector(
-        _LLMReport(product="p", summary="s", themes=[
-            _theme("First", ["Setup was painful"]),
-            _theme("Second", ["Setup was painful", "The summary showed up automatically and I loved it"]),
-        ])
+def test_provenance_carried_from_corpus():
+    req = AnalyzeRequest(
+        product="P",
+        feedback=[FeedbackItem(text="hi", source="reddit", url="http://r/1")],
     )
-    out = analyze(_req(), connector=fake)
-    assert [e.quote for e in out.themes[0].evidence] == ["Setup was painful"]
-    assert [e.quote for e in out.themes[1].evidence] == ["The summary showed up automatically and I loved it"]
-    all_quotes = [e.quote for t in out.themes for e in t.evidence]
-    assert len(all_quotes) == len(set(all_quotes))
+    fake = FakeConnector(_Classification(summary="s", categories=[_cat("T", [1])]))
+    ev = analyze(req, connector=fake).themes[0].evidence[0]
+    assert ev.quote == "hi" and ev.source == "reddit" and ev.url == "http://r/1"
 
 
-def test_relevance_gate_drops_offtopic_before_theming():
-    # gate flags item 2 as off-topic -> the theming call must not see it
+def test_relevance_gate_drops_offtopic_before_classify():
+    req = AnalyzeRequest(product="P", feedback=_items("on topic one", "OFF TOPIC noise", "on topic two"))
+    # gate flags index 2 off-topic; classifier then sees only the 2 kept items (renumbered)
     fake = FakeConnector(
-        _LLMReport(product="p", summary="s", themes=[_theme("Setup", ["Setup was painful"])]),
+        _Classification(summary="s", categories=[_cat("T", [1, 2])]),
         offtopic_indices=[2],
     )
-    analyze(_req(), connector=fake)
-    user = fake.theming_user()
-    assert "Setup was painful and confusing" in user
-    assert "The summary showed up automatically and I loved it" not in user  # filtered out
+    out = analyze(req, connector=fake)
+    assert out.total_feedback == 3 and out.relevant_count == 2
+    assert "OFF TOPIC noise" not in fake.classify_user()
+    assert sorted(e.quote for e in out.themes[0].evidence) == ["on topic one", "on topic two"]
 
 
 def test_relevance_gate_all_offtopic_raises():
-    fake = FakeConnector(
-        _LLMReport(product="p", summary="s", themes=[]),
-        offtopic_indices=[1, 2],
-    )
+    req = AnalyzeRequest(product="P", feedback=_items("a", "b"))
+    fake = FakeConnector(_Classification(summary="s", categories=[]), offtopic_indices=[1, 2])
     with pytest.raises(ValueError):
-        analyze(_req(), connector=fake)
-    assert all(c["schema"] is not _LLMReport for c in fake.calls)  # theming never ran
+        analyze(req, connector=fake)
+    assert all(c["schema"] is not _Classification for c in fake.calls)  # classifier never ran

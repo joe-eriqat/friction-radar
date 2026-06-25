@@ -31,13 +31,17 @@ def compare(a: int, b: int) -> ReportDiff
    spec tightens it to raise — update callers in spec 06.)*
 4. `compare(a, b)`: match themes by `title`; return added / removed / changed (severity +
    frequency deltas). Same product assumed; mismatched products flagged in the diff.
-5. If a feedback set is passed, it is stored alongside the report so the run can be re-traced.
+5. If a feedback set is passed, the **analyzed corpus** (the relevant items, numbered) and the
+   theme→index **assignment map** are stored alongside the report. This makes a run auditable:
+   re-trace which comment landed in which theme, recompute coverage, and **score a run against a
+   labeled key** (e.g. relevance precision/recall vs an `about_app` answer key — see the eval
+   harness). This is the auditability follow-on flagged in spec 01.
 
 ## Schema
 
 ```
-reports(id, created_at, product, payload)            -- exists
-feedback_sets(report_id, items_json)                 -- new, optional
+reports(id, created_at, product, payload)                 -- exists
+feedback_sets(report_id, items_json, assignments_json)    -- new: analyzed corpus + theme->index map
 ```
 
 ## Testing

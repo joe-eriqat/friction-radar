@@ -1,8 +1,9 @@
 """Pydantic models shared across the app.
 
-`OnboardingReport` is the public, stored output contract. AI Processing builds it from an
-internal model-facing schema (see `app/processing.py`) and attaches evidence provenance
-during grounding — the LLM itself only ever produces quote strings, never source/url.
+`OnboardingReport` is the public, stored output contract. AI Processing builds it by having
+the model assign feedback items to themes by index (see `app/processing.py`); a deterministic
+step then counts members and attaches a sample of their quotes with provenance — the model
+never regenerates item text.
 """
 
 from __future__ import annotations
@@ -49,7 +50,11 @@ class Evidence(BaseModel):
 
 
 class Theme(BaseModel):
-    """One clustered onboarding theme, backed by grounded evidence."""
+    """One clustered onboarding theme.
+
+    `frequency` is the real count of feedback items assigned to this theme; `evidence` is a
+    representative *sample* of those items' quotes (not necessarily all `frequency` of them).
+    """
 
     title: str
     type: ThemeType
@@ -66,6 +71,8 @@ class OnboardingReport(BaseModel):
     product: str
     summary: str
     themes: List[Theme]
+    total_feedback: int = 0   # items submitted
+    relevant_count: int = 0   # items kept after the relevance gate (themes draw from these)
 
 
 # ---- API request / response wrappers -------------------------------------------------

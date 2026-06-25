@@ -18,11 +18,13 @@ _SEVERITY_LABEL = {Severity.high: "HIGH", Severity.medium: "MEDIUM", Severity.lo
 
 
 class ReportView(BaseModel):
-    """Presentation-ready payload for the SPA: themes prioritized, plus a count."""
+    """Presentation-ready payload for the SPA: themes prioritized, plus counts."""
 
     product: str
     summary: str
     theme_count: int
+    total_feedback: int = 0
+    relevant_count: int = 0
     themes: List[Theme]  # severity (high > medium > low), then frequency desc
 
 
@@ -37,6 +39,8 @@ def view_model(report: OnboardingReport) -> ReportView:
         product=report.product,
         summary=report.summary,
         theme_count=len(themes),
+        total_feedback=report.total_feedback,
+        relevant_count=report.relevant_count,
         themes=themes,
     )
 
@@ -49,6 +53,12 @@ def to_json(report: OnboardingReport) -> str:
 def to_markdown(report: OnboardingReport) -> str:
     """Share / screenshot-ready Markdown. Lossless vs the report; themes prioritized."""
     lines: list[str] = [f"# Onboarding Report — {report.product}", ""]
+    if report.total_feedback:
+        lines.append(
+            f"_Analyzed {report.relevant_count} relevant of "
+            f"{report.total_feedback} submitted comments._"
+        )
+        lines.append("")
     lines.append(report.summary.strip() or "_No summary._")
     lines.append("")
 

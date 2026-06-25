@@ -1,25 +1,30 @@
-"""AI Processing (spec 01): (product, feedback[]) -> grounded OnboardingReport.
+"""AI Processing (spec 01): (product, feedback[]) -> OnboardingReport.
 
-Two LLM layers, then deterministic grounding:
-  1. RELEVANCE GATE — classify which feedback items are off-topic (not about the product)
-     and drop them before theming. A focused, inspectable filter; the theming model never
-     sees the noise.
-  2. THEMING — cluster the on-topic feedback into themes; evidence is quote strings only.
-Then GROUND each quote against the (kept) input items: drop invented / unmatched quotes,
-enforce single assignment (a quote belongs to at most one theme), de-duplicate, attach the
-matched item's source/url, and set frequency = count of grounded quotes. Provider/SDK
-details live in the LLM Connector.
+Index-based pipeline — the model references items by number, never regenerates their text:
+
+  1. RELEVANCE GATE (LLM) — flag clearly off-topic items and drop them. The kept items are
+     numbered 1..N; N is a deterministic count used to gauge coverage afterwards.
+  2. CLASSIFIER (LLM) — group the numbered corpus into categories, each carrying the *indices*
+     of its member items (+ title/type/severity/stage/recommendation). The model emits indices,
+     not quotes, so it cannot invent evidence and cannot under-report counts.
+  3. DETERMINISTIC ASSEMBLE — validate indices (in range, single assignment), set each theme's
+     frequency to its real member count, attach a representative *sample* of the members'
+     quotes (with provenance), and record total_feedback / relevant_count.
+
+No substring grounding is needed: an index either points at a real stored item or it doesn't.
+Provider/SDK details live in the LLM Connector.
 """
 
 from __future__ import annotations
 
-import re
 from typing import List
 
 from pydantic import BaseModel, Field
 
 from .connector import LLMConnector, default_connector
 from .schemas import AnalyzeRequest, Evidence, FeedbackItem, OnboardingReport, Severity, Theme, ThemeType
+
+SAMPLE_QUOTES = 3  # representative quotes shown per theme (frequency stays the full member count)
 
 # ---- Layer 1: relevance gate ----------------------------------------------------------
 
@@ -51,7 +56,7 @@ def _relevance_user(req: AnalyzeRequest) -> str:
 
 
 def _relevant_items(req: AnalyzeRequest, connector: LLMConnector) -> List[FeedbackItem]:
-    """Drop off-topic feedback before theming. Conservative: only removes flagged items."""
+    """Drop off-topic feedback. Conservative: only removes flagged items."""
     verdict: _OffTopic = connector.complete_structured(  # type: ignore[assignment]
         system=RELEVANCE_SYSTEM, user=_relevance_user(req), schema=_OffTopic
     )
@@ -59,29 +64,26 @@ def _relevant_items(req: AnalyzeRequest, connector: LLMConnector) -> List[Feedba
     return [item for n, item in enumerate(req.feedback, 1) if n not in drop]
 
 
-# ---- Layer 2: theming -----------------------------------------------------------------
+# ---- Layer 2: classifier (references items by index, never by text) -------------------
 
-SYSTEM = (
-    "You are an onboarding-intelligence analyst. You read public customer feedback about a "
-    "product and surface where users succeed or struggle during onboarding and early "
-    "activation.\n\n"
-    "Follow these rules:\n"
-    "- THEMES: Cluster related feedback into a small set of clearly distinct themes. Aim for "
-    "the few sharpest themes and merge near-duplicates rather than splitting hairs. Each theme "
-    "is success (delight / fast activation), failure (confusion / friction / unmet "
-    "expectations), or churn. Use churn ONLY when the language shows the user stopped using, "
-    "switched away, deleted, or uninstalled the product.\n"
-    "- ASSIGNMENT: Put each feedback item under the single theme it fits best. Never repeat the "
-    "same quote across themes, and only include a quote that genuinely supports its theme.\n"
-    "- EVIDENCE: Back each theme with quotes copied verbatim from the supplied items — include "
-    "one quote for every item that expresses the theme. Never invent or paraphrase.\n"
-    "- Give each theme a concrete, actionable onboarding recommendation and score its severity "
-    "by impact on activation. Order themes most to least important. If the data is thin, say so "
-    "in the summary instead of padding with weak themes."
+CLASSIFY_SYSTEM = (
+    "You are an onboarding-intelligence analyst. You are given a PRODUCT and a numbered list of "
+    "on-topic customer feedback items. Group them into a small set of clearly distinct themes — "
+    "each theme is success (delight / fast activation), failure (confusion / friction / unmet "
+    "expectations), or churn (the user stopped using, switched away, deleted, or uninstalled).\n\n"
+    "Rules:\n"
+    "- Reference items ONLY by their index number. Never quote, copy, paraphrase, or rewrite "
+    "item text.\n"
+    "- Assign EVERY item to exactly one theme — the single best fit. Do not list an index under "
+    "more than one theme, and do not invent indices that aren't in the list.\n"
+    "- Aim for a few sharp themes and merge near-duplicates. Order themes most to least "
+    "important.\n"
+    "- Give each theme a concrete, actionable onboarding recommendation and a severity (impact "
+    "on activation)."
 )
 
 
-class _LLMTheme(BaseModel):
+class _Category(BaseModel):
     title: str = Field(description="Short, specific name for the theme.")
     type: ThemeType = Field(
         description="success = delight / fast activation; failure = confusion / friction; "
@@ -92,72 +94,69 @@ class _LLMTheme(BaseModel):
         description="Where it surfaces: signup, setup, first-use, integrations, "
         "pricing-discovery, activation, ..."
     )
-    evidence: List[str] = Field(
-        description="Verbatim quotes copied exactly from the supplied items — one for every "
-        "item that expresses this theme. Never invented or paraphrased."
-    )
     recommendation: str = Field(description="Concrete, actionable onboarding change.")
+    member_indices: List[int] = Field(
+        description="1-based indices of the feedback items that belong to this theme."
+    )
 
 
-class _LLMReport(BaseModel):
-    product: str
+class _Classification(BaseModel):
     summary: str = Field(
         description="2-4 sentence executive summary of activation strengths and risks."
     )
-    themes: List[_LLMTheme]
+    categories: List[_Category]
 
 
-def _build_user(req: AnalyzeRequest) -> str:
-    lines = []
-    for i, item in enumerate(req.feedback, 1):
-        bits = [b for b in (item.source, item.url) if b]
-        tag = f"  [{' | '.join(bits)}]" if bits else ""
-        lines.append(f"{i}. {item.text}{tag}")
+def _classify_user(items: List[FeedbackItem], product: str) -> str:
+    lines = [f"{i}. {item.text}" for i, item in enumerate(items, 1)]
     return (
-        f"Product / category: {req.product}\n\n"
-        f"Public feedback items ({len(req.feedback)}):\n"
+        f"Product / category: {product}\n\n"
+        f"On-topic feedback items ({len(items)}):\n"
         + "\n".join(lines)
-        + "\n\nProduce the onboarding-intelligence report."
+        + "\n\nGroup these into themes; reference each item by its index number."
     )
 
 
-def _norm(s: str) -> str:
-    return re.sub(r"\s+", " ", s).strip().casefold()
+# ---- deterministic assemble -----------------------------------------------------------
 
 
-def _ground(llm_report: _LLMReport, req: AnalyzeRequest) -> OnboardingReport:
-    index = [(_norm(item.text), item) for item in req.feedback]
-    used: set[str] = set()  # a quote belongs to at most one theme (most-important first)
+def _assemble(
+    classification: _Classification, kept: List[FeedbackItem], req: AnalyzeRequest
+) -> OnboardingReport:
+    n = len(kept)
+    used: set[int] = set()  # each index belongs to one theme (most-important first)
     themes: list[Theme] = []
-    for t in llm_report.themes:
-        kept: list[Evidence] = []
-        for quote in t.evidence:
-            qn = _norm(quote)
-            if not qn or qn in used:  # empty, or already claimed by an earlier theme / dup
-                continue
-            match = next((item for tn, item in index if qn in tn or tn in qn), None)
-            if match is None:  # invented / off-topic / otherwise unmatched — drop it
-                continue
-            used.add(qn)
-            kept.append(Evidence(quote=quote, source=match.source, url=match.url))
-        if not kept:  # theme with no grounded evidence — drop it
+    for cat in classification.categories:
+        members: list[FeedbackItem] = []
+        for i in cat.member_indices:
+            if 1 <= i <= n and i not in used:  # in range + not already claimed
+                used.add(i)
+                members.append(kept[i - 1])
+        if not members:  # theme with no valid members — drop it
             continue
+        evidence = [Evidence(quote=m.text, source=m.source, url=m.url) for m in members[:SAMPLE_QUOTES]]
         themes.append(
             Theme(
-                title=t.title,
-                type=t.type,
-                severity=t.severity,
-                onboarding_stage=t.onboarding_stage,
-                frequency=len(kept),  # derived — always matches the evidence shown
-                evidence=kept,
-                recommendation=t.recommendation,
+                title=cat.title,
+                type=cat.type,
+                severity=cat.severity,
+                onboarding_stage=cat.onboarding_stage,
+                frequency=len(members),  # real count of assigned items
+                evidence=evidence,       # a representative sample of them
+                recommendation=cat.recommendation,
             )
         )
-    return OnboardingReport(product=req.product, summary=llm_report.summary, themes=themes)
+    return OnboardingReport(
+        product=req.product,
+        summary=classification.summary,
+        themes=themes,
+        total_feedback=len(req.feedback),
+        relevant_count=n,
+    )
 
 
 def analyze(req: AnalyzeRequest, connector: LLMConnector | None = None) -> OnboardingReport:
-    """Filter off-topic noise, theme the rest, and return a grounded OnboardingReport."""
+    """Filter off-topic noise, classify the rest by index, and assemble the report."""
     if not req.feedback:
         raise ValueError("No feedback items supplied to analyze.")
     connector = connector or default_connector()
@@ -165,13 +164,8 @@ def analyze(req: AnalyzeRequest, connector: LLMConnector | None = None) -> Onboa
     kept = _relevant_items(req, connector)  # Layer 1
     if not kept:
         raise ValueError("No on-topic feedback to analyze.")
-    scoped = (
-        req
-        if len(kept) == len(req.feedback)
-        else AnalyzeRequest(product=req.product, feedback=kept)
-    )
 
-    llm_report = connector.complete_structured(  # Layer 2
-        system=SYSTEM, user=_build_user(scoped), schema=_LLMReport
+    classification = connector.complete_structured(  # Layer 2
+        system=CLASSIFY_SYSTEM, user=_classify_user(kept, req.product), schema=_Classification
     )
-    return _ground(llm_report, scoped)  # type: ignore[arg-type]
+    return _assemble(classification, kept, req)  # type: ignore[arg-type]
