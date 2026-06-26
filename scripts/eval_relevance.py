@@ -43,7 +43,9 @@ def _col(fields, *candidates):
 def main(csv_path: Path, product: str) -> int:
     rows = list(csv.DictReader(csv_path.open(newline="")))
     fields = list(rows[0].keys())
-    text_col = _col(fields, "comment_text", "comment", "text", "body")
+    text_col = _col(fields, "comment_text", "comment", "text", "body") or next(
+        (c for c in fields if "comment" in c.lower() or "text" in c.lower()), None
+    )
     about_col = next((c for c in fields if "about" in c.lower()), None)
     id_col = _col(fields, "comment_id", "id") or fields[0]
     tricky_col = next((c for c in fields if "tricky" in c.lower()), None)

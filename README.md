@@ -1,122 +1,117 @@
-# friction-radar
-AI-powered onboarding intelligence from public customer sentiment.
+# Friction Radar
 
-Friction Radar analyzes public customer sentiment from sources like Reddit, app reviews, and community posts to identify where users succeed or fail during onboarding. It clusters feedback into onboarding success points, friction points, confusion moments, churn risks, and recommended product fixes.
+**Turn messy public customer feedback into a structured, quantified onboarding-intelligence report.**
 
-Early-stage teams often do not know why users fail to activate and not all data is captured during onboarding. Feedback is scattered across Reddit, app stores, review sites, and support channels. Manually reading this feedback is slow, biased, and hard to translate into concrete onboarding improvements.
+Friction Radar reads public feedback about a product — reviews, Reddit threads, app-store posts,
+support exports — and surfaces *where users succeed or struggle during onboarding and early
+activation*. It clusters the feedback into themes (success / failure / churn), counts how often
+each one shows up, backs every theme with real quotes, and recommends concrete fixes — then lets
+you export the whole thing as a share-ready report.
 
-Friction Radar turns raw public sentiment into an onboarding intelligence report. Given a product, category, competitor, or pasted review data, it extracts user sentiment, clusters onboarding-related themes, scores friction severity, and recommends changes to improve activation.
+It is deliberately **not a GPT wrapper.** The value is the *artifact* — a repeatable, comparable,
+screenshot-ready report — and the deterministic machinery wrapped around the model that makes it
+trustworthy:
 
+- a **relevance gate** that drops off-topic noise before clustering,
+- **index-based classification** (the model assigns each comment to a theme *by number*, never
+  by regenerating text) so counts are real, coverage is complete, and quotes can't be
+  hallucinated,
+- a **verbatim-verified segmenter** that parses a messy paste/export into clean individual
+  comments without ever altering them.
 
-## Features
+## How it works
 
-- Public sentiment ingestion from pasted reviews, Reddit comments, or app-store-style feedback
-- AI clustering of onboarding success and failure patterns
-- Detection of activation blockers, confusion points, expectation mismatches, and churn signals
-- Identification of positive onboarding moments and product strengths
-- Severity and frequency scoring for each theme
-- Evidence-backed summaries with representative user quotes
-- Actionable onboarding recommendations
-- Exportable report view for screenshots and stakeholder sharing
+```
+raw paste / file / CSV / JSON
+  → Ingestion        parse into clean comments (deterministic for CSV/JSON;
+                     LLM segmentation, verbatim-verified, for messy text)
+  → Relevance gate   drop comments that aren't about this product
+  → Classifier       group comments into themes BY INDEX (no regenerated text)
+  → Assemble         deterministic: real counts, sampled evidence + provenance, coverage
+  → Report           prioritized view + Markdown / JSON export, persisted to SQLite
+```
 
-## How It Works
+The model makes only two narrow judgments — *is this relevant?* and *which theme?* — and
+references comments by index. Everything else (counting, sampling, ordering, exporting) is
+deterministic code.
 
-1. Enter a product, competitor, or product category.
-2. Paste public feedback or load a sample dataset.
-3. Friction Radar classifies each comment by sentiment, onboarding stage, and user intent.
-4. The system clusters related feedback into success and failure themes.
-5. It generates a prioritized onboarding report with evidence and recommendations.
+## Measured quality
 
-## Output Categories
+Scored against hand-labelled comment sets across three unrelated domains (a health app, a rental
+marketplace, a finance app):
 
-Friction Radar organizes feedback into:
+- **Relevance** (off-topic detection): precision 0.91–0.96, recall 1.00.
+- **Coverage** (relevant comments assigned to a theme): 98–100%.
+- **Segmentation** (recovering verbatim comments from a messy dump): 0.99 recall.
 
-### Success Points
-Moments where users express clarity, delight, fast activation, trust, or immediate value.
+The eval harnesses live in `scripts/eval_relevance.py` and `scripts/eval_segmentation.py`.
 
-Examples:
-- Users understand the core value quickly
-- Setup feels fast or guided
-- A competitor’s onboarding is praised
-- Users describe a “magic moment”
-
-### Failure Points
-Moments where users express confusion, abandonment, frustration, distrust, or unmet expectations.
-
-Examples:
-- Users do not understand what to do first
-- Setup requires too many steps
-- Pricing or limits are unclear
-- The product promise does not match the first experience
-- Users compare the onboarding poorly to competitors
-
-### Churn / Drop-off Signals
-Language that suggests users may abandon the product.
-
-Examples:
-- “I gave up”
-- “Too much setup”
-- “Not worth it”
-- “I could not figure out…”
-- “I switched back to…”
-
-## Example Use Case
-
-A founder building an AI note-taking app wants to understand why users fail to activate. They paste Reddit comments and app reviews about competing AI note-taking tools. Friction Radar identifies that users love fast transcription and automatic summaries, but often fail during calendar permissions, bot setup, pricing discovery, and workspace sharing.
-
-The report recommends a guided setup checklist, sample meeting demo, clearer permission explanations, and earlier pricing transparency.
-
-
-## Example Output
-
-| Theme | Type | Severity | Evidence | Recommendation |
-|---|---|---:|---|---|
-| Setup feels unclear | Failure Point | High | Users say they do not know what to connect first | Add a 3-step onboarding checklist |
-| Fast first summary creates delight | Success Point | High | Users praise receiving value immediately after upload | Move sample summary earlier in onboarding |
-| Pricing surprise causes distrust | Failure Point | Medium | Users complain about limits appearing too late | Show plan limits before signup completion |
-| Competitor has smoother activation | Failure Point | High | Users mention switching because setup was easier elsewhere | Add demo mode before requiring integrations |
-
-## Tech Stack
-
-- Frontend: Next.js / React
-- Backend: Next.js API routes or FastAPI
-- AI: LLM-based classification and summarization
-- Data: Sample public feedback dataset, pasted text, or CSV upload
-- Storage: Local JSON or SQLite
-
-## Getting Started
+## Quickstart
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/joe-eriqat/friction-radar.git
 cd friction-radar
-npm install
-npm run dev
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
 
-## Demo Mode
+cp .env.example .env          # then add your OpenAI key:  OPENAI_API_KEY=sk-...
+./run.sh                      # serves http://127.0.0.1:8080
+```
 
-The project includes a sample dataset of public-style customer feedback so the app can be demonstrated without live scraping, customer data, or external integrations.
+Open the page → pick a **sample** (or paste/upload your own feedback) → **Analyze onboarding**.
 
-Demo flow:
+## Configuration (`.env`)
 
-1. Load the sample dataset.
-2. Run onboarding sentiment analysis.
-3. View success and failure clusters.
-4. Open the generated onboarding report.
-5. Screenshot the prioritized recommendations.
+| Var | Meaning |
+|---|---|
+| `OPENAI_API_KEY` | Your OpenAI key. |
+| `FRICTION_RADAR_MODEL` | LiteLLM model string. Default `openai/gpt-5.4` (strong); `openai/gpt-4o-mini` is much cheaper/weaker. |
+| `FRICTION_RADAR_LLM_BASE_URL` | Optional OpenAI-compatible endpoint (any provider LiteLLM supports). |
+| `FRICTION_RADAR_TEMPERATURE` | Default `0` (stable categorization). `none` to omit for models that reject it. |
+| `FRICTION_RADAR_DB` | SQLite path (default `friction_radar.db`). |
+
+Provider is fully config-driven via [LiteLLM](https://github.com/BerriAI/litellm) — point it at
+OpenAI, an OpenAI-compatible gateway, or another provider without code changes.
+
+## API
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/api/samples` | List bundled demo datasets |
+| `GET` | `/api/sample?name=…` | Load one demo dataset |
+| `POST` | `/api/ingest` | Raw paste/file (CSV/JSON/messy text) → parsed feedback |
+| `POST` | `/api/analyze` | Feedback → stored report |
+| `GET` | `/api/reports` · `/api/reports/{id}` · `/api/reports/{id}/view` | List / fetch / prioritized view |
+| `GET` | `/api/reports/{id}/export?format=md\|json` | Export a report |
+
+## Output
+
+Each report clusters feedback into themes of three kinds:
+
+- **Success points** — clarity, delight, fast activation, a "magic moment."
+- **Failure points** — confusion, friction, unmet expectations, unclear pricing.
+- **Churn / drop-off** — language showing the user gave up, switched away, or uninstalled.
+
+Every theme carries a severity, a real mention count, representative quotes (with their source),
+and a concrete recommendation. Reports are persisted so past runs can be listed, re-opened, and
+exported.
+
+## Stack
+
+Python 3.13 · FastAPI · [LiteLLM](https://github.com/BerriAI/litellm) (provider-agnostic) ·
+SQLite · vanilla-JS single-page UI. No Node, no build step.
 
 ## Limitations
 
-- The current prototype uses pasted or sample public feedback rather than full automated scraping.
-- Sentiment analysis is directional and should be validated with real user interviews or product analytics.
-- Theme frequency depends on the quality and representativeness of the input data.
-- The tool is designed for onboarding research, not as a replacement for analytics instrumentation.
+- Sentiment/themes are directional — validate against real user interviews and analytics.
+- Theme prevalence reflects the input you give it; biased input → biased report.
+- A research aid for onboarding, not a replacement for product instrumentation.
 
-## Future Work
+## Roadmap
 
-- Live connectors for Reddit, App Store reviews, G2, Chrome Web Store, and support tickets
-- Competitor comparison across onboarding success and failure points
-- Churn-risk detection from user language
-- Auto-generated onboarding experiments
-- Integration with product analytics tools
-- Export to Linear, Notion, or Jira
-- Ad and landing-page copy generation based on user pain language
+- A live source or two (e.g. a Reddit thread via its public JSON), reusing the existing segmenter.
+- Competitor comparison; run-to-run diffing; exports to Linear / Notion / Jira.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -1,7 +1,7 @@
 """Live smoke test for the LLM Connector (spec 02) against a real provider.
 
 Reads OPENAI_API_KEY (and optional FRICTION_RADAR_MODEL / FRICTION_RADAR_LLM_BASE_URL)
-from /opt/friction-radar/.env or the environment, then makes real calls. Run:
+from the repo-root .env or the environment, then makes real calls. Run:
 
     ./venv/bin/python scripts/smoke_connector.py
 """
@@ -57,7 +57,7 @@ def main() -> int:
         "FRICTION_RADAR_LLM_BASE_URL"
     ):
         print("No OPENAI_API_KEY (or FRICTION_RADAR_LLM_BASE_URL) found.")
-        print("Add OPENAI_API_KEY=sk-... to /opt/friction-radar/.env, then re-run.")
+        print("Add OPENAI_API_KEY=sk-... to the repo-root .env, then re-run.")
         return 2
 
     model = os.environ.get("FRICTION_RADAR_MODEL", conn.DEFAULT_MODEL)

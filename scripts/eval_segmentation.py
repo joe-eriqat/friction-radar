@@ -28,6 +28,9 @@ def _text_col(fields: list[str]) -> str:
     for c in ("comment_text", "comment", "text", "review", "feedback", "body"):
         if c in lower:
             return lower[c]
+    for c in fields:  # substring fallback (e.g. exact_comment_text)
+        if "comment" in c.lower() or "text" in c.lower():
+            return c
     return fields[0]
 
 
