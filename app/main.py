@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 from . import ingestion, output, store
 from .processing import analyze
@@ -33,6 +34,26 @@ def _startup() -> None:
 def get_sample() -> AnalyzeRequest:
     """Load the bundled demo dataset (no live scraping required)."""
     return ingestion.demo_request()
+
+
+class IngestRequest(BaseModel):
+    product: str = ""
+    raw: str = ""
+    source: str = "pasted"
+
+
+@app.post("/api/ingest", response_model=AnalyzeRequest)
+def post_ingest(req: IngestRequest) -> AnalyzeRequest:
+    """Parse a raw paste / file dump (CSV / JSON / messy text) into clean feedback items."""
+    if not req.raw.strip():
+        raise HTTPException(status_code=400, detail="No input to parse.")
+    try:
+        items = ingestion.UploadAdapter().load(req.raw, source=req.source or "pasted")
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # segmentation / connector failure
+        raise HTTPException(status_code=502, detail=f"Could not parse input: {exc}") from exc
+    return AnalyzeRequest(product=req.product, feedback=items)
 
 
 @app.post("/api/analyze", response_model=StoredReport)
