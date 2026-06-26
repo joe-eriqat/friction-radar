@@ -46,6 +46,8 @@
     text-decoration: none; display: inline-block;
   }
   button.ghost, .btn-link.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  select.ghost { background: transparent; color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 16px; font: inherit; font-weight: 600; cursor: pointer; }
   button:disabled { opacity: .55; cursor: default; }
   .hint { color: var(--muted); font-size: 13px; }
   .grid { display: grid; gap: 14px; margin-top: 18px; }
@@ -99,7 +101,9 @@
     <textarea id="feedback" placeholder="Paste reviews, Reddit threads, app-store exports… any format. We'll parse it into individual comments before analyzing."></textarea>
     <div class="row">
       <button id="analyze">Analyze onboarding</button>
-      <button id="loadSample" class="ghost">Load sample dataset</button>
+      <select id="demo" class="ghost" title="Load a sample dataset">
+        <option value="">Load a sample…</option>
+      </select>
       <label class="btn-link ghost" for="file" style="cursor:pointer">Upload a file…</label>
       <input id="file" type="file" accept=".csv,.json,.txt,.tsv,.md" style="display:none" />
       <span id="status" class="hint"></span>
@@ -119,16 +123,29 @@ function setStatus(msg, busy = false) {
   $("status").innerHTML = busy ? `<span class="spinner"></span> ${esc(msg)}` : esc(msg);
 }
 
-async function loadSample() {
+async function loadDemos() {
+  try {
+    const r = await fetch("/api/samples");
+    if (!r.ok) return;
+    const demos = await r.json();
+    if (!demos.length) return;
+    $("demo").innerHTML = `<option value="">Load a sample…</option>` +
+      demos.map(d => `<option value="${esc(d.id)}">${esc(d.name)}${d.count ? ` (${d.count})` : ""}</option>`).join("");
+  } catch { /* picker is non-critical */ }
+}
+
+async function loadSample(name) {
+  if (!name) return;
   setStatus("Loading sample…", true);
   try {
-    const r = await fetch("/api/sample");
+    const r = await fetch("/api/sample?name=" + encodeURIComponent(name));
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
     $("product").value = data.product;
-    // feedback items are objects now ({text, source, ...}) — show the text
-    $("feedback").value = (data.feedback || []).map(f => f.text).join("\n");
-    setStatus("");
+    // feedback items are objects ({text, source, ...}); blank-line separated so multi-line
+    // comments survive re-parsing on Analyze.
+    $("feedback").value = (data.feedback || []).map(f => f.text).join("\n\n");
+    setStatus(`Loaded sample (${(data.feedback || []).length} comments) — click Analyze.`);
   } catch (e) {
     setStatus("Couldn't load sample: " + e.message);
   }
@@ -282,7 +299,7 @@ async function loadHistory() {
   } catch (e) { /* history is non-critical */ }
 }
 
-$("loadSample").addEventListener("click", loadSample);
+$("demo").addEventListener("change", (e) => loadSample(e.target.value));
 $("analyze").addEventListener("click", analyze);
 $("file").addEventListener("change", async (e) => {
   const f = e.target.files[0];
@@ -291,6 +308,7 @@ $("file").addEventListener("change", async (e) => {
   try { $("feedback").value = await f.text(); setStatus(`Loaded ${f.name} — click Analyze.`); }
   catch { setStatus("Couldn't read that file."); }
 });
+loadDemos();
 loadHistory();
 </script>
 </body>

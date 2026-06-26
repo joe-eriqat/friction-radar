@@ -30,10 +30,19 @@ def _startup() -> None:
     store.init_db()
 
 
+@app.get("/api/samples")
+def get_samples() -> list[dict]:
+    """List the registered demo datasets for the in-window picker."""
+    return ingestion.available_demos()
+
+
 @app.get("/api/sample")
-def get_sample() -> AnalyzeRequest:
-    """Load the bundled demo dataset (no live scraping required)."""
-    return ingestion.demo_request()
+def get_sample(name: str | None = None) -> AnalyzeRequest:
+    """Load a demo dataset (no live scraping required); omit `name` for the default sample."""
+    try:
+        return ingestion.demo_request(name)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 class IngestRequest(BaseModel):

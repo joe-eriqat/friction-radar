@@ -10,6 +10,7 @@ from app.ingestion import (
     _detect_format,
     _looks_messy,
     _Segments,
+    available_demos,
     demo_request,
     normalize,
 )
@@ -42,6 +43,25 @@ def test_demo_request_has_product_and_items():
     req = demo_request()
     assert req.product
     assert req.feedback
+
+
+def test_available_demos_lists_default():
+    demos = available_demos()
+    assert demos
+    ids = {d["id"] for d in demos}
+    assert "default" in ids
+    default = next(d for d in demos if d["id"] == "default")
+    assert default["name"]
+    assert default["count"] > 0
+
+
+def test_demo_request_by_name_matches_default():
+    assert demo_request("default").product == demo_request().product
+
+
+def test_demo_request_unknown_name_raises():
+    with pytest.raises(ValueError):
+        demo_request("does-not-exist")
 
 
 # ---- UploadAdapter --------------------------------------------------------------------

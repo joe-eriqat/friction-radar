@@ -23,6 +23,7 @@ from .schemas import AnalyzeRequest, FeedbackItem
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _SAMPLE_FILE = _REPO_ROOT / "data" / "sample_feedback.json"
+_DEMOS_DIR = _REPO_ROOT / "data" / "demos"
 
 
 def normalize(items: List[FeedbackItem]) -> List[FeedbackItem]:
@@ -66,9 +67,50 @@ class DemoAdapter:
         return items
 
 
-def demo_request(sample_file: Path | None = None) -> AnalyzeRequest:
-    """Convenience for the demo path: the sample's product + its normalized items."""
-    path = sample_file or _SAMPLE_FILE
+def _demo_files() -> dict[str, Path]:
+    """Map demo id -> file. The bundled sample is 'default'; each data/demos/*.json adds one
+    (id = filename stem). Drop a new {name?, product, feedback:[...]} json in data/demos/ to
+    register another demo — no code change needed."""
+    files: dict[str, Path] = {}
+    if _SAMPLE_FILE.exists():
+        files["default"] = _SAMPLE_FILE
+    if _DEMOS_DIR.is_dir():
+        for p in sorted(_DEMOS_DIR.glob("*.json")):
+            if p.stem != "default":
+                files[p.stem] = p
+    return files
+
+
+def available_demos() -> List[dict]:
+    """List the registered demo datasets for the picker (id, display name, product, count)."""
+    out: list[dict] = []
+    for did, path in _demo_files().items():
+        try:
+            data = json.loads(path.read_text())
+        except (ValueError, OSError):
+            continue
+        product = str(data.get("product", "")).strip()
+        name = str(data.get("name") or product or did).strip()
+        out.append({
+            "id": did,
+            "name": name,
+            "product": product,
+            "count": len(data.get("feedback", [])),
+        })
+    return out
+
+
+def demo_request(name: str | None = None, sample_file: Path | None = None) -> AnalyzeRequest:
+    """Convenience for the demo path: a dataset's product + its normalized items.
+
+    `name` selects a registered demo (default = the bundled sample); `sample_file` overrides
+    the path directly (used by tests)."""
+    if sample_file is not None:
+        path = sample_file
+    else:
+        path = _demo_files().get(name or "default")
+        if path is None:
+            raise ValueError(f"Unknown demo dataset: {name!r}")
     data = json.loads(path.read_text())
     return AnalyzeRequest(product=data["product"], feedback=DemoAdapter(path).load())
 
