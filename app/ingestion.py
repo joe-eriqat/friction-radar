@@ -76,7 +76,7 @@ def _demo_files() -> dict[str, Path]:
         files["default"] = _SAMPLE_FILE
     if _DEMOS_DIR.is_dir():
         for p in sorted(_DEMOS_DIR.glob("*.json")):
-            if p.stem != "default":
+            if p.stem not in ("default", "index"):  # index.json is the manifest, not a demo
                 files[p.stem] = p
     return files
 
@@ -313,6 +313,9 @@ class UploadAdapter:
         self._connector = connector
 
     def load(self, raw: str, *, fmt: str = "auto", source: str = "upload") -> list[FeedbackItem]:
+        """`fmt`: "auto" (detect), "json"/"csv"/"text" (force that parse), or "messy"
+        (force LLM segmentation — useful when the caller knows a dump is messy and the
+        auto-detector's blank-line heuristic would misroute it)."""
         detected = _detect_format(raw) if fmt == "auto" else fmt
         if detected == "empty":
             raise ValueError("empty input")
@@ -320,12 +323,16 @@ class UploadAdapter:
             items = _from_json(raw, source)
         elif detected == "csv":
             items = _from_csv(raw, source)
-        elif _looks_messy(raw):
-            conn = self._connector or default_connector()
-            comments = _verify_verbatim(_segment(raw, conn), raw)
-            items = [FeedbackItem(text=c, source=source) for c in comments]
         else:
-            items = [FeedbackItem(text=t, source=source) for t in _split_clean(raw)]
+            # free text: "messy" forces segmentation, "text" forces a clean split,
+            # "auto"/"text"-detected defers to the heuristic.
+            messy = detected == "messy" or (fmt != "text" and _looks_messy(raw))
+            if messy:
+                conn = self._connector or default_connector()
+                comments = _verify_verbatim(_segment(raw, conn), raw)
+                items = [FeedbackItem(text=c, source=source) for c in comments]
+            else:
+                items = [FeedbackItem(text=t, source=source) for t in _split_clean(raw)]
         items = normalize(items)
         if not items:
             raise ValueError("no usable feedback found")

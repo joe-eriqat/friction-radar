@@ -21,6 +21,7 @@ load_dotenv()  # pick up .env if present (OPENAI_API_KEY, FRICTION_RADAR_MODEL, 
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 _STATIC_DIR = _REPO_ROOT / "static"
+_DEMOS_DIR = _REPO_ROOT / "data" / "demos"
 
 app = FastAPI(title="Friction Radar", version="0.1.0")
 
@@ -123,3 +124,9 @@ def index() -> FileResponse:
 
 # Serve remaining static assets (CSS/JS) if we add any later.
 app.mount("/static", StaticFiles(directory=_STATIC_DIR), name="static")
+
+# Serve the committed demo assets (datasets + canned reports + manifest) at the SAME relative
+# path the static GitHub Pages build uses, so the SPA's demo-mode code path is identical in
+# both: dev (this mount) and a backend-free static build (the copied `demos/` dir).
+if _DEMOS_DIR.is_dir():
+    app.mount("/demos", StaticFiles(directory=_DEMOS_DIR), name="demos")

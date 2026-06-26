@@ -1,0 +1,239 @@
+--COMPANY DESCRIPTION
+StayNest is a vacation-rental marketplace for booking short-term stays in homes, cabins, apartments, guest suites, and unique local properties. Its main features include verified listings, upfront pricing breakdowns, map-based search, host messaging, digital check-in, house manuals, group wishlists, voting, split payments, damage-deposit handling, host calendar sync, smart pricing, and post-stay reviews.
+
+
+--COMMENT DATA
+
+======================================================================================
+DOC-01: Reddit / r/travel - thread: “Has anyone used StayNest for group trips?”
+======================================================================================
+[SN-001] platform=reddit | author=u/maplelayover
+Used StayNest for a 9 person cabin weekend and the shared wishlist was actually useful. Everyone voted on the lake house and nobody had to manage 14 screenshots in the group chat.
+
+[SN-002] platform=reddit | author=u/cleaningfeehater
+The place was fine but StayNest hiding the cleaning fee until the last screen made me rage quit. Just show me the real price from the start.
+
+[SN-003] platform=reddit | author=u/peakseasonproblems
+Not app specific but vacation rentals in general are rough now. Two night minimums, long chore lists, and somehow still a cleaning fee.
+
+[SN-004] platform=reddit | author=u/northshore_nina
+Host replied in 4 minutes through StayNest and sent a better parking map than the listing had. Onboarding was boring, though, way too many ID prompts.
+
+[SN-005] platform=reddit | author=u/patiochairpilot
+I stayed in a real cabin last month and forgot how good it is to drink coffee outside with no lobby music.
+
+[SN-006] platform=reddit | author=u/rentalmath
+Their fee breakdown is clearer than WanderDoor but the refund policy labels still feel written by lawyers.
+
+[SN-007] platform=reddit | author=u/hostguestboth
+As a guest I like StayNest. As a host the calendar sync missed one blocked weekend and I almost double-booked.
+
+[SN-008] platform=reddit | author=u/throwaway_trip
+The app asked for my license, selfie, phone, and card before I could even message the host. Maybe normal now, but it felt like onboarding through airport security.
+
+[SN-009] platform=reddit | author=u/forestwifi
+Our StayNest had terrible Wi-Fi but that was on the property, not the platform. The check-in code page worked offline, which saved us.
+
+[SN-010] platform=reddit | author=u/foldoutcouch
+Every rental listing says sleeps 6 and then it is one bed, a futon, and a moral dilemma.
+
+[SN-011] platform=reddit | author=u/arrivebefore4
+Digital house manual in StayNest was great. No binder full of laminated rules from 2012.
+
+[SN-012] platform=reddit | author=u/latecheckoutpls
+I do not care what app it is, checkout at 10am on vacation should be illegal.
+
+======================================================================================
+DOC-02: Twitter/X - public mentions around a holiday weekend
+======================================================================================
+[SN-013] platform=twitter | author=@milesandmenus
+StayNest split pay just prevented the annual “who still owes me $73.41” drama. 10/10 for group trips.
+
+[SN-014] platform=twitter | author=@sand_in_my_tote
+booked a beach cottage and immediately got three StayNest notifications, two emails, and a text. relax, I know I booked it.
+
+[SN-015] platform=twitter | author=@citybreaksam
+Vacation rentals near concerts are absurd this summer. $220/night becomes $391 before you blink.
+
+[SN-016] platform=twitter | author=@hostmode_ava
+StayNest smart pricing suggested $188 for a weekend I usually list at $240 and it actually booked in 2 hours. not bad.
+
+[SN-017] platform=twitter | author=@leftmycharger
+Host was nice, StayNest support was not. They kept pasting the same cancellation policy at me while the lockbox was broken.
+
+[SN-018] platform=twitter | author=@trailmixdad
+Healthiest thing I did this week was walk 18k steps searching for the hidden driveway to our cabin.
+
+[SN-019] platform=twitter | author=@nomadbudget
+StayNest map search is clean but why does “pet friendly” still show places with $150 pet fees buried in rules?
+
+[SN-020] platform=twitter | author=@sunsetreceipt
+not about StayNest but hosts: please stop photographing homes with fisheye lenses from 2009.
+
+[SN-021] platform=twitter | author=@keypad_kelly
+The StayNest check-in screen loaded even with one bar. The actual door code was wrong, but at least I could prove what the host sent.
+
+[SN-022] platform=twitter | author=@quietcheckout
+I like that StayNest shows quiet hours before booking. I dislike that every place now has quiet hours that start before dinner.
+
+[SN-023] platform=twitter | author=@airportbagel
+Nothing humbles you like paying a service fee to sleep on someone else’s decorative pillows.
+
+[SN-024] platform=twitter | author=@reviews_rachel
+StayNest review prompts were fair: cleanliness, accuracy, check-in, value. Better than the vague star-only stuff.
+
+======================================================================================
+DOC-03: YouTube - comments under “StayNest vs hotels: honest review”
+======================================================================================
+[SN-025] platform=youtube | author=BudgetTripsNow
+I tried StayNest after this video and the price filter was honest for once. It showed total trip cost, not fake nightly rates.
+
+[SN-026] platform=youtube | author=CouchSleeper84
+My host cancelled 18 hours before check-in and StayNest offered a $25 coupon like that fixes a family trip. Never again.
+
+[SN-027] platform=youtube | author=LenaMakesLists
+The review is fine but the real issue is people expecting hotel service from a spare room in someone’s basement.
+
+[SN-028] platform=youtube | author=WeekendWarriorDad
+Onboarding took forever, but once verified I booked in under 5 minutes. The house was exactly like the photos.
+
+[SN-029] platform=youtube | author=ActualHostHere
+As a host, StayNest guest screening reduced party requests. But their payout dashboard is confusing and I still export to a spreadsheet.
+
+[SN-030] platform=youtube | author=MountainWiFi
+Any app can look good in a sponsored review. Show me what happens when the hot tub breaks at 11pm.
+
+[SN-031] platform=youtube | author=BrunchBeforeCheckout
+We booked through StayNest and got charged twice for the damage deposit. Refund came back, but only after 6 days.
+
+[SN-032] platform=youtube | author=TowelsForSix
+Can creators please stop saying “entire home” when the owner lives in the converted garage next door?
+
+[SN-033] platform=youtube | author=AriOnTheRoad
+The side-by-side was useful. StayNest seems better for groups, hotels still win for one-night work trips.
+
+[SN-034] platform=youtube | author=CalendarSyncCarl
+Your host section missed the iCal bug. StayNest imported my other calendar one day late and I had to comp a guest.
+
+[SN-035] platform=youtube | author=PillowMint
+The app is good, the rental was dusty, and my cousin still thinks “near downtown” means 37 minutes without traffic.
+
+[SN-036] platform=youtube | author=NoMoreChores
+I am begging all rentals to include checkout chores before booking. I should not learn about stripping beds at 6am.
+
+======================================================================================
+DOC-04: Reddit / r/solotravel - mixed lodging discussion
+======================================================================================
+[SN-037] platform=reddit | author=u/solo_sam
+For solo trips I still prefer hotels. StayNest has cute places but the service fee makes one-person stays hard to justify.
+
+[SN-038] platform=reddit | author=u/railpass_ron
+I used the neighborhood filter to avoid the party district in Lisbon. It worked better than searching by vague city center labels.
+
+[SN-039] platform=reddit | author=u/lightpack_liz
+Not StayNest: I just want more hostels with curtains on bunks and lockers that fit a backpack.
+
+[SN-040] platform=reddit | author=u/depositdrama
+Damage deposit hold was released on time for me, but my friend had to chase support. Seems inconsistent.
+
+[SN-041] platform=reddit | author=u/wander_worry
+The safety page in StayNest listing helped me skip a basement unit with no exterior photos. That felt useful as a solo traveler.
+
+[SN-042] platform=reddit | author=u/noisyneighbors
+My last rental had upstairs neighbors bowling at midnight. The app cannot fix architecture.
+
+[SN-043] platform=reddit | author=u/termsconditions
+StayNest cancellation policies are color coded, which is nice, but I still needed a flowchart to understand partial refunds.
+
+[SN-044] platform=reddit | author=u/packablekettle
+Every cute cottage now has twelve beige throw blankets and no kettle. This is a design disease.
+
+[SN-045] platform=reddit | author=u/smokealarmchirp
+The smoke alarm chirped all night, host ignored me, StayNest support moved me the next morning. Annoying trip, decent escalation.
+
+[SN-046] platform=reddit | author=u/remotecheckin
+I liked not having to meet anyone for keys. StayNest check-in instructions were clear and timestamped.
+
+[SN-047] platform=reddit | author=u/skeptic_suitcase
+Is StayNest just another rental app with a nicer font? Serious question.
+
+[SN-048] platform=reddit | author=u/host_fee_math
+If platforms made all fees visible by default, half of these arguments would disappear.
+
+======================================================================================
+DOC-05: Twitter/X - travel chatter with ambiguous references
+======================================================================================
+[SN-049] platform=twitter | author=@porchlightpaul
+StayNest gave me the exact entry photo and code in one place. Small thing, but arriving after midnight it mattered.
+
+[SN-050] platform=twitter | author=@feesbeforekeys
+“Transparent pricing” and then a $96 service fee. StayNest please be serious.
+
+[SN-051] platform=twitter | author=@oceanviewmaybe
+Half the listings say ocean view and mean you can see blue if you stand on a chair.
+
+[SN-052] platform=twitter | author=@splitstayjen
+I love the StayNest group vote feature, but my friends used it to choose the house 45 minutes from everything. Product good, group bad.
+
+[SN-053] platform=twitter | author=@latecheckoutclub
+StayNest host asked us to take trash to a “nearby” dump 3 miles away. App review form did let me flag it, so there is that.
+
+[SN-054] platform=twitter | author=@redwoodrunner
+Cabin weekend cured my burnout more than any productivity podcast ever did.
+
+[SN-055] platform=twitter | author=@glitchguest
+StayNest froze at payment twice then charged once. Support said no duplicate charge, which was true, but the error message was terrifying.
+
+[SN-056] platform=twitter | author=@linenlogic
+Hosts: label the light switches. I should not need a quest line to turn on the porch light.
+
+[SN-057] platform=twitter | author=@tinyhouse_tom
+The tiny home was amazing. StayNest’s amenities list said washer though, and there was only a drying rack.
+
+[SN-058] platform=twitter | author=@calendarqueen
+As a host, I want StayNest to stop nudging discounts after every quiet Tuesday. Some of us are fine being unbooked midweek.
+
+[SN-059] platform=twitter | author=@petfeealert
+Pet filter is useless unless it includes total pet cost. This goes for StayNest and every other rental app.
+
+[SN-060] platform=twitter | author=@museumdaymax
+Travel tip: stay outside the center, take transit in, spend the savings on dinner.
+
+======================================================================================
+DOC-06: YouTube - comments under “How to host on StayNest”
+======================================================================================
+[SN-061] platform=youtube | author=HostSchoolDaily
+The host onboarding checklist in StayNest is solid. It reminded me to photograph parking and thermostat controls, which guests always ask about.
+
+[SN-062] platform=youtube | author=BookedAndBurned
+Guest side is okay. Host side made me upload the same tax form twice and then said verification pending for a week.
+
+[SN-063] platform=youtube | author=LaundryDayHost
+Not about the app but buy two extra sets of sheets per bed. Turnover day will destroy your optimism.
+
+[SN-064] platform=youtube | author=CabinCPA
+StayNest payout reports are cleaner than the old platform I used. Still wish they separated cleaning fee income from nightly rent automatically.
+
+[SN-065] platform=youtube | author=GuestWhoReads
+As a guest, I wish every listing had the full house rules before payment. StayNest shows some, but the host added more after booking.
+
+[SN-066] platform=youtube | author=NoPartyPolicy
+Your tip about screening is right. StayNest’s party-risk alert caught a same-day local booking that looked sketchy.
+
+[SN-067] platform=youtube | author=CodedDoor
+Digital check-in is convenient until the battery dies. Always have a backup key somewhere safe.
+
+[SN-068] platform=youtube | author=PriceNudgePete
+Smart pricing on StayNest is too aggressive. It kept dropping my winter weekends below what cleaning costs me.
+
+[SN-069] platform=youtube | author=FamilyTripErin
+We used StayNest for a reunion and the split payments were great, but the host’s oven was broken and dinner became pizza on paper plates.
+
+[SN-070] platform=youtube | author=WindowUnitWoes
+Please tell hosts to list AC type. “Air conditioning” should not mean one window unit in the hallway.
+
+[SN-071] platform=youtube | author=VerifyMeVera
+StayNest identity verification was fast for me. My partner got stuck because the selfie kept failing in low light.
+
+[SN-072] platform=youtube | author=ReviewNerd
+I like that StayNest asks whether photos matched reality. That one question is more useful than five generic stars.

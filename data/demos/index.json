@@ -1,0 +1,20 @@
+[
+  {
+    "id": "staynest",
+    "name": "StayNest — vacation rentals",
+    "product": "StayNest is a vacation-rental marketplace for booking short-term stays in homes, cabins, apartments, guest suites, and unique local properties. Its main features include verified listings, upfront pricing breakdowns, map-based search, host messaging, digital check-in, house manuals, group wishlists, voting, split payments, damage-deposit handling, host calendar sync, smart pricing, and post-stay reviews.",
+    "count": 72
+  },
+  {
+    "id": "auraquill",
+    "name": "AuraQuill — AI marketing",
+    "product": "AuraQuill is an AI marketing product for planning, generating, and optimizing campaigns. It supports email sequences, paid social ad variants, SEO briefs, customer segmentation, campaign calendars, A/B test ideas, UTM generation, brand-voice controls, approval workflows, CRM/ad-platform integrations, competitor-watch summaries, and performance explanations.",
+    "count": 80
+  },
+  {
+    "id": "lumenledger",
+    "name": "LumenLedger — personal finance",
+    "product": "LumenLedger is a personal finance app for cash-flow forecasting, account aggregation, bill reminders, subscription and merchant alerts, savings buckets, round-up transfers, spending notes, beginner investing explainers, exports, and privacy/account controls.",
+    "count": 71
+  }
+]

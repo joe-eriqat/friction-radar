@@ -146,6 +146,25 @@ def test_messy_routes_to_llm_and_verifies_verbatim():
     ]  # the fabricated/paraphrased segment is dropped by the verbatim guardrail
 
 
+def test_fmt_messy_forces_segmenter_past_blank_line_heuristic():
+    # Blank-line separated, so _looks_messy() calls it "clean" — but the caller knows it's a
+    # messy dump and forces segmentation with fmt="messy".
+    fake = FakeSegmenter(["Setup was painful and confusing.", "Pricing felt sneaky."])
+    raw = "Setup was painful and confusing.\n\nPricing felt sneaky."
+    assert _looks_messy(raw) is False  # heuristic would otherwise skip the model
+    items = UploadAdapter(connector=fake).load(raw, fmt="messy")
+    assert fake.calls == 1
+    assert [i.text for i in items] == ["Setup was painful and confusing.", "Pricing felt sneaky."]
+
+
+def test_fmt_text_forces_clean_split_no_llm():
+    fake = FakeSegmenter(["x"])
+    raw = "a comment\n====\nanother comment"  # _looks_messy would say True (separator bar)
+    items = UploadAdapter(connector=fake).load(raw, fmt="text")
+    assert fake.calls == 0  # forced clean: never touches the model
+    assert [i.text for i in items] == ["a comment", "====", "another comment"]
+
+
 def test_looks_messy_signals():
     assert _looks_messy("a comment\n====\nanother comment") is True       # separator bar
     assert _looks_messy("Loved it.\nHated the price.\nGreat support.") is False  # clean lines

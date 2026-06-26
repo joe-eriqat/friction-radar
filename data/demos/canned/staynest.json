@@ -1,0 +1,284 @@
+{
+  "product": "StayNest is a vacation-rental marketplace for booking short-term stays in homes, cabins, apartments, guest suites, and unique local properties. Its main features include verified listings, upfront pricing breakdowns, map-based search, host messaging, digital check-in, house manuals, group wishlists, voting, split payments, damage-deposit handling, host calendar sync, smart pricing, and post-stay reviews.",
+  "summary": "StayNest’s strongest activation drivers are group-trip coordination, reliable guest trip logistics, and several trust-building surfaces that help users feel confident booking and arriving. The biggest activation risks are pricing transparency gaps, heavy or inconsistent verification/setup friction, and host-side operational issues that can undermine supply quality and confidence. Churn signals are concentrated around severe trust breaks such as late cancellations, misleading fees, and booking/payment failures.",
+  "theme_count": 12,
+  "total_feedback": 72,
+  "relevant_count": 49,
+  "themes": [
+    {
+      "title": "Pricing transparency and policy clarity fall short of expectations",
+      "type": "failure",
+      "severity": "high",
+      "onboarding_stage": "pricing-discovery",
+      "frequency": 7,
+      "evidence": [
+        {
+          "quote": "The place was fine but StayNest hiding the cleaning fee until the last screen made me rage quit. Just show me the real price from the start.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "StayNest map search is clean but why does “pet friendly” still show places with $150 pet fees buried in rules?",
+          "source": "twitter",
+          "url": null
+        },
+        {
+          "quote": "I like that StayNest shows quiet hours before booking. I dislike that every place now has quiet hours that start before dinner.",
+          "source": "twitter",
+          "url": null
+        }
+      ],
+      "recommendation": "Show mandatory fees, pet costs, service fees, and full rule/policy summaries upfront in search results and listing pages, with plain-language refund examples instead of legal labels."
+    },
+    {
+      "title": "Group-trip coordination creates fast guest value",
+      "type": "success",
+      "severity": "high",
+      "onboarding_stage": "first-use",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "Used StayNest for a 9 person cabin weekend and the shared wishlist was actually useful. Everyone voted on the lake house and nobody had to manage 14 screenshots in the group chat.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "StayNest split pay just prevented the annual “who still owes me $73.41” drama. 10/10 for group trips.",
+          "source": "twitter",
+          "url": null
+        },
+        {
+          "quote": "The side-by-side was useful. StayNest seems better for groups, hotels still win for one-night work trips.",
+          "source": "youtube",
+          "url": null
+        }
+      ],
+      "recommendation": "Lead guest onboarding with a group-booking path: prompt users planning multi-person trips to start a shared shortlist, enable voting early, and surface split payments before checkout with a short interactive demo."
+    },
+    {
+      "title": "Reliable check-in and in-stay guidance reduce arrival anxiety",
+      "type": "success",
+      "severity": "high",
+      "onboarding_stage": "activation",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "Our StayNest had terrible Wi-Fi but that was on the property, not the platform. The check-in code page worked offline, which saved us.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "Digital house manual in StayNest was great. No binder full of laminated rules from 2012.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "The StayNest check-in screen loaded even with one bar. The actual door code was wrong, but at least I could prove what the host sent.",
+          "source": "twitter",
+          "url": null
+        }
+      ],
+      "recommendation": "Make digital check-in, offline access, entry photos/codes, and house manuals core onboarding highlights after booking confirmation, with a concise pre-arrival checklist that teaches guests where these tools live."
+    },
+    {
+      "title": "Verification and onboarding friction block early guest and host progress",
+      "type": "failure",
+      "severity": "high",
+      "onboarding_stage": "signup",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "Host replied in 4 minutes through StayNest and sent a better parking map than the listing had. Onboarding was boring, though, way too many ID prompts.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "The app asked for my license, selfie, phone, and card before I could even message the host. Maybe normal now, but it felt like onboarding through airport security.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "Onboarding took forever, but once verified I booked in under 5 minutes. The house was exactly like the photos.",
+          "source": "youtube",
+          "url": null
+        }
+      ],
+      "recommendation": "Reduce upfront gating by deferring nonessential verification until key moments, consolidate duplicate requests, add progress indicators, improve selfie fallback flows, and separate 'required now' from 'required later' tasks for both guests and hosts."
+    },
+    {
+      "title": "Host-side operations and financial tooling feel unreliable or overly pushy",
+      "type": "failure",
+      "severity": "high",
+      "onboarding_stage": "integrations",
+      "frequency": 4,
+      "evidence": [
+        {
+          "quote": "As a guest I like StayNest. As a host the calendar sync missed one blocked weekend and I almost double-booked.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "Your host section missed the iCal bug. StayNest imported my other calendar one day late and I had to comp a guest.",
+          "source": "youtube",
+          "url": null
+        },
+        {
+          "quote": "As a host, I want StayNest to stop nudging discounts after every quiet Tuesday. Some of us are fine being unbooked midweek.",
+          "source": "twitter",
+          "url": null
+        }
+      ],
+      "recommendation": "Prioritize host activation QA around calendar sync, payout reporting, tax-form handling, and pricing controls; add sync health alerts, clearer payout categorization, and stronger guardrails so automation never silently harms bookings or margins."
+    },
+    {
+      "title": "Severe trust breaks caused immediate abandonment or intent not to return",
+      "type": "churn",
+      "severity": "high",
+      "onboarding_stage": "activation",
+      "frequency": 1,
+      "evidence": [
+        {
+          "quote": "My host cancelled 18 hours before check-in and StayNest offered a $25 coupon like that fixes a family trip. Never again.",
+          "source": "youtube",
+          "url": null
+        }
+      ],
+      "recommendation": "Create a high-severity recovery flow for host cancellations and major booking disruptions with meaningful rebooking assistance, proactive human outreach, and compensation calibrated to trip impact rather than generic coupons."
+    },
+    {
+      "title": "Search and trust signals help guests evaluate listings confidently",
+      "type": "success",
+      "severity": "medium",
+      "onboarding_stage": "first-use",
+      "frequency": 6,
+      "evidence": [
+        {
+          "quote": "Their fee breakdown is clearer than WanderDoor but the refund policy labels still feel written by lawyers.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "StayNest review prompts were fair: cleanliness, accuracy, check-in, value. Better than the vague star-only stuff.",
+          "source": "twitter",
+          "url": null
+        },
+        {
+          "quote": "I tried StayNest after this video and the price filter was honest for once. It showed total trip cost, not fake nightly rates.",
+          "source": "youtube",
+          "url": null
+        }
+      ],
+      "recommendation": "During first search, spotlight total-cost search, neighborhood filters, safety details, review dimensions, and listing-accuracy prompts through guided tips so users quickly learn what makes StayNest more trustworthy than alternatives."
+    },
+    {
+      "title": "Host tools support better listing setup and safer demand",
+      "type": "success",
+      "severity": "medium",
+      "onboarding_stage": "setup",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "StayNest smart pricing suggested $188 for a weekend I usually list at $240 and it actually booked in 2 hours. not bad.",
+          "source": "twitter",
+          "url": null
+        },
+        {
+          "quote": "As a host, StayNest guest screening reduced party requests. But their payout dashboard is confusing and I still export to a spreadsheet.",
+          "source": "youtube",
+          "url": null
+        },
+        {
+          "quote": "The host onboarding checklist in StayNest is solid. It reminded me to photograph parking and thermostat controls, which guests always ask about.",
+          "source": "youtube",
+          "url": null
+        }
+      ],
+      "recommendation": "For new hosts, keep the checklist and screening benefits front-and-center with a setup wizard that explains why each step matters and previews downstream guest benefits and risk reduction."
+    },
+    {
+      "title": "Support and payment issue handling create trust friction",
+      "type": "failure",
+      "severity": "medium",
+      "onboarding_stage": "activation",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "Host was nice, StayNest support was not. They kept pasting the same cancellation policy at me while the lockbox was broken.",
+          "source": "twitter",
+          "url": null
+        },
+        {
+          "quote": "We booked through StayNest and got charged twice for the damage deposit. Refund came back, but only after 6 days.",
+          "source": "youtube",
+          "url": null
+        },
+        {
+          "quote": "Damage deposit hold was released on time for me, but my friend had to chase support. Seems inconsistent.",
+          "source": "reddit",
+          "url": null
+        }
+      ],
+      "recommendation": "Add incident-specific support playbooks for lockouts, deposit issues, and payment scares, plus clearer in-product status messaging so users know whether a charge, hold, or escalation is normal and what happens next."
+    },
+    {
+      "title": "Listing accuracy and property quality gaps weaken trust in marketplace outcomes",
+      "type": "failure",
+      "severity": "medium",
+      "onboarding_stage": "activation",
+      "frequency": 3,
+      "evidence": [
+        {
+          "quote": "The app is good, the rental was dusty, and my cousin still thinks “near downtown” means 37 minutes without traffic.",
+          "source": "youtube",
+          "url": null
+        },
+        {
+          "quote": "StayNest host asked us to take trash to a “nearby” dump 3 miles away. App review form did let me flag it, so there is that.",
+          "source": "twitter",
+          "url": null
+        },
+        {
+          "quote": "The tiny home was amazing. StayNest’s amenities list said washer though, and there was only a drying rack.",
+          "source": "twitter",
+          "url": null
+        }
+      ],
+      "recommendation": "Strengthen onboarding for hosts around amenity accuracy, rules completeness, and maintenance expectations; add pre-publish checks for common mismatch fields and make guest reporting feed directly into listing quality enforcement."
+    },
+    {
+      "title": "Core value proposition is not yet obvious for some solo or skeptical users",
+      "type": "failure",
+      "severity": "medium",
+      "onboarding_stage": "first-use",
+      "frequency": 2,
+      "evidence": [
+        {
+          "quote": "For solo trips I still prefer hotels. StayNest has cute places but the service fee makes one-person stays hard to justify.",
+          "source": "reddit",
+          "url": null
+        },
+        {
+          "quote": "Is StayNest just another rental app with a nicer font? Serious question.",
+          "source": "reddit",
+          "url": null
+        }
+      ],
+      "recommendation": "Tailor onboarding by trip type: explicitly position StayNest as strongest for groups and longer leisure stays, while clarifying when solo or one-night travelers may see less value; reinforce differentiators immediately for new users arriving cold."
+    },
+    {
+      "title": "Notification overload hurts the post-booking experience",
+      "type": "failure",
+      "severity": "low",
+      "onboarding_stage": "activation",
+      "frequency": 1,
+      "evidence": [
+        {
+          "quote": "booked a beach cottage and immediately got three StayNest notifications, two emails, and a text. relax, I know I booked it.",
+          "source": "twitter",
+          "url": null
+        }
+      ],
+      "recommendation": "Bundle confirmation communications into a single digest by default and let users choose notification intensity during onboarding or immediately after booking."
+    }
+  ]
+}

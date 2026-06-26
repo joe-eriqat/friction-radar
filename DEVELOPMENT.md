@@ -19,13 +19,17 @@ app/
   main.py        FastAPI app: serves the UI + /api/* endpoints
 data/
   sample_feedback.json   Default bundled demo dataset
-  demos/*.json           Additional demo datasets (each {name?, product, feedback:[...]})
+  demos/<id>.json        Demo datasets ({name, product, feedback:[...]})
+  demos/canned/<id>.json Captured ReportView per demo — what LLM-free demo mode replays
+  demos/index.json       Manifest the picker / static site reads
 static/
   index.html     Single-page UI (pick a demo / paste / upload → report + prioritized table)
 scripts/
   smoke_connector.py     Live connector check against a real provider
   eval_relevance.py      Score the relevance gate against a labelled key
   eval_segmentation.py   Score messy-dump segmentation recall against a labelled key
+  bake_demos.py          Capture real runs from docs/*Demo.txt into data/demos/ (needs a key)
+  build_static.py        Assemble a backend-free static demo site into ./site/ (no key)
 run.sh           Launch helper
 ```
 

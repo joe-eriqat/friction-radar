@@ -2,6 +2,11 @@
 
 **Turn messy public customer feedback into a structured, quantified onboarding-intelligence report.**
 
+**▶ [Live demo](https://joe-eriqat.github.io/friction-radar/)** — no sign-up, no API key. Pick a
+sample company (StayNest, AuraQuill, LumenLedger), hit **Run demo**, and read a real, pre-captured
+analysis. It's a static page replaying genuine pipeline output; to run it on your own feedback,
+[clone and bring your own key](#quickstart).
+
 Friction Radar reads public feedback about a product — reviews, Reddit threads, app-store posts,
 support exports — and surfaces *where users succeed or struggle during onboarding and early
 activation*. It clusters the feedback into themes (success / failure / churn), counts how often
@@ -59,6 +64,22 @@ cp .env.example .env          # then add your OpenAI key:  OPENAI_API_KEY=sk-...
 ```
 
 Open the page → pick a **sample** (or paste/upload your own feedback) → **Analyze onboarding**.
+
+Tick **⚡ Demo mode** to replay a captured run for the selected sample instantly, with no model
+call — handy with no key, or to show the output without spending tokens.
+
+### The static demo (no backend)
+
+The live demo above is this same UI built to a backend-free static site:
+
+```bash
+./venv/bin/python scripts/bake_demos.py     # capture real runs into data/demos/ (needs a key, run once)
+./venv/bin/python scripts/build_static.py   # assemble ./site/ from the committed assets (no key)
+python3 -m http.server -d site 8000         # preview
+```
+
+`bake_demos.py` is the only step that spends tokens; the committed `data/demos/` output then drives
+the free demo. Pushing to `main` republishes the site via GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Configuration (`.env`)
 

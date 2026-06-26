@@ -1,0 +1,224 @@
+{
+  "product": "AuraQuill is an AI marketing product for planning, generating, and optimizing campaigns. It supports email sequences, paid social ad variants, SEO briefs, customer segmentation, campaign calendars, A/B test ideas, UTM generation, brand-voice controls, approval workflows, CRM/ad-platform integrations, competitor-watch summaries, and performance explanations.",
+  "summary": "AuraQuill shows strong activation value when users reach concrete campaign outputs quickly: calendars, subject lines, SEO briefs, A/B ideas, brand-voice controls, approvals, and integrations all create early wins. The biggest onboarding risks are front-loaded setup burden, weak trust in output quality or fit, and technical/UX friction during first use. Churn risk is concentrated around pricing surprise after trial, while several items indicate passive adoption risk from being too early to judge or becoming just another tool to learn.",
+  "theme_count": 9,
+  "total_feedback": 80,
+  "relevant_count": 56,
+  "themes": [
+    {
+      "title": "Fast time-to-value from structured campaign outputs",
+      "type": "success",
+      "severity": "high",
+      "onboarding_stage": "activation",
+      "frequency": 9,
+      "evidence": [
+        {
+          "quote": "I used AuraQuill for a Black Friday campaign and the promo calendar alone justified the trial. It caught two email gaps we missed.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "Not perfect, but the SEO brief builder in AuraQuill gave our writer a clean outline, intent notes, and internal link suggestions.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "We used AuraQuill for a retargeting sequence and the first draft was surprisingly close. I still edited it, but it cut the boring setup time in half.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Drive new users into one guided 'first win' flow by use case (email, promo calendar, SEO brief, A/B test, UTM) and showcase editable outputs within minutes before asking them to explore broader features."
+    },
+    {
+      "title": "Output quality feels generic, uneven, or not trustworthy",
+      "type": "failure",
+      "severity": "high",
+      "onboarding_stage": "first-use",
+      "frequency": 8,
+      "evidence": [
+        {
+          "quote": "I wanted an AI marketing assistant, not another prompt library. AuraQuill still requires too much manual cleanup for paid search.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "Their compliance checker flagged harmless copy and missed an actual medical claim in our draft. That makes me nervous.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The competitor-ad clipping in AuraQuill is useful, although honestly the best marketing idea today came from overhearing people in line at lunch. The result was usable, but I would not ship it without review.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Add stronger quality controls in onboarding: channel-specific presets, diversity constraints for variants, clearer confidence signals, and a review checklist for sensitive claims so first outputs feel differentiated and safer."
+    },
+    {
+      "title": "Onboarding asks for too much upfront without proving payoff",
+      "type": "failure",
+      "severity": "high",
+      "onboarding_stage": "setup",
+      "frequency": 4,
+      "evidence": [
+        {
+          "quote": "Their onboarding wanted competitors, tone, ICP, and forbidden words, which is a lot before breakfast. The result was usable, but I would not ship it without review.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "Their onboarding wanted competitors, tone, ICP, and forbidden words, which is a lot before breakfast.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The onboarding asked for a ton of company info, then generated a campaign that ignored half of it. Not a great first impression.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Reduce required inputs at signup, defer nonessential fields until after first output, and visibly map each requested input to where it improves results so users see why they are being asked."
+    },
+    {
+      "title": "First-use UX and reliability friction block activation",
+      "type": "failure",
+      "severity": "high",
+      "onboarding_stage": "first-use",
+      "frequency": 4,
+      "evidence": [
+        {
+          "quote": "The product tour was annoying. AuraQuill forced popups over every button before I could even create a campaign.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The product tour was annoying. AuraQuill forced popups over every button before I could even create a campaign. The result was usable, but I would not ship it without review.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "AuraQuill looked slick but the Facebook Ads connector failed twice during onboarding and support sent me a generic help doc.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Make the tour skippable, prioritize campaign creation over overlays, harden key connectors, and surface actionable sync/error states with contextual support instead of generic docs or vague delay messages."
+    },
+    {
+      "title": "Pricing surprise after trial caused churn",
+      "type": "churn",
+      "severity": "high",
+      "onboarding_stage": "pricing-discovery",
+      "frequency": 1,
+      "evidence": [
+        {
+          "quote": "I canceled AuraQuill because the pricing jumped after the trial and the seat limits were buried in the billing screen.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Expose post-trial pricing, seat limits, and billing implications before trial start and again before conversion, with a usage meter and plan-fit guidance tied to campaign/team size."
+    },
+    {
+      "title": "Evaluation still in progress or not yet sticky",
+      "type": "churn",
+      "severity": "medium",
+      "onboarding_stage": "activation",
+      "frequency": 11,
+      "evidence": [
+        {
+          "quote": "Installed AuraQuill for a client project. I need a full campaign cycle before judging it.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "I saw AuraQuill mentioned in a marketing stack video, mostly for campaign briefs and UTM generation.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "AuraQuill drafted a decent welcome email, but I still had to go grocery shopping and forgot the oat milk, so my launch prep was only half automated.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Create a short evaluation path with success milestones, sample campaign benchmarks, and timed follow-ups so trial users can judge value within one campaign cycle instead of drifting."
+    },
+    {
+      "title": "Poor fit for some use cases and adoption contexts",
+      "type": "failure",
+      "severity": "medium",
+      "onboarding_stage": "activation",
+      "frequency": 9,
+      "evidence": [
+        {
+          "quote": "AuraQuill has a Chrome extension now, apparently for clipping competitor ads into briefs. The result was usable, but I would not ship it without review.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The AuraQuill demo focused on approvals, CRM import, and ad variant tracking, not just AI writing.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The templates in AuraQuill are too SaaS-heavy. Ecommerce flows felt like an afterthought. I saved the note because it might matter next campaign.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Segment onboarding by vertical, team type, and primary job-to-be-done so users see relevant templates and expectations; explicitly steer ecommerce, paid search, and small-team structure seekers into tailored starting points."
+    },
+    {
+      "title": "Brand context and explainability increase trust",
+      "type": "success",
+      "severity": "medium",
+      "onboarding_stage": "setup",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters. I saved the note because it might matter next campaign.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "I like how AuraQuill explains why it picked a segment. It is not just 'AI says so' — it shows audience notes and past campaign data. I saved the note because it might matter next campaign.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Keep lightweight brand and audience inputs, then immediately prove their value by showing side-by-side output improvements, segment rationale, and reusable brand assets during the first session."
+    },
+    {
+      "title": "Workflow and integration onboarding can feel smooth and collaborative",
+      "type": "success",
+      "severity": "medium",
+      "onboarding_stage": "integrations",
+      "frequency": 5,
+      "evidence": [
+        {
+          "quote": "It connected to the CRM, then everyone in the meeting started debating attribution again. The result was usable, but I would not ship it without review.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "The onboarding checklist in AuraQuill was smoother than HubSpot's wizard for my use case. Connected Mailchimp, GA, and Meta without drama.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "AuraQuill's approval flow is useful for a tiny agency. My client can comment on ad variants without emailing screenshots back and forth. The result was usable, but I would not ship it without review.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Position integrations and approvals as a guided team setup path with prebuilt checklists for agency/client and small-team workflows, emphasizing quick connector success and first approval loop completion."
+    }
+  ]
+}

@@ -1,0 +1,289 @@
+--COMPANY DESCRIPTION
+LumenLedger is a personal finance app for cash-flow forecasting, account aggregation, bill reminders, subscription and merchant alerts, savings buckets, round-up transfers, spending notes, beginner investing explainers, exports, and privacy/account controls.
+
+
+--COMMENT DATA
+
+
+
+##### dump fragment A // source uncertain: finance forum?
+
+LL-RPF-002 ~~ Title: Has anyone tried LumenLedger for budgeting?
+I keep seeing ads for LumenLedger. It says it can forecast cash flow and flag duplicate subscriptions. Curious if anyone has used it for more than a week. ~~ pulled_at=2026-06-25
+
+[LL-RPF-003] :: [2026-05-17T08:32:09Z] u/slow_compounder | score=31
+I tried it last month. Onboarding was smoother than Monarch for me because it found my credit union on the first try, but the ID check got stuck on the selfie step twice. Support fixed it after about 24 hours.
+
+RECORD:LL-RPF-004
+META? [2026-05-17T09:01:55Z] u/annual_fee_avoidant | score=19
+TEXT=The merchant alerts are actually useful. It caught that my gym had two active billing profiles. Saved me $39, so the first month paid for itself.
+
+[LL-RPF-005] :: [2026-05-17T09:15:43Z] u/not_an_advisor | score=12
+The investing tab feels too basic if you already know what ETFs are. I do like that it explains risk without pushing individual stocks.
+
+Negative: category rules are weak. It kept categorizing my daycare as "education software" and my pet insurance as "healthcare." You can fix it manually but it learned slowly.
+
+Unrelated, but every finance app is now "AI powered" and I hate it. I just want a clean CSV export and no motivational confetti.
+(platform not retained)
+
+LL-RPF-008 | Cash-flow forecast was accurate for paycheck timing and rent. It was bad at irregular reimbursements. The forecast assumed a one-time work reimbursement would happen again next month.
+
+no-id ~~ Does it support split transactions? My grocery store also has pharmacy charges and my current app makes that annoying. ~~ pulled_at=n/a
+
+[2026-05-17T11:12:38Z] u/slow_compounder | score=14
+>>> Yes, split transactions exist. The UX is hidden under edit > advanced, which is weird. Once you find it, it works.
+
+I deleted it after Plaid dropped my bank connection three times. Might be my bank, not them, but I am tired of relinking accounts.
+(platform not retained)
+
+• Positive onboarding note: the setup questions were less judgmental than other budgeting tools. It asked what I wanted to optimize for instead of yelling about coffee.
+--
+
+no-id ~~ They need a clearer privacy screen. I had to dig around to see what data they keep after disconnecting a bank. That should be front and center. ~~ pulled_at=unknown
+
+I use it only for bills. The reminders are good. The rest is fine but not life-changing.
+(scrape row missing header)
+
+no-id ~~ Update after trial: pretty good for monthly view, weaker for envelope budgeting. Export is there but basic. ~~ pulled_at=unknown
+
+--- platform batch follows, maybe x/twitter, not guaranteed ---
+
+* Trying LumenLedger this week. Setup took 9 minutes, bank connected instantly, and the first cash-flow forecast was uncomfortably accurate.
+###
+
+2026-06-01 07:46:51 UTC | @chargebackcharlie | likes=5 | reposts=0
+---comment-start---
+LumenLedger flagged my "free trial" that became $14.99/mo. Good feature. Bad reflection on my attention span.
+---comment-end---
+
+[LL-XLM-004] :: 2026-06-01 08:03:19 UTC | @metro_morning | likes=2 | reposts=0
+Why does every app need a gradient logo and a made-up word name now.
+
+---
+The LumenLedger onboarding flow is clean but asks for payroll linking way too early. Let me trust the product before asking for that.
+// 2026-06-01 08:37:10 UTC | @mika_fin | likes=22 | reposts=4
+
+2026-06-01 09:10:44 UTC | @dripindex | likes=9 | reposts=2
+>>> Best part of LumenLedger: spending notes on transactions. Worst part: mobile app lag when filtering 12 months of card history.
+
+LL-XLM-007 ~~ Not fintech related: the new downtown coffee place charges $7 for cold brew and still has the audacity to ask for 25% tip. ~~ pulled_at=unknown
+
+### item 21
+source maybe=Twitter/X
+LumenLedger's TrustScore alerts caught duplicate Spotify billing on my partner's card. Would prefer a household mode instead of sharing screenshots.
+
+> Bug: LumenLedger says "all accounts synced" but my brokerage balance is 2 days stale. Please show timestamp per account, not one global green check.
+
+
+2026-06-01 13:18:59 UTC | @no_more_dashboards | likes=7 | reposts=1
+---comment-start---
+I like the idea but the app has dashboard overload. Net worth, bills, goals, subscriptions, investing, alerts. Give me a simple mode.
+---comment-end---
+
+2026-06-02 02:04:44 UTC | @marisol_saves | likes=16 | reposts=2
+---comment-start---
+Round-up transfers worked exactly as advertised. I moved $38.72 into the vacation bucket without noticing.
+---comment-end---
+
+2026-06-02 05:25:41 UTC | @localtrainstatus | likes=1 | reposts=0
+---comment-start---
+Blue line delayed again. My budgeting app cannot forecast this emotional expense.
+---comment-end---
+
+[LL-XLM-013] :: 2026-06-02 16:40:08 UTC | @api_accountant | likes=12 | reposts=2
+Developer-ish complaint: CSV export from LumenLedger needs stable column names. "Merchant" changed to "Payee" between exports.
+
+### item 
+source maybe=Twitter/X
+Canceled before trial ended. Nice UI, but Mint nostalgia is not enough for $8/month.
+
+2026-06-03 14:22:43 UTC | @homeofficehannah | likes=19 | reposts=3
+>>> The bill prediction feature is the first one that got my quarterly insurance right. Small thing, huge relief.
+
+BEGIN_CAPTURE_BLOCK [review-video-comments-ish]
+
+### item 29
+source maybe=unknown
+I used LumenLedger for 3 weeks and agree with the review. The app is best at showing what will happen before payday. It is less good at telling you what to change.
+
+The onboarding was polished, but the bank permission screen was too dense. I almost quit because I could not tell which permissions were required vs optional.
+(name/time omitted)
+
+[LL-YRV-004] :: [2026-06-08T18:22:41Z] KingOfReceipts | likes=8
+Can it scan receipts? I still keep paper receipts for work reimbursements.
+
+---
+The reviewer should have tested support. I contacted LumenLedger because a credit card duplicated, and they answered with a real fix, not a canned FAQ. Took 2 days though.
+// [2026-06-08T18:30:16Z] foggylogic | likes=19
+
+[2026-06-08T19:12:05Z] DinnerPlateTheory | likes=4
+>>> Totally unrelated but the background music in this video is way louder than the voice.
+
+---
+I like that it does not shame spending. The app said "restaurant spend is trending above your usual range" instead of acting like buying lunch is a moral failure.
+// [2026-06-08T20:44:51Z] ElenaBuilds | likes=35
+
+### item 35
+source maybe=unknown
+LumenLedger missed my rent payment because my landlord uses Zelle and the memo changes every month. I had to create a manual recurring bill.
+
+---
+I need a self-employed mode. Quarterly taxes, irregular income, and client reimbursements confuse every consumer finance app.
+// [2026-06-09T01:26:11Z] tfw_taxforms | likes=6
+
+### item 
+source maybe=YouTube
+Positive so far: onboarding took under 10 minutes, account linking was stable, and the first-week checklist made sense.
+
+[LL-YRV-011] :: [2026-06-09T09:57:36Z] verysmallfont | likes=12
+Negative so far: tiny text on the transaction detail page. Accessibility settings should not be an afterthought.
+
+[2026-06-10T15:33:22Z] AlbumSkipper | likes=2
+---comment-start---
+This sponsor read was smoother than most, but I still skip every sponsor segment.
+---comment-end---
+
+[entry] :: [2026-06-10T22:41:09Z] TravelJar | likes=14
+The savings buckets are my favorite feature. Seeing "Japan 2027" separate from emergency savings stopped me from raiding the wrong account.
+
+[2026-06-12T04:12:48Z] OldSchoolLedger | likes=7
+>>> I still prefer spreadsheets. LumenLedger is pretty, but I do not want my whole financial life inside another subscription.
+
+/ / / copied from app feedback and side chatter / / /
+
+RECORD:LL-RAS-002
+META? [2026-06-14T06:03:15Z] u/mod_auto_note | score=1
+TEXT=Weekly feedback thread. Share bugs, feature requests, onboarding issues, and wins. Do not post account numbers or private info.
+
+ Win: the onboarding checklist helped me finish setup. Other apps dump you into a dashboard and expect you to know what matters. LumenLedger had me connect bank, set payday, add rent, then choose two goals.
+
+
+• Complaint: the app asked me to rate it after day one. I had not even received a bill alert yet. Ask after value, not after install.
+
+
+### item 45
+source maybe=Reddit
+Feature request: one button to export all my data and delete account. The privacy page is readable, but account deletion should not require emailing support.
+
+### item 
+source maybe=Reddit
+The home dashboard is strong. The settings area is a maze. I needed five taps to change notification frequency.
+
+Unrelated: whoever named the cat "Chairman Meow" in the office pet thread deserves a raise.
+
+ Negative experience: account sync failed silently for 4 days. The forecast looked fine but was built on stale balances. Add a big warning when sync fails.
+
+
+LL-RAS-009 ~~ Positive: the app finally made my partner understand why rent week feels tight. The shared screenshot of projected low balance did more than my spreadsheet ever did. ~~ pulled_at=n/a
+
+[2026-06-14T13:17:50Z] u/alertfatigue | score=6
+---comment-start---
+Too many notifications. Merchant alert, cash-flow alert, goal alert, weekly digest, investment reminder. I turned almost everything off.
+---comment-end---
+
+• The "what changed since last week" summary is excellent. It found that groceries were normal but pharmacy spending jumped.
+====
+
+Round-ups are good, but I want caps by week. Small transfers add up fast when you use a debit card for everything.
+
+ Export works, API does not exist. Please do not trap power users in a pretty interface.
+
+
+### item 54
+source maybe=Reddit
+I am new to budgeting and liked the tone. It explains terms like utilization and emergency fund without assuming I know finance slang.
+
+---
+Bug report: dark mode transaction search has low contrast. Search result text is readable only at max brightness.
+// [2026-06-18T18:07:12Z] u/bug_catcher_9000 | score=11
+
+mixed social mentions -- delimiter quality: low
+
+2026-06-19 06:50:12 UTC | @paydayplanner | likes=27 | reposts=4
+>>> LumenLedger told me I would dip below $200 next Thursday if I paid both cards today. Annoying to hear, useful to know.
+
+Accessibility issue in LumenLedger: some chart labels are not read properly by VoiceOver. The transaction list is fine, charts need work.
+(platform not retained)
+
+2026-06-19 07:32:40 UTC | @wfh_soup | likes=3 | reposts=0
+>>> Lunch at desk again. My personal finance app cannot solve the real issue, which is soup on keyboards.
+
+[LL-XGF-005] :: 2026-06-19 08:18:25 UTC | @fintechskeptic | likes=44 | reposts=8
+Every budgeting app promises insight. The test is whether users still open it after the novelty fades. Curious where LumenLedger retention lands.
+
+RECORD:60
+META? 2026-06-19 09:27:51 UTC | @maya_maps | likes=5 | reposts=1
+TEXT=Not about money: city bus maps should have "walking in rain" penalties.
+
+[LL-XGF-007] :: 2026-06-19 11:02:03 UTC | @autopay_andy | likes=18 | reposts=2
+LumenLedger bill reminders helped, but I want an autopay risk score. Some bills should be automatic, others need review.
+
+[entry] :: 2026-06-19 12:16:29 UTC | @zenvelope | likes=33 | reposts=6
+I miss true envelope budgeting. LumenLedger goals are pretty, but not strict enough for people who need hard category limits.
+
+RECORD:LL-XGF-009
+META? 2026-06-20 00:48:10 UTC | @sneakyfees | likes=29 | reposts=5
+TEXT=TrustScore merchant alerts are the standout feature. It noticed my storage unit price crept from $91 to $117 over six months.
+
+2026-06-20 03:10:46 UTC | @onboarding_nerd | likes=21 | reposts=3
+---comment-start---
+Product note: LumenLedger does progressive onboarding well. It did not force me to connect everything before I saw a sample dashboard.
+---comment-end---
+
+[entry] :: 2026-06-20 06:14:09 UTC | @delete_me_pls | likes=12 | reposts=1
+Bad offboarding. I found cancel subscription, but delete account was buried. Finance apps need cleaner exits.
+
+Can someone build a finance app that recognizes Costco as groceries, household, electronics, snacks, and existential crisis.
+(platform not retained)
+
+LL-XGF-013 | LumenLedger nudged me to move payday leftovers into emergency savings. Felt helpful, not pushy.
+
+RECORD:LL-XGF-014
+META? missing
+TEXT=The app is gorgeous but slow on older phones. Budgeting should not need flagship hardware.
+
+== final paste: tutorial thread + loose replies ==
+
+This tutorial helped more than the in-app walkthrough. The app onboarding is good, but it does not explain why payroll connection changes the forecast.
+(scrape row missing header)
+
+RECORD:LL-YTU-003
+META? [2026-06-22T16:14:19Z] JuneBugBudget | likes=23
+TEXT=I had a positive first week. LumenLedger found my recurring bills, let me rename weird merchants, and did not crash once.
+
+RECORD:71
+META? [2026-06-22T16:36:48Z] NotAnotherLogin | likes=18
+TEXT=My negative experience: verification failed because my legal name has a hyphen. Support fixed it, but fintech onboarding still treats normal names like edge cases.
+
+no-id ~~ Unrelated but your plant shelf in the background is thriving. Please drop the watering schedule. ~~ pulled_at=n/a
+
+[2026-06-22T17:25:55Z] APR_Confused | likes=27
+---comment-start---
+The risk explainers in the investing tab are surprisingly clear. I would still not use the app for actual trading, but it is decent for learning.
+---comment-end---
+
+---
+The default notification settings are too aggressive. The weekly digest is useful. The daily nudges made me uninstall for two days.
+// [2026-06-22T18:44:37Z] notification_nomad | likes=15
+
+### item 75
+source maybe=YouTube
+LumenLedger helped me catch that my paycheck was coded as a transfer, not income. Once corrected, the forecast became much better.
+
+LL-YTU-009 | I wish the tutorial covered manual accounts. I do not want to link every institution, but I still want net worth tracking.
+
+[2026-06-23T02:59:16Z] TabsOpenForever | likes=4
+>>> Is it just me or are finance app names starting to sound like fantasy guilds.
+
+[2026-06-23T05:20:05Z] CredUtilNerd | likes=20
+>>> Credit utilization tracking is good, but the app should show statement date and due date separately. Those are not the same thing.
+
+The app needs a beginner mode and expert mode. My parents would like the forecast, but the dashboard has too many panels.
+(platform not retained)
+
+RECORD:LL-YTU-013
+META? [2026-06-24T00:31:27Z] TravelSinkFund | likes=25
+TEXT=Savings buckets got me to actually label money before spending it. That one feature changed my behavior.
+
+[2026-06-24T10:12:03Z] ReceiptsOrItDidnt | likes=9
+>>> Exporting was my biggest issue. PDF summary looks nice, but CSV has messy category names after edits.

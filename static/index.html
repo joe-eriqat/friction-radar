@@ -104,8 +104,11 @@
       <select id="demo" class="ghost" title="Load a sample dataset">
         <option value="">Load a sample…</option>
       </select>
-      <label class="btn-link ghost" for="file" style="cursor:pointer">Upload a file…</label>
+      <label id="uploadlabel" class="btn-link ghost" for="file" style="cursor:pointer">Upload a file…</label>
       <input id="file" type="file" accept=".csv,.json,.txt,.tsv,.md" style="display:none" />
+      <label id="demomodewrap" class="hint" style="display:none; cursor:pointer" title="Replay a real saved run — no API key, no tokens, instant">
+        <input id="demomode" type="checkbox" /> ⚡ Demo mode
+      </label>
       <span id="status" class="hint"></span>
     </div>
   </div>
@@ -123,9 +126,16 @@ function setStatus(msg, busy = false) {
   $("status").innerHTML = busy ? `<span class="spinner"></span> ${esc(msg)}` : esc(msg);
 }
 
+// Static build (GitHub Pages) sets this — there's no backend, so demo mode is the only path.
+const STATIC = !!window.FRICTION_RADAR_STATIC;
+const DEMO_BASE = "demos";   // served by FastAPI in dev, a copied dir in the static build
+let demoMode = STATIC;       // replay canned output instead of calling the model
+let selectedDemo = "";       // id of the demo currently loaded into the inputs
+let lastView = null;         // last rendered ReportView, for client-side export
+
 async function loadDemos() {
   try {
-    const r = await fetch("/api/samples");
+    const r = await fetch(`${DEMO_BASE}/index.json`);
     if (!r.ok) return;
     const demos = await r.json();
     if (!demos.length) return;
@@ -134,24 +144,50 @@ async function loadDemos() {
   } catch { /* picker is non-critical */ }
 }
 
-async function loadSample(name) {
-  if (!name) return;
+async function loadSample(id) {
+  selectedDemo = id || "";
+  if (!id) return;
   setStatus("Loading sample…", true);
   try {
-    const r = await fetch("/api/sample?name=" + encodeURIComponent(name));
+    const r = await fetch(`${DEMO_BASE}/${encodeURIComponent(id)}.json`);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
     $("product").value = data.product;
     // feedback items are objects ({text, source, ...}); blank-line separated so multi-line
     // comments survive re-parsing on Analyze.
     $("feedback").value = (data.feedback || []).map(f => f.text).join("\n\n");
-    setStatus(`Loaded sample (${(data.feedback || []).length} comments) — click Analyze.`);
+    const n = (data.feedback || []).length;
+    setStatus(demoMode
+      ? `Loaded “${esc(data.name || id)}” (${n} comments) — click ${esc($("analyze").textContent)} to replay.`
+      : `Loaded sample (${n} comments) — click Analyze.`);
   } catch (e) {
     setStatus("Couldn't load sample: " + e.message);
   }
 }
 
+// Demo mode: render a real, pre-captured run for the selected demo — no model call.
+async function replayDemo(id) {
+  setStatus("Loading saved run…", true);
+  try {
+    const r = await fetch(`${DEMO_BASE}/canned/${encodeURIComponent(id)}.json`);
+    if (r.status === 404) throw new Error("No saved run exists for this demo yet.");
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    render(await r.json(), id);
+    setStatus("Replayed saved run (no API call).");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (e) {
+    $("report").innerHTML = `<p class="error">${esc(e.message)}</p>`;
+    setStatus("");
+  }
+}
+
 async function analyze() {
+  if (demoMode) {
+    if (!selectedDemo) { setStatus("Pick a demo from the dropdown to replay."); return; }
+    await replayDemo(selectedDemo);
+    return;
+  }
+
   const product = $("product").value.trim();
   const raw = $("feedback").value;
   if (!product) { setStatus("Enter a product name."); return; }
@@ -224,6 +260,7 @@ function evidenceHtml(ev) {
 }
 
 function render(view, id) {
+  lastView = view;
   const themes = view.themes || [];
   let html = `<div class="grid">
     <div class="card summary">
@@ -231,8 +268,8 @@ function render(view, id) {
       <div><b>${esc(view.product)}</b> · ${themes.length} theme(s)${view.total_feedback ? ` · ${view.relevant_count} relevant of ${view.total_feedback} comments` : ""}</div>
       <p>${esc(view.summary)}</p>
       <div class="row">
-        <a class="btn-link ghost" href="/api/reports/${id}/export?format=md" download="friction-report-${id}.md">⬇ Markdown</a>
-        <a class="btn-link ghost" href="/api/reports/${id}/export?format=json" download="friction-report-${id}.json">⬇ JSON</a>
+        <button class="btn-link ghost" data-export="md">⬇ Markdown</button>
+        <button class="btn-link ghost" data-export="json">⬇ JSON</button>
       </div>
     </div>`;
 
@@ -299,8 +336,52 @@ async function loadHistory() {
   } catch (e) { /* history is non-critical */ }
 }
 
+// ---- client-side export (works for both live and demo runs) -------------------------
+function buildMarkdown(v) {
+  const sev = s => ({ high: "HIGH", medium: "MEDIUM", low: "LOW" }[s] || String(s).toUpperCase());
+  const out = [`# Onboarding Report — ${v.product}`, ""];
+  if (v.total_feedback) out.push(`_Analyzed ${v.relevant_count} relevant of ${v.total_feedback} submitted comments._`, "");
+  out.push((v.summary || "").trim() || "_No summary._", "");
+  const themes = v.themes || [];
+  if (!themes.length) { out.push("_No themes found._"); return out.join("\n") + "\n"; }
+  for (const t of themes) {
+    out.push(`## ${t.title}`);
+    out.push(`**${t.type} · ${sev(t.severity)}** · stage: ${t.onboarding_stage} · mentioned ${t.frequency}×`, "");
+    out.push(`**Recommendation:** ${t.recommendation}`, "", "Evidence:");
+    for (const ev of (t.evidence || [])) {
+      const cite = [ev.source, ev.url ? `[link](${ev.url})` : null].filter(Boolean);
+      out.push(`- > ${ev.quote}${cite.length ? " — " + cite.join(" · ") : ""}`);
+    }
+    out.push("");
+  }
+  return out.join("\n").replace(/\s+$/, "") + "\n";
+}
+
+function downloadFile(name, text, mime) {
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const a = Object.assign(document.createElement("a"), { href: url, download: name });
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function exportReport(fmt) {
+  if (!lastView) return;
+  const slug = (lastView.product || "report").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "report";
+  if (fmt === "json") downloadFile(`friction-${slug}.json`, JSON.stringify(lastView, null, 2), "application/json");
+  else downloadFile(`friction-${slug}.md`, buildMarkdown(lastView), "text/markdown");
+}
+
+function setDemoMode(on) {
+  demoMode = on;
+  $("analyze").textContent = on ? "Run demo" : "Analyze onboarding";
+}
+
 $("demo").addEventListener("change", (e) => loadSample(e.target.value));
 $("analyze").addEventListener("click", analyze);
+$("report").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-export]");
+  if (b) exportReport(b.dataset.export);
+});
 $("file").addEventListener("change", async (e) => {
   const f = e.target.files[0];
   if (!f) return;
@@ -308,8 +389,22 @@ $("file").addEventListener("change", async (e) => {
   try { $("feedback").value = await f.text(); setStatus(`Loaded ${f.name} — click Analyze.`); }
   catch { setStatus("Couldn't read that file."); }
 });
+
+if (STATIC) {
+  // No backend: demo mode is the only path. Hide the live-only affordances.
+  document.querySelector('label[for="feedback"]').textContent = "Pick a demo above to see a real analysis (no API key needed).";
+  $("feedback").style.display = "none";
+  $("uploadlabel").style.display = "none";
+  setDemoMode(true);
+} else {
+  // Backend available: let the user choose live analysis vs. instant canned replay.
+  $("demomodewrap").style.display = "";
+  $("demomode").addEventListener("change", (e) => setDemoMode(e.target.checked));
+  setDemoMode(false);
+}
+
 loadDemos();
-loadHistory();
+if (!STATIC) loadHistory();
 </script>
 </body>
 </html>

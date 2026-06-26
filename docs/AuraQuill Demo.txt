@@ -1,0 +1,462 @@
+--COMPANY DESCRIPTION
+AuraQuill is an AI marketing product for planning, generating, and optimizing campaigns. It supports email sequences, paid social ad variants, SEO briefs, customer segmentation, campaign calendars, A/B test ideas, UTM generation, brand-voice controls, approval workflows, CRM/ad-platform integrations, competitor-watch summaries, and performance explanations.
+
+
+--COMMENT DATA
+
+
+#### r/marketing scrape maybe? / thread export ??
+
+BEGIN-SNIP AQ-001
+My landlord finally fixed the washing machine and somehow that improved my productivity more than any SaaS tool.
+END?
+
+COMMENT AQ-002: Email deliverability is not magic. Clean your list before blaming the subject line.
+
+### AQ-003
+meta:r/startups; collected=2026-05-11
+    I canceled AuraQuill because the pricing jumped after the trial and the seat limits were buried in the billing screen.
+
+brieflord replied:
+> The new assistant wrote copy that sounded like our old assistant, which is either impressive or depressing.
+(source unclear)
+
+COMMENT AQ-005: Installed AuraQuill for a client project. I need a full campaign cycle before judging it.
+
+paidsearch_pete replied:
+> I don't care how smart the AI is, if your checkout page loads slowly your campaign is already losing money.
+(source unclear)
+
+Their onboarding wanted competitors, tone, ICP, and forbidden words, which is a lot before breakfast. The result was usable, but I would not ship it without review.
+[id:AQ-007] [no platform field]
+
+COMMENT AQ-008: Attribution is still messy. The last click gets credit while the podcast mention did all the work.
+
+[AQ-009] reddit/r/marketing | user=quiet_ctr | 2026-04-19 06:14
+I used AuraQuill for a Black Friday campaign and the promo calendar alone justified the trial. It caught two email gaps we missed.
+
+[AQ-010] twitter_x/timeline | user=@tinyagency | 2026-05-04 18:26
+Reminder that a good product page needs clear photos, shipping info, and fewer popups.
+
+AQ-011
+Our dog keeps barking during client calls, so I may rebrand him as a demand-generation alarm. This has nothing to do with any specific app, just general marketing fatigue.
+
+2026-05-22|01:25|@copyops|The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters.
+
+46079 // AQ-013	I tried the AI campaign app from that demo and it was less bad than expected. I saved the note because it might matter next campaign.
+
+<AQ-014> The new assistant wrote copy that sounded like our old assistant, which is either impressive or depressing. The result was usable, but I would not ship it without review. /// via reddit
+
+2026-05-07|22:30|growth_nova|AI marketing tools are everywhere right now, but most teams still need a clear offer before any copy matters.
+
+AQ-016
+I wanted an AI marketing assistant, not another prompt library. AuraQuill still requires too much manual cleanup for paid search.
+
+Their compliance checker flagged harmless copy and missed an actual medical claim in our draft. That makes me nervous.
+[id:AQ-017] [no platform field]
+
+[AQ-018] twitter_x/marketing chat | user=@copyops | 2026-05-11 13:45
+Not perfect, but the SEO brief builder in AuraQuill gave our writer a clean outline, intent notes, and internal link suggestions.
+
+BEGIN-SNIP AQ-019
+The product tour was annoying. AuraQuill forced popups over every button before I could even create a campaign.
+END?
+
+24352 // AQ-020	The quill thing is interesting but I need to see whether it actually moves pipeline.
+
+[AQ-021] youtube/video comments: SaaS growth stack | user=martech_mina | 2026-05-06 10:00
+The competitor-ad clipping in AuraQuill is useful, although honestly the best marketing idea today came from overhearing people in line at lunch. The result was usable, but I would not ship it without review.
+
+COMMENT AQ-022: I saw AuraQuill mentioned in a marketing stack video, mostly for campaign briefs and UTM generation.
+
+24160 // AQ-023	We used AuraQuill for a retargeting sequence and the first draft was surprisingly close. I still edited it, but it cut the boring setup time in half.
+
+COMMENT AQ-024: Most 'viral hooks' read like they were written by someone trapped in a LinkedIn content dungeon.
+
+COMMENT AQ-025: Reminder that a good product page needs clear photos, shipping info, and fewer popups.
+
+### AQ-026
+meta:timeline; collected=2026-01-22
+    The launch email draft was fine, but fine is not exactly a growth strategy. I saved the note because it might matter next campaign.
+
+AQ-027
+Their onboarding wanted competitors, tone, ICP, and forbidden words, which is a lot before breakfast.
+
+23840 // AQ-028	The app found duplicate campaign names and somehow that was the most useful part. The result was usable, but I would not ship it without review.
+
+<AQ-029> I used AuraQuill for a Black Friday campaign and the promo calendar alone justified the trial. It caught two email gaps we missed. /// via twitter_x
+
+[AQ-030] reddit/r/ecommerce | user=founderish | 2026-03-01 13:06
+AI marketing tools are everywhere right now, but most teams still need a clear offer before any copy matters.
+
+[AQ-031] youtube/video comments: SaaS growth stack | user=calendargoblin | 2026-03-20 17:32
+My landlord finally fixed the washing machine and somehow that improved my productivity more than any SaaS tool.
+
+Email deliverability is not magic. Clean your list before blaming the subject line.
+-- calendargoblin :: maybe twitter_x :: id AQ-032
+
+We used AuraQuill for a retargeting sequence and the first draft was surprisingly close. I still edited it, but it cut the boring setup time in half.
+[id:AQ-033] [no platform field]
+
+### AQ-034
+meta:video comments: SaaS growth stack; collected=2026-06-01
+    The onboarding asked for a ton of company info, then generated a campaign that ignored half of it. Not a great first impression.
+
+It connected to the CRM, then everyone in the meeting started debating attribution again. The result was usable, but I would not ship it without review.
+[id:AQ-035] [no platform field]
+
+BEGIN-SNIP AQ-036
+The onboarding checklist in AuraQuill was smoother than HubSpot's wizard for my use case. Connected Mailchimp, GA, and Meta without drama.
+END?
+
+VIDEO COMMENTS: AI TOOLS REVIEW :: @copyops
+AQ-037 => Their compliance checker flagged harmless copy and missed an actual medical claim in our draft. That makes me nervous.
+
+23200 // AQ-038	AuraQuill's onboarding asks for target persona, offer, tone, competitors, and banned phrases.
+
+COMMENT AQ-039: Most 'viral hooks' read like they were written by someone trapped in a LinkedIn content dungeon. I saved the note because it might matter next campaign.
+
+AuraQuill gave me five usable email subject lines in under a minute, and the onboarding actually asked about our brand instead of dumping me into a blank prompt box.
+-- nina_nohooks :: maybe twitter_x :: id AQ-040
+
+AQ-041
+The competitor-ad clipping in AuraQuill is useful, although honestly the best marketing idea today came from overhearing people in line at lunch.
+
+BEGIN-SNIP AQ-042
+AuraQuill's copy sounded polished but too samey. Every ad variant used the same urgency language and I had to rewrite most of it. The result was usable, but I would not ship it without review.
+END?
+
+--- X dump - unclear source batch 
+
+AuraQuill saved time on ad variants, then I wasted the same hour arguing with my team about whether 'effortless' sounds fake.
+-- lina_ops :: maybe youtube :: id AQ-043
+
+2026-04-11|00:06|@b2b_breadcrumbs|I miss when YouTube tutorials got to the point instead of starting with seven minutes of personal backstory. This has nothing to do with any specific app, just general marketing fatigue.
+
+AQ-045
+Installed AuraQuill for a client project. I need a full campaign cycle before judging it.
+
+AQ-046
+The onboarding checklist in AuraQuill was smoother than HubSpot's wizard for my use case. Connected Mailchimp, GA, and Meta without drama.
+
+<AQ-047> Their compliance checker flagged harmless copy and missed an actual medical claim in our draft. That makes me nervous. /// via twitter_x
+
+[AQ-048] twitter_x/reply thread | user=funnelcat | 2026-05-21 10:10
+Not perfect, but the SEO brief builder in AuraQuill gave our writer a clean outline, intent notes, and internal link suggestions.
+
+BEGIN-SNIP AQ-049
+The product tour was annoying. AuraQuill forced popups over every button before I could even create a campaign. The result was usable, but I would not ship it without review.
+END?
+
+VIDEO COMMENTS: AGENCY WORKFLOW :: @ctrpanic
+AQ-050 => AuraQuill looked slick but the Facebook Ads connector failed twice during onboarding and support sent me a generic help doc.
+
+### AQ-051
+meta:timeline; collected=2026-03-12
+    The app keeps calling every audience a 'high-intent segment,' which makes the recommendations feel lazy. AuraQuill needs better scoring transparency.
+
+AQ-052
+The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters. I saved the note because it might matter next campaign.
+
+COMMENT AQ-053: We used AuraQuill for a retargeting sequence and the first draft was surprisingly close. I still edited it, but it cut the boring setup time in half.
+
+[AQ-054] reddit/r/PPC | user=lina_ops | 2026-05-22 20:27
+The onboarding asked for a ton of company info, then generated a campaign that ignored half of it. Not a great first impression.
+
+Reminder that a good product page needs clear photos, shipping info, and fewer popups. This has nothing to do with any specific app, just general marketing fatigue.
+-- @ctrpanic :: maybe twitter_x :: id AQ-055
+
+2026-02-03|16:14|adtab_rob|AuraQuill has a Chrome extension now, apparently for clipping competitor ads into briefs. The result was usable, but I would not ship it without review.
+
+BEGIN-SNIP AQ-057
+Their compliance checker flagged harmless copy and missed an actual medical claim in our draft. That makes me nervous.
+END?
+
+#### YT comments under AI tools video / partial
+
+AQ-058
+Not perfect, but the SEO brief builder in AuraQuill gave our writer a clean outline, intent notes, and internal link suggestions.
+
+[AQ-059] twitter_x/founder thread | user=juno_writes | 2026-02-07 06:00
+I miss when YouTube tutorials got to the point instead of starting with seven minutes of personal backstory.
+
+### AQ-060
+meta:video comments: email marketing tutorial; collected=2026-06-21
+    AuraQuill drafted a decent welcome email, but I still had to go grocery shopping and forgot the oat milk, so my launch prep was only half automated.
+
+BEGIN-SNIP AQ-061
+The app keeps calling every audience a 'high-intent segment,' which makes the recommendations feel lazy. AuraQuill needs better scoring transparency.
+END?
+
+### AQ-062
+meta:reply thread; collected=2026-04-16
+    AuraQuill's copy sounded polished but too samey. Every ad variant used the same urgency language and I had to rewrite most of it.
+
+I watched a video about AI-generated ads and the comments were mostly people arguing about whether creativity is dead.
+[id:AQ-063] [no platform field]
+
+organic_owl replied:
+> The AuraQuill demo focused on approvals, CRM import, and ad variant tracking, not just AI writing.
+(source unclear)
+
+### AQ-065
+meta:marketing chat; collected=2026-05-23
+    I like how AuraQuill explains why it picked a segment. It is not just 'AI says so' — it shows audience notes and past campaign data. I saved the note because it might matter next campaign.
+
+The onboarding checklist in AuraQuill was smoother than HubSpot's wizard for my use case. Connected Mailchimp, GA, and Meta without drama.
+[id:AQ-066] [no platform field]
+
+21344 // AQ-067	AuraQuill finally made A/B test ideas feel less random. We got hypotheses, audience notes, and copy variants in one place.
+
+21280 // AQ-068	Attribution is still messy. The last click gets credit while the podcast mention did all the work.
+
+AQ-069
+The product tour was annoying. AuraQuill forced popups over every button before I could even create a campaign.
+
+[AQ-070] reddit/r/SaaS | user=launchsnack | 2026-06-02 07:43
+AuraQuill gave me five usable email subject lines in under a minute, and the onboarding actually asked about our brand instead of dumping me into a blank prompt box. The result was usable, but I would not ship it without review.
+
+[AQ-071] youtube/video comments: agency workflow | user=sarah_ads | 2026-04-19 07:14
+Our dog keeps barking during client calls, so I may rebrand him as a demand-generation alarm.
+
+<AQ-072> I saw AuraQuill mentioned in a marketing stack video, mostly for campaign briefs and UTM generation. /// via reddit
+
+========== misc social export no clean source ??
+
+The new camera on my phone makes product shots look better than our old studio setup.
+[id:AQ-073] [no platform field]
+
+The onboarding was smooth, but I got distracted by the health insurance email in my inbox and now I associate AuraQuill with admin chores.
+-- @segment_soup :: maybe reddit :: id AQ-074
+
+@segment_soup replied:
+> AuraQuill's dashboard is slow when you load more than three campaigns. It spins forever and then shows a vague 'sync delayed' message.
+(source unclear)
+
+[AQ-076] youtube/video comments: SaaS growth stack | user=organic_owl | 2026-01-09 10:16
+My landlord finally fixed the washing machine and somehow that improved my productivity more than any SaaS tool.
+
+AuraQuill finally made A/B test ideas feel less random. We got hypotheses, audience notes, and copy variants in one place. The result was usable, but I would not ship it without review.
+-- pixelpusher88 :: maybe youtube :: id AQ-077
+
+QUOTE-POST :: calendargoblin
+AQ-078 => The templates in AuraQuill are too SaaS-heavy. Ecommerce flows felt like an afterthought. I saved the note because it might matter next campaign.
+
+[AQ-079] youtube/video comments: email marketing tutorial | user=@launchlog | 2026-06-03 03:47
+Anyone else notice that every marketing newsletter now has the same three hooks and a fake contrarian opener?
+
+FOUNDER THREAD :: launchsnack
+AQ-080 => AuraQuill drafted a decent welcome email, but I still had to go grocery shopping and forgot the oat milk, so my launch prep was only half automated.
+
+AuraQuill seems aimed at small teams that need campaign structure more than raw copy generation.
+[id:AQ-081] [no platform field]
+
+AQ-082
+AuraQuill's copy sounded polished but too samey. Every ad variant used the same urgency language and I had to rewrite most of it.
+
+BEGIN-SNIP AQ-083
+Attribution is still messy. The last click gets credit while the podcast mention did all the work.
+END?
+
+BEGIN-SNIP AQ-084
+AuraQuill's approval flow is useful for a tiny agency. My client can comment on ad variants without emailing screenshots back and forth. The result was usable, but I would not ship it without review.
+END?
+
+AQ-085
+Reminder that a good product page needs clear photos, shipping info, and fewer popups.
+
+growth_nova replied:
+> AuraQuill has a Chrome extension now, apparently for clipping competitor ads into briefs.
+(source unclear)
+
+<AQ-087> Their compliance checker flagged harmless copy and missed an actual medical claim in our draft. That makes me nervous. /// via youtube
+
+growth_nova replied:
+> The AI brief was better than expected, but the coffee shop WiFi died before I could export it.
+(source unclear)
+
+19936 // AQ-089	I miss when YouTube tutorials got to the point instead of starting with seven minutes of personal backstory.
+
+### AQ-090
+meta:r/SEO; collected=2026-05-12
+    Trying AuraQuill this week for email drafts. Too early to say if it beats our normal workflow.
+
+paidsearch_pete replied:
+> The app keeps calling every audience a 'high-intent segment,' which makes the recommendations feel lazy. AuraQuill needs better scoring transparency. The result was usable, but I would not ship it without review.
+(source unclear)
+
+[AQ-092] twitter_x/quote-post | user=lina_ops | 2026-06-10 12:19
+The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters.
+
+AQ-093
+I watched a video about AI-generated ads and the comments were mostly people arguing about whether creativity is dead.
+
+mktg_mallory replied:
+> The onboarding asked for a ton of company info, then generated a campaign that ignored half of it. Not a great first impression.
+(source unclear)
+
+AQ-095
+AuraQuill's UTM builder is clean. Also, unrelated, why do agencies still name files final_v7_REALfinal.png?
+
+### AQ-096
+meta:r/smallbusiness; collected=2026-04-09
+    I wanted an AI marketing assistant, not another prompt library. AuraQuill still requires too much manual cleanup for paid search.
+
+AuraQuill finally made A/B test ideas feel less random. We got hypotheses, audience notes, and copy variants in one place.
+-- @ctrpanic :: maybe twitter_x :: id AQ-097
+
+19360 // AQ-098	The templates in AuraQuill are too SaaS-heavy. Ecommerce flows felt like an afterthought. The result was usable, but I would not ship it without review.
+
+COMMENT AQ-099: I used AuraQuill for a Black Friday campaign and the promo calendar alone justified the trial. It caught two email gaps we missed.
+
+========== reddit-ish + forum-ish comments 
+
+The quill thing is interesting but I need to see whether it actually moves pipeline.
+-- @copyops :: maybe reddit :: id AQ-100
+
+BEGIN-SNIP AQ-101
+Our dog keeps barking during client calls, so I may rebrand him as a demand-generation alarm.
+END?
+
+COMMENT AQ-102: The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters.
+
+19040 // AQ-103	I canceled AuraQuill because the pricing jumped after the trial and the seat limits were buried in the billing screen.
+
+AuraQuill's approval flow is useful for a tiny agency. My client can comment on ad variants without emailing screenshots back and forth. I saved the note because it might matter next campaign.
+-- @copyops :: maybe youtube :: id AQ-104
+
+AI marketing tools are everywhere right now, but most teams still need a clear offer before any copy matters.
+[id:AQ-105] [no platform field]
+
+QUOTE-POST :: brieflord
+AQ-106 => My landlord finally fixed the washing machine and somehow that improved my productivity more than any SaaS tool.
+
+The free trial of AuraQuill lets you create three campaigns before asking for billing details.
+-- sarah_ads :: maybe twitter_x :: id AQ-107
+
+[AQ-108] twitter_x/reply thread | user=launchsnack | 2026-06-21 14:44
+The templates in AuraQuill are too SaaS-heavy. Ecommerce flows felt like an afterthought.
+
+BEGIN-SNIP AQ-109
+The product tour was annoying. AuraQuill forced popups over every button before I could even create a campaign.
+END?
+
+AQ-110
+The cafe near my office changed its WiFi password again, which is basically a conversion-rate optimization problem at this point. This has nothing to do with any specific app, just general marketing fatigue.
+
+COMMENT AQ-111: AuraQuill seems aimed at small teams that need campaign structure more than raw copy generation.
+
+AQ-112
+I saw AuraQuill mentioned in a marketing stack video, mostly for campaign briefs and UTM generation. The result was usable, but I would not ship it without review.
+
+<AQ-113> AuraQuill saved time on ad variants, then I wasted the same hour arguing with my team about whether 'effortless' sounds fake. /// via twitter_x
+
+AQ-114
+The AuraQuill demo focused on approvals, CRM import, and ad variant tracking, not just AI writing.
+
+R/ECOMMERCE :: founderish
+AQ-115 => Reminder that a good product page needs clear photos, shipping info, and fewer popups.
+
+COMMENT AQ-116: Our dog keeps barking during client calls, so I may rebrand him as a demand-generation alarm.
+
+R/ECOMMERCE :: paidsearch_pete
+AQ-117 => AuraQuill helped with segmentation, but our CRM data is messy, so blaming the app would be unfair. I saved the note because it might matter next campaign.
+
+COMMENT AQ-118: Not perfect, but the SEO brief builder in AuraQuill gave our writer a clean outline, intent notes, and internal link suggestions.
+
+I used AuraQuill for a Black Friday campaign and the promo calendar alone justified the trial. It caught two email gaps we missed. The result was usable, but I would not ship it without review.
+[id:AQ-119] [no platform field]
+
+AI marketing tools are everywhere right now, but most teams still need a clear offer before any copy matters.
+-- sarah_ads :: maybe reddit :: id AQ-120
+
+15200 // AQ-121	The competitor-ad clipping in AuraQuill is useful, although honestly the best marketing idea today came from overhearing people in line at lunch.
+
+R/PPC :: sarah_ads
+AQ-122 => I saw AuraQuill mentioned in a marketing stack video, mostly for campaign briefs and UTM generation.
+
+2026-02-09|13:30|launchsnack|I canceled AuraQuill because the pricing jumped after the trial and the seat limits were buried in the billing screen.
+
+--- creator video comments and replies 
+
+BEGIN-SNIP AQ-124
+AuraQuill's approval flow is useful for a tiny agency. My client can comment on ad variants without emailing screenshots back and forth.
+END?
+
+[AQ-125] reddit/r/startups | user=adtab_rob | 2026-06-07 04:31
+I like how AuraQuill explains why it picked a segment. It is not just 'AI says so' — it shows audience notes and past campaign data.
+
+BEGIN-SNIP AQ-126
+AuraQuill has a Chrome extension now, apparently for clipping competitor ads into briefs. The result was usable, but I would not ship it without review.
+END?
+
+<AQ-127> AuraQuill finally made A/B test ideas feel less random. We got hypotheses, audience notes, and copy variants in one place. /// via twitter_x
+
+### AQ-128
+meta:quote-post; collected=2026-01-14
+    Not perfect, but the SEO brief builder in AuraQuill gave our writer a clean outline, intent notes, and internal link suggestions.
+
+AQ-129
+I used AuraQuill for a Black Friday campaign and the promo calendar alone justified the trial. It caught two email gaps we missed.
+
+[AQ-130] twitter_x/marketing chat | user=organic_owl | 2026-05-01 14:09
+AuraQuill gave me five usable email subject lines in under a minute, and the onboarding actually asked about our brand instead of dumping me into a blank prompt box. I saved the note because it might matter next campaign.
+
+The competitor-ad clipping in AuraQuill is useful, although honestly the best marketing idea today came from overhearing people in line at lunch.
+[id:AQ-131] [no platform field]
+
+BEGIN-SNIP AQ-132
+The best part of AuraQuill is the brand voice lock. It stopped the copy from sounding like generic AI mush after I uploaded our old newsletters.
+END?
+
+We used AuraQuill for a retargeting sequence and the first draft was surprisingly close. I still edited it, but it cut the boring setup time in half. The result was usable, but I would not ship it without review.
+-- juno_writes :: maybe reddit :: id AQ-133
+
+@b2b_breadcrumbs replied:
+> AuraQuill's approval flow is useful for a tiny agency. My client can comment on ad variants without emailing screenshots back and forth.
+(source unclear)
+
+[AQ-135] reddit/r/smallbusiness | user=@copyops | 2026-06-18 21:53
+AI marketing tools are everywhere right now, but most teams still need a clear offer before any copy matters.
+
+[AQ-136] twitter_x/quote-post | user=sarah_ads | 2026-02-22 23:27
+I wanted an AI marketing assistant, not another prompt library. AuraQuill still requires too much manual cleanup for paid search.
+
+R/MARKETING :: copycat_204
+AQ-137 => AuraQuill finally made A/B test ideas feel less random. We got hypotheses, audience notes, and copy variants in one place.
+
+<AQ-138> The templates in AuraQuill are too SaaS-heavy. Ecommerce flows felt like an afterthought. /// via youtube
+
+Someone on the team added AuraQuill to our growth stack, so now I have another dashboard to learn.
+[id:AQ-139] [no platform field]
+
+AuraQuill gave me five usable email subject lines in under a minute, and the onboarding actually asked about our brand instead of dumping me into a blank prompt box. The result was usable, but I would not ship it without review.
+-- sarah_ads :: maybe twitter_x :: id AQ-140
+
+COMMENT AQ-141: I don't care how smart the AI is, if your checkout page loads slowly your campaign is already losing money.
+
+I liked AuraQuill's brand questionnaire, but my bigger problem is that our offer is confusing and no AI tool can fix that yet.
+-- lina_ops :: maybe youtube :: id AQ-142
+
+[AQ-143] youtube/video comments: SaaS growth stack | user=mktg_mallory | 2026-06-04 11:11
+AuraQuill saved time on ad variants, then I wasted the same hour arguing with my team about whether 'effortless' sounds fake. I saved the note because it might matter next campaign.
+
+2026-05-04|03:53|@retarget_rae|The onboarding asked for a ton of company info, then generated a campaign that ignored half of it. Not a great first impression.
+
+AQ-145
+Installed AuraQuill for a client project. I need a full campaign cycle before judging it.
+
+AuraQuill has a Chrome extension now, apparently for clipping competitor ads into briefs.
+[id:AQ-146] [no platform field]
+
+growth_nova replied:
+> AuraQuill finally made A/B test ideas feel less random. We got hypotheses, audience notes, and copy variants in one place. The result was usable, but I would not ship it without review.
+(source unclear)
+
+The AI brief was better than expected, but the coffee shop WiFi died before I could export it.
+-- brieflord :: maybe youtube :: id AQ-148
+
+2026-01-03|06:14|founderish|Someone on the team added AuraQuill to our growth stack, so now I have another dashboard to learn.
+
+QUOTE-POST :: @brandbitten
+AQ-150 => AuraQuill looked slick but the Facebook Ads connector failed twice during onboarding and support sent me a generic help doc.
