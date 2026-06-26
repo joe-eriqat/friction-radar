@@ -140,7 +140,7 @@ async function loadDemos() {
     const demos = await r.json();
     if (!demos.length) return;
     $("demo").innerHTML = `<option value="">Load a sample…</option>` +
-      demos.map(d => `<option value="${esc(d.id)}">${esc(d.name)}${d.count ? ` (${d.count})` : ""}</option>`).join("");
+      demos.map(d => `<option value="${esc(d.id)}">${esc(d.name)}${d.count ? ` (${d.count} comments)` : ""}</option>`).join("");
   } catch { /* picker is non-critical */ }
 }
 
@@ -153,12 +153,16 @@ async function loadSample(id) {
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
     $("product").value = data.product;
-    // feedback items are objects ({text, source, ...}); blank-line separated so multi-line
-    // comments survive re-parsing on Analyze.
-    $("feedback").value = (data.feedback || []).map(f => f.text).join("\n\n");
-    const n = (data.feedback || []).length;
+    const fb = data.feedback || [];
+    // Demo mode shows the ORIGINAL messy dump (headers, separators, metadata, off-topic
+    // noise) so visitors see what the pipeline untangles. Live mode shows clean comments,
+    // blank-line separated, so a real Analyze re-parses them correctly.
+    $("feedback").value = (demoMode && data.raw)
+      ? data.raw
+      : fb.map(f => f.text).join("\n\n");
+    const n = fb.length;
     setStatus(demoMode
-      ? `Loaded “${esc(data.name || id)}” (${n} comments) — click ${esc($("analyze").textContent)} to replay.`
+      ? `Loaded “${data.name || id}” — a raw, messy feedback dump. Click ${$("analyze").textContent} to see it parsed into ${n} comments and analyzed.`
       : `Loaded sample (${n} comments) — click Analyze.`);
   } catch (e) {
     setStatus("Couldn't load sample: " + e.message);
@@ -374,6 +378,7 @@ function exportReport(fmt) {
 function setDemoMode(on) {
   demoMode = on;
   $("analyze").textContent = on ? "Run demo" : "Analyze onboarding";
+  if (selectedDemo) loadSample(selectedDemo);  // swap raw-dump view vs. clean re-parseable view
 }
 
 $("demo").addEventListener("change", (e) => loadSample(e.target.value));
@@ -391,10 +396,16 @@ $("file").addEventListener("change", async (e) => {
 });
 
 if (STATIC) {
-  // No backend: demo mode is the only path. Hide the live-only affordances.
-  document.querySelector('label[for="feedback"]').textContent = "Pick a demo above to see a real analysis (no API key needed).";
-  $("feedback").style.display = "none";
+  // No backend: demo mode is the only path. Keep the UI identical to the real build, but
+  // the inputs are visible-and-populated yet read-only (so visitors see the sample data
+  // being analyzed without being able to type into a box that can't be submitted live).
+  // Upload is dropped — there's nothing to parse it.
+  $("product").readOnly = true;
+  $("feedback").readOnly = true;
+  $("feedback").placeholder = "";
   $("uploadlabel").style.display = "none";
+  document.querySelector('label[for="feedback"]').textContent =
+    "Raw feedback dump (read-only in demo mode) — the messy input this demo parses, then analyzes";
   setDemoMode(true);
 } else {
   // Backend available: let the user choose live analysis vs. instant canned replay.
@@ -403,8 +414,16 @@ if (STATIC) {
   setDemoMode(false);
 }
 
-loadDemos();
-if (!STATIC) loadHistory();
+(async () => {
+  await loadDemos();
+  if (STATIC) {
+    // Land on a populated, real-looking page: auto-load the first sample's product + text.
+    const sel = $("demo");
+    if (sel.options.length > 1) { sel.selectedIndex = 1; await loadSample(sel.value); }
+  } else {
+    loadHistory();
+  }
+})();
 </script>
 </body>
 </html>

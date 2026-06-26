@@ -11,7 +11,7 @@ from typing import List
 
 from pydantic import BaseModel
 
-from .schemas import OnboardingReport, Severity, Theme
+from .schemas import CommentClassification, OnboardingReport, Severity, Theme
 
 _SEVERITY_RANK = {Severity.high: 0, Severity.medium: 1, Severity.low: 2}
 _SEVERITY_LABEL = {Severity.high: "HIGH", Severity.medium: "MEDIUM", Severity.low: "LOW"}
@@ -26,6 +26,7 @@ class ReportView(BaseModel):
     total_feedback: int = 0
     relevant_count: int = 0
     themes: List[Theme]  # severity (high > medium > low), then frequency desc
+    comments: List[CommentClassification] = []  # full per-comment audit (for export, not the page)
 
 
 def _prioritized(themes: List[Theme]) -> List[Theme]:
@@ -42,6 +43,7 @@ def view_model(report: OnboardingReport) -> ReportView:
         total_feedback=report.total_feedback,
         relevant_count=report.relevant_count,
         themes=themes,
+        comments=report.comments,
     )
 
 

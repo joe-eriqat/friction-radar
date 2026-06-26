@@ -22,7 +22,16 @@ from typing import List
 from pydantic import BaseModel, Field
 
 from .connector import LLMConnector, default_connector
-from .schemas import AnalyzeRequest, Evidence, FeedbackItem, OnboardingReport, Severity, Theme, ThemeType
+from .schemas import (
+    AnalyzeRequest,
+    CommentClassification,
+    Evidence,
+    FeedbackItem,
+    OnboardingReport,
+    Severity,
+    Theme,
+    ThemeType,
+)
 
 SAMPLE_QUOTES = 3  # representative quotes shown per theme (frequency stays the full member count)
 
@@ -62,13 +71,12 @@ def _relevance_user(req: AnalyzeRequest) -> str:
     )
 
 
-def _relevant_items(req: AnalyzeRequest, connector: LLMConnector) -> List[FeedbackItem]:
-    """Drop off-topic feedback. Conservative: only removes flagged items."""
+def _offtopic_indices(req: AnalyzeRequest, connector: LLMConnector) -> set[int]:
+    """Return the 1-based indices the relevance gate flags as off-topic. Conservative."""
     verdict: _OffTopic = connector.complete_structured(  # type: ignore[assignment]
         system=RELEVANCE_SYSTEM, user=_relevance_user(req), schema=_OffTopic
     )
-    drop = {i for i in verdict.offtopic_indices if 1 <= i <= len(req.feedback)}
-    return [item for n, item in enumerate(req.feedback, 1) if n not in drop]
+    return {i for i in verdict.offtopic_indices if 1 <= i <= len(req.feedback)}
 
 
 # ---- Layer 2: classifier (references items by index, never by text) -------------------
@@ -128,19 +136,27 @@ def _classify_user(items: List[FeedbackItem], product: str) -> str:
 
 
 def _assemble(
-    classification: _Classification, kept: List[FeedbackItem], req: AnalyzeRequest
+    classification: _Classification,
+    kept: List[FeedbackItem],
+    kept_orig: List[int],
+    req: AnalyzeRequest,
 ) -> OnboardingReport:
     n = len(kept)
-    used: set[int] = set()  # each index belongs to one theme (most-important first)
+    used: set[int] = set()           # each kept-index belongs to one theme (most-important first)
+    assignment: dict[int, str] = {}  # kept-index (1-based) -> theme title
     themes: list[Theme] = []
     for cat in classification.categories:
         members: list[FeedbackItem] = []
+        claimed: list[int] = []
         for i in cat.member_indices:
             if 1 <= i <= n and i not in used:  # in range + not already claimed
                 used.add(i)
                 members.append(kept[i - 1])
+                claimed.append(i)
         if not members:  # theme with no valid members — drop it
             continue
+        for i in claimed:
+            assignment[i] = cat.title
         evidence = [Evidence(quote=m.text, source=m.source, url=m.url) for m in members[:SAMPLE_QUOTES]]
         themes.append(
             Theme(
@@ -153,12 +169,27 @@ def _assemble(
                 recommendation=cat.recommendation,
             )
         )
+
+    # full per-comment audit: every submitted comment + relevance + assigned theme.
+    relevant = set(kept_orig)
+    kept_pos = {orig: pos for pos, orig in enumerate(kept_orig, start=1)}  # orig -> kept 1-based
+    comments = [
+        CommentClassification(
+            text=item.text,
+            source=item.source,
+            relevant=(orig in relevant),
+            theme=assignment.get(kept_pos[orig]) if orig in relevant else None,
+        )
+        for orig, item in enumerate(req.feedback, 1)
+    ]
+
     return OnboardingReport(
         product=req.product,
         summary=classification.summary,
         themes=themes,
         total_feedback=len(req.feedback),
         relevant_count=n,
+        comments=comments,
     )
 
 
@@ -168,11 +199,13 @@ def analyze(req: AnalyzeRequest, connector: LLMConnector | None = None) -> Onboa
         raise ValueError("No feedback items supplied to analyze.")
     connector = connector or default_connector()
 
-    kept = _relevant_items(req, connector)  # Layer 1
+    drop = _offtopic_indices(req, connector)  # Layer 1
+    kept = [item for n, item in enumerate(req.feedback, 1) if n not in drop]
+    kept_orig = [n for n, _ in enumerate(req.feedback, 1) if n not in drop]
     if not kept:
         raise ValueError("No on-topic feedback to analyze.")
 
     classification = connector.complete_structured(  # Layer 2
         system=CLASSIFY_SYSTEM, user=_classify_user(kept, req.product), schema=_Classification
     )
-    return _assemble(classification, kept, req)  # type: ignore[arg-type]
+    return _assemble(classification, kept, kept_orig, req)  # type: ignore[arg-type]

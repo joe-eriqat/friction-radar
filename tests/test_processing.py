@@ -51,6 +51,32 @@ def _cat(title: str, indices: list[int], type_: str = "failure") -> _Category:
     )
 
 
+def test_comments_audit_covers_every_input_with_relevance_and_theme():
+    # 6 comments; gate drops #2 and #4; classifier assigns a+e to Setup, c to Pricing,
+    # leaving f relevant-but-unassigned.
+    req = AnalyzeRequest(product="P", feedback=_items("a", "b", "c", "d", "e", "f"))
+    fake = FakeConnector(
+        _Classification(summary="s", categories=[
+            _cat("Setup", [1, 3]),                       # kept-indices -> a, e
+            _cat("Pricing", [2], type_="churn"),         # kept-index  -> c
+        ]),
+        offtopic_indices=[2, 4],                         # b, d dropped
+    )
+    out = analyze(req, connector=fake)
+    audit = [(c.text, c.relevant, c.theme) for c in out.comments]
+    assert audit == [
+        ("a", True, "Setup"),
+        ("b", False, None),     # off-topic
+        ("c", True, "Pricing"),
+        ("d", False, None),     # off-topic
+        ("e", True, "Setup"),
+        ("f", True, None),      # relevant but unassigned by the classifier
+    ]
+    # the audit accounts for every submitted comment, and relevance lines up with the count
+    assert len(out.comments) == out.total_feedback == 6
+    assert sum(c.relevant for c in out.comments) == out.relevant_count == 4
+
+
 def test_empty_feedback_raises_without_connector_call():
     fake = FakeConnector(_Classification(summary="s", categories=[]))
     with pytest.raises(ValueError):

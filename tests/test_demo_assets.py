@@ -46,6 +46,7 @@ def test_manifest_entry_has_dataset_and_canned(entry):
 
     data = json.loads(ds.read_text())
     assert data.get("product"), f"{did}: dataset needs a product"
+    assert data.get("raw"), f"{did}: dataset needs the raw source dump (shown in demo mode)"
     fb = data.get("feedback") or []
     assert fb and all(item.get("text") for item in fb), f"{did}: feedback items need text"
     assert entry["count"] == len(fb), f"{did}: manifest count out of sync with dataset"
@@ -56,6 +57,13 @@ def test_canned_report_is_valid_reportview(entry):
     view = ReportView(**json.loads((CANNED / f"{entry['id']}.json").read_text()))
     assert view.product and view.summary
     assert view.theme_count == len(view.themes)
+    # the per-comment audit accounts for every submitted comment
+    assert len(view.comments) == view.total_feedback
+    assert sum(c.relevant for c in view.comments) == view.relevant_count
+    titles = {t.title for t in view.themes}
+    for c in view.comments:
+        if c.theme is not None:
+            assert c.relevant and c.theme in titles, f"{entry['id']}: bad assignment {c.theme!r}"
     # canned evidence quotes must trace to dataset comments (no invented quotes)
     corpus = {
         i["text"] for i in json.loads((DEMOS / f"{entry['id']}.json").read_text())["feedback"]

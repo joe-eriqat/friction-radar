@@ -65,6 +65,19 @@ class Theme(BaseModel):
     recommendation: str
 
 
+class CommentClassification(BaseModel):
+    """One input comment with what the pipeline decided about it — the full audit trail.
+
+    Lets a report account for *every* submitted comment (not just the sampled quotes): whether
+    the relevance gate kept it, and which theme the classifier assigned it to.
+    """
+
+    text: str
+    source: Optional[str] = None
+    relevant: bool                     # False = dropped by the relevance gate (off-topic)
+    theme: Optional[str] = None        # assigned theme title; None if off-topic or unassigned
+
+
 class OnboardingReport(BaseModel):
     """The full prioritized onboarding-intelligence report for one product."""
 
@@ -73,6 +86,7 @@ class OnboardingReport(BaseModel):
     themes: List[Theme]
     total_feedback: int = 0   # items submitted
     relevant_count: int = 0   # items kept after the relevance gate (themes draw from these)
+    comments: List[CommentClassification] = []  # every input comment + its relevance/theme
 
 
 # ---- API request / response wrappers -------------------------------------------------

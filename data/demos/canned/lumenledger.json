@@ -1,22 +1,17 @@
 {
   "product": "LumenLedger is a personal finance app for cash-flow forecasting, account aggregation, bill reminders, subscription and merchant alerts, savings buckets, round-up transfers, spending notes, beginner investing explainers, exports, and privacy/account controls.",
-  "summary": "LumenLedger’s strongest activation drivers are fast account linking, polished progressive onboarding, and immediate value from forecasting, bill detection, alerts, and savings buckets. The biggest activation risks are trust-breaking sync/verification issues, an overloaded or hard-to-navigate interface, and weak transparency around permissions, privacy, and offboarding. A smaller but meaningful churn risk comes from pricing sensitivity, notification fatigue, and gaps for advanced or specialized workflows.",
-  "theme_count": 7,
+  "summary": "LumenLedger’s strongest activation drivers are fast setup, stable account linking for many users, and early value from cash-flow forecasting, bill/subscription detection, savings buckets, and a non-judgmental onboarding tone. The biggest activation risks are trust-breaking sync/verification/privacy friction, an overloaded interface with weak defaults and discoverability, and gaps for advanced or edge-case workflows like exports, budgeting rigor, and irregular-income handling. Churn is concentrated around repeated bank-link failures, pricing/value mismatch, aggressive notifications, and poor account deletion/offboarding.",
+  "theme_count": 9,
   "total_feedback": 71,
-  "relevant_count": 65,
+  "relevant_count": 66,
   "themes": [
     {
-      "title": "Fast setup and early value from forecasting, alerts, and guided onboarding",
+      "title": "Fast activation through clear setup, supportive tone, and immediate financial insight",
       "type": "success",
       "severity": "high",
-      "onboarding_stage": "signup, setup, first-use, activation",
-      "frequency": 19,
+      "onboarding_stage": "signup, setup, activation, first-week",
+      "frequency": 14,
       "evidence": [
-        {
-          "quote": "The merchant alerts are actually useful. It caught that my gym had two active billing profiles. Saved me $39, so the first month paid for itself.",
-          "source": "demo",
-          "url": null
-        },
         {
           "quote": "Positive onboarding note: the setup questions were less judgmental than other budgeting tools. It asked what I wanted to optimize for instead of yelling about coffee.",
           "source": "demo",
@@ -26,16 +21,21 @@
           "quote": "Trying LumenLedger this week. Setup took 9 minutes, bank connected instantly, and the first cash-flow forecast was uncomfortably accurate.",
           "source": "demo",
           "url": null
+        },
+        {
+          "quote": "The bill prediction feature is the first one that got my quarterly insurance right. Small thing, huge relief.",
+          "source": "demo",
+          "url": null
         }
       ],
-      "recommendation": "Keep the progressive checklist and sample-dashboard approach, but explicitly steer new users to one or two fastest-win moments: connect a primary account, confirm payday/rent, and enable one high-value alert. Add a short activation path tailored to the user’s goal so forecasting, bill reminders, merchant alerts, or savings buckets produce visible value in the first session."
+      "recommendation": "Keep the current progressive checklist-led onboarding, but explicitly steer new users to one fast-win path: connect an account, confirm payday/rent, review first forecast, and enable one high-value alert. Reinforce the non-judgmental tone and surface one or two personalized insights in the first session to lock in value quickly."
     },
     {
-      "title": "Dashboard overload and hidden navigation make core features harder to discover",
+      "title": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation",
       "type": "failure",
       "severity": "high",
-      "onboarding_stage": "first-use, activation",
-      "frequency": 9,
+      "onboarding_stage": "first-use, navigation, settings, notifications",
+      "frequency": 12,
       "evidence": [
         {
           "quote": "Yes, split transactions exist. The UX is hidden under edit > advanced, which is weird. Once you find it, it works.",
@@ -53,42 +53,17 @@
           "url": null
         }
       ],
-      "recommendation": "Introduce role-based home layouts such as beginner/simple and expert modes, and surface common actions directly instead of burying them in settings or advanced menus. During onboarding, ask what the user wants to do most and simplify the dashboard, feature order, and tutorials around that choice."
+      "recommendation": "Introduce beginner and expert modes, simplify the default dashboard, and surface advanced actions contextually instead of burying them. Reduce default notifications, improve settings discoverability, and prioritize accessibility fixes for text size, contrast, screen reader support, and performance on older devices."
     },
     {
-      "title": "Sync, verification, and data freshness failures undermine trust",
-      "type": "failure",
+      "title": "Standout feature value from merchant alerts, bills, buckets, and round-ups",
+      "type": "success",
       "severity": "high",
-      "onboarding_stage": "signup, integrations, activation",
-      "frequency": 6,
+      "onboarding_stage": "activation, first-use, habit formation",
+      "frequency": 10,
       "evidence": [
         {
-          "quote": "I tried it last month. Onboarding was smoother than Monarch for me because it found my credit union on the first try, but the ID check got stuck on the selfie step twice. Support fixed it after about 24 hours.",
-          "source": "demo",
-          "url": null
-        },
-        {
-          "quote": "I deleted it after Plaid dropped my bank connection three times. Might be my bank, not them, but I am tired of relinking accounts.",
-          "source": "demo",
-          "url": null
-        },
-        {
-          "quote": "Bug: LumenLedger says \"all accounts synced\" but my brokerage balance is 2 days stale. Please show timestamp per account, not one global green check.",
-          "source": "demo",
-          "url": null
-        }
-      ],
-      "recommendation": "Add stronger onboarding resilience around identity and account connections: real-time status per institution, stale-data timestamps, prominent sync-failure warnings, and guided recovery for relinking. For verification, add edge-case handling for names/ID flows and explain when support intervention is needed so users do not stall before activation."
-    },
-    {
-      "title": "Pricing and product-fit gaps drive churn or limited adoption",
-      "type": "churn",
-      "severity": "medium",
-      "onboarding_stage": "pricing-discovery, activation",
-      "frequency": 13,
-      "evidence": [
-        {
-          "quote": "The investing tab feels too basic if you already know what ETFs are. I do like that it explains risk without pushing individual stocks.",
+          "quote": "The merchant alerts are actually useful. It caught that my gym had two active billing profiles. Saved me $39, so the first month paid for itself.",
           "source": "demo",
           "url": null
         },
@@ -98,20 +73,25 @@
           "url": null
         },
         {
-          "quote": "Update after trial: pretty good for monthly view, weaker for envelope budgeting. Export is there but basic.",
+          "quote": "LumenLedger flagged my \"free trial\" that became $14.99/mo. Good feature. Bad reflection on my attention span.",
           "source": "demo",
           "url": null
         }
       ],
-      "recommendation": "Segment onboarding by use case and show what LumenLedger is best for before the paywall: forecasting, bills, alerts, or savings buckets. For users with advanced needs, clearly position limitations and offer stronger exports/integrations or plan guidance so they do not churn from unmet expectations."
+      "recommendation": "During onboarding, let users choose a primary outcome such as catching subscriptions, avoiding low balances, or saving automatically, then preconfigure the relevant feature path. Add guided setup for alerts, buckets, and round-up controls so users reach a concrete win in week one."
     },
     {
-      "title": "Permissions, privacy, and offboarding are not transparent enough",
+      "title": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy",
       "type": "failure",
-      "severity": "medium",
-      "onboarding_stage": "signup, pricing-discovery, account-controls",
+      "severity": "high",
+      "onboarding_stage": "signup, bank-linking, permissions, trust",
       "frequency": 8,
       "evidence": [
+        {
+          "quote": "I tried it last month. Onboarding was smoother than Monarch for me because it found my credit union on the first try, but the ID check got stuck on the selfie step twice. Support fixed it after about 24 hours.",
+          "source": "demo",
+          "url": null
+        },
         {
           "quote": "They need a clearer privacy screen. I had to dig around to see what data they keep after disconnecting a bank. That should be front and center.",
           "source": "demo",
@@ -121,21 +101,31 @@
           "quote": "The LumenLedger onboarding flow is clean but asks for payroll linking way too early. Let me trust the product before asking for that.",
           "source": "demo",
           "url": null
-        },
+        }
+      ],
+      "recommendation": "Redesign trust-critical moments: simplify permission screens, delay sensitive asks like payroll linking until after initial value, show per-account sync timestamps and stale-data warnings, and make privacy/data-retention explanations prominent before and after connection. Add stronger edge-case handling for identity verification and names, plus proactive recovery flows when sync breaks."
+    },
+    {
+      "title": "Churn from bank-link instability and stale aggregation trust breaks",
+      "type": "churn",
+      "severity": "high",
+      "onboarding_stage": "integrations, ongoing sync",
+      "frequency": 1,
+      "evidence": [
         {
-          "quote": "The onboarding was polished, but the bank permission screen was too dense. I almost quit because I could not tell which permissions were required vs optional.",
+          "quote": "I deleted it after Plaid dropped my bank connection three times. Might be my bank, not them, but I am tired of relinking accounts.",
           "source": "demo",
           "url": null
         }
       ],
-      "recommendation": "Rewrite sensitive screens into plain-language steps that separate required vs optional permissions, explain why payroll linking helps, and clearly state data retention after disconnects. Add a visible self-serve privacy center with export-all, delete-account, and cancellation controls so trust is established before and after activation."
+      "recommendation": "Implement aggressive sync-failure detection with immediate user alerts, guided relink flows, backup manual-account options, and messaging that distinguishes aggregator issues from app issues. For at-risk users, trigger concierge recovery before repeated disconnects lead to abandonment."
     },
     {
-      "title": "Forecasting and categorization struggle with edge cases and specialized money flows",
+      "title": "Forecasting, categorization, and budgeting gaps for complex real-world finances",
       "type": "failure",
       "severity": "medium",
-      "onboarding_stage": "setup, first-use, activation",
-      "frequency": 6,
+      "onboarding_stage": "activation, ongoing setup",
+      "frequency": 9,
       "evidence": [
         {
           "quote": "Negative: category rules are weak. It kept categorizing my daycare as \"education software\" and my pet insurance as \"healthcare.\" You can fix it manually but it learned slowly.",
@@ -153,32 +143,500 @@
           "url": null
         }
       ],
-      "recommendation": "During setup, detect and ask about irregular income, reimbursements, Zelle rent, self-employed taxes, split transactions, and manual categorization corrections. Offer a short ‘make your forecast accurate’ calibration flow that teaches users how to mark income types, recurring bills, and transaction splits early."
+      "recommendation": "Add onboarding questions for irregular income, reimbursements, self-employment, manual recurring bills, and budgeting style, then tailor defaults accordingly. Improve category-rule learning, make split transactions easier to find, and offer stricter budgeting options for users who need hard limits rather than soft goals."
     },
     {
-      "title": "Notification defaults are too aggressive and can trigger disengagement",
-      "type": "churn",
+      "title": "Power-user and data portability limitations reduce fit for advanced users",
+      "type": "failure",
       "severity": "medium",
-      "onboarding_stage": "activation, retention",
-      "frequency": 4,
+      "onboarding_stage": "activation, integrations, export",
+      "frequency": 7,
       "evidence": [
         {
-          "quote": "Too many notifications. Merchant alert, cash-flow alert, goal alert, weekly digest, investment reminder. I turned almost everything off.",
+          "quote": "The investing tab feels too basic if you already know what ETFs are. I do like that it explains risk without pushing individual stocks.",
           "source": "demo",
           "url": null
         },
         {
-          "quote": "Round-ups are good, but I want caps by week. Small transfers add up fast when you use a debit card for everything.",
+          "quote": "Update after trial: pretty good for monthly view, weaker for envelope budgeting. Export is there but basic.",
           "source": "demo",
           "url": null
         },
         {
-          "quote": "LumenLedger bill reminders helped, but I want an autopay risk score. Some bills should be automatic, others need review.",
+          "quote": "Developer-ish complaint: CSV export from LumenLedger needs stable column names. \"Merchant\" changed to \"Payee\" between exports.",
           "source": "demo",
           "url": null
         }
       ],
-      "recommendation": "Replace broad default alerts with a preference picker during onboarding that lets users choose digest-only, critical-only, or full monitoring. Delay promotional prompts like app-rating requests until after a clear value event, and recommend caps or thresholds for alert-heavy features."
+      "recommendation": "Create an advanced setup branch that highlights exports, manual accounts, and future extensibility expectations early. Standardize CSV schemas and edited category outputs, and clearly position what the product does versus does not support yet for spreadsheet-heavy and API-minded users."
+    },
+    {
+      "title": "Churn from pricing/value mismatch and preference for alternatives",
+      "type": "churn",
+      "severity": "medium",
+      "onboarding_stage": "pricing-discovery, trial-to-paid",
+      "frequency": 2,
+      "evidence": [
+        {
+          "quote": "Canceled before trial ended. Nice UI, but Mint nostalgia is not enough for $8/month.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "I still prefer spreadsheets. LumenLedger is pretty, but I do not want my whole financial life inside another subscription.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Tighten trial onboarding around one measurable outcome before paywall evaluation, and show concrete savings or avoided fees during trial to justify subscription cost. Segment users who mainly want spreadsheets or strict envelope budgeting and set expectations earlier rather than relying on broad appeal."
+    },
+    {
+      "title": "Churn risk from poor offboarding and account deletion friction",
+      "type": "churn",
+      "severity": "medium",
+      "onboarding_stage": "offboarding, account controls",
+      "frequency": 2,
+      "evidence": [
+        {
+          "quote": "Feature request: one button to export all my data and delete account. The privacy page is readable, but account deletion should not require emailing support.",
+          "source": "demo",
+          "url": null
+        },
+        {
+          "quote": "Bad offboarding. I found cancel subscription, but delete account was buried. Finance apps need cleaner exits.",
+          "source": "demo",
+          "url": null
+        }
+      ],
+      "recommendation": "Add a visible self-serve exit flow with export-all-data and delete-account actions in one place, without requiring support contact. Use the offboarding flow to offer downgrade or notification-reset options before cancellation, but keep deletion straightforward to preserve trust."
+    }
+  ],
+  "comments": [
+    {
+      "text": "I keep seeing ads for LumenLedger. It says it can forecast cash flow and flag duplicate subscriptions. Curious if anyone has used it for more than a week.",
+      "source": "demo",
+      "relevant": false,
+      "theme": null
+    },
+    {
+      "text": "I tried it last month. Onboarding was smoother than Monarch for me because it found my credit union on the first try, but the ID check got stuck on the selfie step twice. Support fixed it after about 24 hours.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "The merchant alerts are actually useful. It caught that my gym had two active billing profiles. Saved me $39, so the first month paid for itself.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "The investing tab feels too basic if you already know what ETFs are. I do like that it explains risk without pushing individual stocks.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
+    },
+    {
+      "text": "Negative: category rules are weak. It kept categorizing my daycare as \"education software\" and my pet insurance as \"healthcare.\" You can fix it manually but it learned slowly.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "Unrelated, but every finance app is now \"AI powered\" and I hate it. I just want a clean CSV export and no motivational confetti.",
+      "source": "demo",
+      "relevant": false,
+      "theme": null
+    },
+    {
+      "text": "Cash-flow forecast was accurate for paycheck timing and rent. It was bad at irregular reimbursements. The forecast assumed a one-time work reimbursement would happen again next month.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "Does it support split transactions? My grocery store also has pharmacy charges and my current app makes that annoying.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "Yes, split transactions exist. The UX is hidden under edit > advanced, which is weird. Once you find it, it works.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "I deleted it after Plaid dropped my bank connection three times. Might be my bank, not them, but I am tired of relinking accounts.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Churn from bank-link instability and stale aggregation trust breaks"
+    },
+    {
+      "text": "Positive onboarding note: the setup questions were less judgmental than other budgeting tools. It asked what I wanted to optimize for instead of yelling about coffee.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "They need a clearer privacy screen. I had to dig around to see what data they keep after disconnecting a bank. That should be front and center.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "I use it only for bills. The reminders are good. The rest is fine but not life-changing.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "Update after trial: pretty good for monthly view, weaker for envelope budgeting. Export is there but basic.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
+    },
+    {
+      "text": "Trying LumenLedger this week. Setup took 9 minutes, bank connected instantly, and the first cash-flow forecast was uncomfortably accurate.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "LumenLedger flagged my \"free trial\" that became $14.99/mo. Good feature. Bad reflection on my attention span.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "Why does every app need a gradient logo and a made-up word name now.",
+      "source": "demo",
+      "relevant": false,
+      "theme": null
+    },
+    {
+      "text": "The LumenLedger onboarding flow is clean but asks for payroll linking way too early. Let me trust the product before asking for that.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "Best part of LumenLedger: spending notes on transactions. Worst part: mobile app lag when filtering 12 months of card history.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "LumenLedger's TrustScore alerts caught duplicate Spotify billing on my partner's card. Would prefer a household mode instead of sharing screenshots.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "Bug: LumenLedger says \"all accounts synced\" but my brokerage balance is 2 days stale. Please show timestamp per account, not one global green check.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "I like the idea but the app has dashboard overload. Net worth, bills, goals, subscriptions, investing, alerts. Give me a simple mode.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "Round-up transfers worked exactly as advertised. I moved $38.72 into the vacation bucket without noticing.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "Developer-ish complaint: CSV export from LumenLedger needs stable column names. \"Merchant\" changed to \"Payee\" between exports.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
+    },
+    {
+      "text": "Canceled before trial ended. Nice UI, but Mint nostalgia is not enough for $8/month.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Churn from pricing/value mismatch and preference for alternatives"
+    },
+    {
+      "text": "The bill prediction feature is the first one that got my quarterly insurance right. Small thing, huge relief.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "I used LumenLedger for 3 weeks and agree with the review. The app is best at showing what will happen before payday. It is less good at telling you what to change.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "The onboarding was polished, but the bank permission screen was too dense. I almost quit because I could not tell which permissions were required vs optional.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "Can it scan receipts? I still keep paper receipts for work reimbursements.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
+    },
+    {
+      "text": "The reviewer should have tested support. I contacted LumenLedger because a credit card duplicated, and they answered with a real fix, not a canned FAQ. Took 2 days though.",
+      "source": "demo",
+      "relevant": true,
+      "theme": null
+    },
+    {
+      "text": "I like that it does not shame spending. The app said \"restaurant spend is trending above your usual range\" instead of acting like buying lunch is a moral failure.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "LumenLedger missed my rent payment because my landlord uses Zelle and the memo changes every month. I had to create a manual recurring bill.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "I need a self-employed mode. Quarterly taxes, irregular income, and client reimbursements confuse every consumer finance app.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "Positive so far: onboarding took under 10 minutes, account linking was stable, and the first-week checklist made sense.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Negative so far: tiny text on the transaction detail page. Accessibility settings should not be an afterthought.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "The savings buckets are my favorite feature. Seeing \"Japan 2027\" separate from emergency savings stopped me from raiding the wrong account.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "I still prefer spreadsheets. LumenLedger is pretty, but I do not want my whole financial life inside another subscription.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Churn from pricing/value mismatch and preference for alternatives"
+    },
+    {
+      "text": "Win: the onboarding checklist helped me finish setup. Other apps dump you into a dashboard and expect you to know what matters. LumenLedger had me connect bank, set payday, add rent, then choose two goals.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Complaint: the app asked me to rate it after day one. I had not even received a bill alert yet. Ask after value, not after install.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "Feature request: one button to export all my data and delete account. The privacy page is readable, but account deletion should not require emailing support.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Churn risk from poor offboarding and account deletion friction"
+    },
+    {
+      "text": "The home dashboard is strong. The settings area is a maze. I needed five taps to change notification frequency.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "Negative experience: account sync failed silently for 4 days. The forecast looked fine but was built on stale balances. Add a big warning when sync fails.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "Positive: the app finally made my partner understand why rent week feels tight. The shared screenshot of projected low balance did more than my spreadsheet ever did.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Too many notifications. Merchant alert, cash-flow alert, goal alert, weekly digest, investment reminder. I turned almost everything off.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "The \"what changed since last week\" summary is excellent. It found that groceries were normal but pharmacy spending jumped.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Round-ups are good, but I want caps by week. Small transfers add up fast when you use a debit card for everything.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "Export works, API does not exist. Please do not trap power users in a pretty interface.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
+    },
+    {
+      "text": "I am new to budgeting and liked the tone. It explains terms like utilization and emergency fund without assuming I know finance slang.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Bug report: dark mode transaction search has low contrast. Search result text is readable only at max brightness.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "LumenLedger told me I would dip below $200 next Thursday if I paid both cards today. Annoying to hear, useful to know.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Accessibility issue in LumenLedger: some chart labels are not read properly by VoiceOver. The transaction list is fine, charts need work.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "Every budgeting app promises insight. The test is whether users still open it after the novelty fades. Curious where LumenLedger retention lands.",
+      "source": "demo",
+      "relevant": false,
+      "theme": null
+    },
+    {
+      "text": "LumenLedger bill reminders helped, but I want an autopay risk score. Some bills should be automatic, others need review.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "I miss true envelope budgeting. LumenLedger goals are pretty, but not strict enough for people who need hard category limits.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "TrustScore merchant alerts are the standout feature. It noticed my storage unit price crept from $91 to $117 over six months.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "Product note: LumenLedger does progressive onboarding well. It did not force me to connect everything before I saw a sample dashboard.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "Bad offboarding. I found cancel subscription, but delete account was buried. Finance apps need cleaner exits.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Churn risk from poor offboarding and account deletion friction"
+    },
+    {
+      "text": "Can someone build a finance app that recognizes Costco as groceries, household, electronics, snacks, and existential crisis.",
+      "source": "demo",
+      "relevant": false,
+      "theme": null
+    },
+    {
+      "text": "LumenLedger nudged me to move payday leftovers into emergency savings. Felt helpful, not pushy.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "The app is gorgeous but slow on older phones. Budgeting should not need flagship hardware.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "This tutorial helped more than the in-app walkthrough. The app onboarding is good, but it does not explain why payroll connection changes the forecast.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "I had a positive first week. LumenLedger found my recurring bills, let me rename weird merchants, and did not crash once.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Fast activation through clear setup, supportive tone, and immediate financial insight"
+    },
+    {
+      "text": "My negative experience: verification failed because my legal name has a hyphen. Support fixed it, but fintech onboarding still treats normal names like edge cases.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Trust and data reliability friction in verification, permissions, sync freshness, and privacy"
+    },
+    {
+      "text": "The risk explainers in the investing tab are surprisingly clear. I would still not use the app for actual trading, but it is decent for learning.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
+    },
+    {
+      "text": "The default notification settings are too aggressive. The weekly digest is useful. The daily nudges made me uninstall for two days.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "LumenLedger helped me catch that my paycheck was coded as a transfer, not income. Once corrected, the forecast became much better.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "I wish the tutorial covered manual accounts. I do not want to link every institution, but I still want net worth tracking.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "Credit utilization tracking is good, but the app should show statement date and due date separately. Those are not the same thing.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Forecasting, categorization, and budgeting gaps for complex real-world finances"
+    },
+    {
+      "text": "The app needs a beginner mode and expert mode. My parents would like the forecast, but the dashboard has too many panels.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Overloaded UX, hidden controls, accessibility issues, and noisy defaults slow activation"
+    },
+    {
+      "text": "Savings buckets got me to actually label money before spending it. That one feature changed my behavior.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Standout feature value from merchant alerts, bills, buckets, and round-ups"
+    },
+    {
+      "text": "Exporting was my biggest issue. PDF summary looks nice, but CSV has messy category names after edits.",
+      "source": "demo",
+      "relevant": true,
+      "theme": "Power-user and data portability limitations reduce fit for advanced users"
     }
   ]
 }

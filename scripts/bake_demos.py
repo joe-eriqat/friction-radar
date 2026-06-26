@@ -38,11 +38,12 @@ DOCS = REPO / "docs"
 DEMOS = REPO / "data" / "demos"
 CANNED = DEMOS / "canned"
 
-# id -> (display name, source filename, mode)
+# id -> (display name, source filename, mode). Order = picker order; lead with the messiest
+# dumps so the demo opens on the "look what it untangles" case, not a tidy list.
 DEMOS_SPEC = {
-    "staynest": ("StayNest — vacation rentals", "StayNest Demo.txt", "clean"),
     "auraquill": ("AuraQuill — AI marketing", "AuraQuill Demo.txt", "messy"),
     "lumenledger": ("LumenLedger — personal finance", "LumenLedger Demo.txt", "messy"),
+    "staynest": ("StayNest — vacation rentals", "StayNest Demo.txt", "clean"),
 }
 
 # ---- source splitting --------------------------------------------------------------
@@ -123,18 +124,16 @@ def _dataset(demo_id: str) -> dict:
     return {
         "name": name,
         "product": product,
+        # the original messy dump — shown verbatim in the demo so visitors see the input the
+        # pipeline had to parse (headers, separators, metadata, off-topic noise), not just the
+        # clean result. `feedback` is what parsing recovered from it.
+        "raw": block,
         "feedback": [it.model_dump(exclude_none=True) for it in items],
     }
 
 
-def bake_one(demo_id: str) -> dict:
-    print(f"[{demo_id}] parsing dataset…", flush=True)
-    data = _dataset(demo_id)
-    (DEMOS / f"{demo_id}.json").write_text(
-        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
-    print(f"[{demo_id}] {len(data['feedback'])} items → data/demos/{demo_id}.json", flush=True)
-
+def _write_canned(demo_id: str, data: dict) -> None:
+    """Run the live pipeline on a dataset and write its canned ReportView (spends tokens)."""
     print(f"[{demo_id}] running live pipeline (this spends tokens)…", flush=True)
     req = AnalyzeRequest(product=data["product"], feedback=data["feedback"])
     report = processing.analyze(req)
@@ -144,12 +143,29 @@ def bake_one(demo_id: str) -> dict:
         encoding="utf-8",
     )
     print(
-        f"[{demo_id}] {view.theme_count} themes, "
-        f"{view.relevant_count}/{view.total_feedback} relevant → canned/{demo_id}.json",
+        f"[{demo_id}] {view.theme_count} themes, {view.relevant_count}/{view.total_feedback} "
+        f"relevant, {len(view.comments)} comments classified → canned/{demo_id}.json",
         flush=True,
     )
-    return {"id": demo_id, "name": data["name"], "product": data["product"],
-            "count": len(data["feedback"])}
+
+
+def bake_one(demo_id: str) -> None:
+    """Full bake: re-parse the source dump into a dataset, then capture a canned report."""
+    print(f"[{demo_id}] parsing dataset…", flush=True)
+    data = _dataset(demo_id)
+    (DEMOS / f"{demo_id}.json").write_text(
+        json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    print(f"[{demo_id}] {len(data['feedback'])} items → data/demos/{demo_id}.json", flush=True)
+    _write_canned(demo_id, data)
+
+
+def recan_one(demo_id: str) -> None:
+    """Regenerate only the canned report from the committed dataset (no re-segmentation)."""
+    data = json.loads((DEMOS / f"{demo_id}.json").read_text())
+    print(f"[{demo_id}] re-running pipeline on committed dataset ({len(data['feedback'])} items)…",
+          flush=True)
+    _write_canned(demo_id, data)
 
 
 def write_manifest() -> None:
@@ -174,12 +190,16 @@ def write_manifest() -> None:
 def main() -> None:
     DEMOS.mkdir(parents=True, exist_ok=True)
     CANNED.mkdir(parents=True, exist_ok=True)
-    wanted = sys.argv[1:] or list(DEMOS_SPEC)
+    args = sys.argv[1:]
+    # --from-datasets: skip re-parsing the source dumps (and the segmenter) — just regenerate
+    # the canned reports from the committed datasets. Use after a pipeline/schema change.
+    from_datasets = "--from-datasets" in args
+    wanted = [a for a in args if not a.startswith("--")] or list(DEMOS_SPEC)
     unknown = [d for d in wanted if d not in DEMOS_SPEC]
     if unknown:
         sys.exit(f"unknown demo id(s): {', '.join(unknown)}. known: {', '.join(DEMOS_SPEC)}")
     for demo_id in wanted:
-        bake_one(demo_id)
+        (recan_one if from_datasets else bake_one)(demo_id)
     write_manifest()
 
 
